@@ -70,7 +70,7 @@ const auditExpression = `(() => {
   }).slice(0, 8).map(element => ({ tag: element.tagName, className: element.className, text: element.textContent.trim().slice(0, 55) }))
   return {
     title: document.title,
-    h1: document.querySelectorAll('h1').length,
+    h1: [...document.querySelectorAll('h1')].filter(visible).length,
     width: innerWidth,
     scrollWidth: document.documentElement.scrollWidth,
     imagesWithoutAlt,

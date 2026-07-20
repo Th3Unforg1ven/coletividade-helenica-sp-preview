@@ -1,10 +1,11 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import {
   ArrowDown, ArrowRight, BookOpen, CalendarDays, ChevronDown,
   Languages, MapPin, Menu, Music2, Sparkles, Users, X
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
+import { assetUrl, sectionTarget } from './paths.js'
 
 const lazyPage = name => lazy(() => import('./ContentPages.jsx').then(module => ({ default: module[name] })))
 const AgendaPage = lazyPage('AgendaPage')
@@ -69,10 +70,10 @@ const faqs = [
 ]
 
 function Brand({ footer = false }) {
-  return <a className={`brand ${footer ? 'brand--footer' : ''}`} href="/" aria-label="Página inicial">
-    <img src="/images/chsp-logo-256.png" alt="Símbolo da Coletividade Helênica" width="58" height="58" />
+  return <Link className={`brand ${footer ? 'brand--footer' : ''}`} to="/" aria-label="Página inicial">
+    <img src={assetUrl('/images/chsp-logo-256.png')} alt="Símbolo da Coletividade Helênica" width="58" height="58" />
     <span><strong>Coletividade Helênica</strong><small>de São Paulo</small></span>
-  </a>
+  </Link>
 }
 
 function Header() {
@@ -81,7 +82,7 @@ function Header() {
     <Brand />
     <button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} aria-controls="main-navigation">{open ? <X /> : <Menu />}</button>
     <nav id="main-navigation" className={open ? 'nav is-open' : 'nav'} onClick={() => setOpen(false)} aria-label="Navegação principal">
-      <a href="/coletividade">A Coletividade</a><a href="/aulas">Aulas</a><a href="/agenda">Agenda</a><a href="/cultura">Cultura e memória</a>
+      <Link to="/coletividade">A Coletividade</Link><Link to="/aulas">Aulas</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link>
       <a className="button button--small" href={WA} target="_blank" rel="noreferrer">Fale conosco <ArrowRight size={16}/></a>
     </nav>
   </header>
@@ -100,7 +101,7 @@ function Hero() {
     const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const shouldSaveData = navigator.connection?.saveData
     let preloadId
-    const preloadSlides = () => slides.slice(1).forEach(({ src }) => { const image = new Image(); image.src = src })
+    const preloadSlides = () => slides.slice(1).forEach(({ src }) => { const image = new Image(); image.src = assetUrl(src) })
     if (!shouldSaveData) {
       preloadId = 'requestIdleCallback' in window
         ? window.requestIdleCallback(preloadSlides, { timeout: 3500 })
@@ -127,12 +128,12 @@ function Hero() {
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
       <p className="hero__statement">A Grécia vive<br/><i>onde nós estamos.</i></p>
       <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos a cultura através de encontros da comunidade, aulas focadas no aprendizado do idioma grego contemporâneo, dança e o instrumento Bouzouki.</p>
-      <div className="hero__facts"><span>Online ou presencial</span><a href="/contato"><MapPin size={14}/> Rua Bresser, 793</a></div>
-      <div className="hero__actions"><a className="button" href="#aulas">Conheça as aulas <ArrowDown size={17}/></a><a className="text-link" href="#sobre">Conheça nossa história <ArrowRight size={16}/></a></div>
+      <div className="hero__facts"><span>Online ou presencial</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
+      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça as aulas <ArrowDown size={17}/></Link><Link className="text-link" to={sectionTarget('sobre')}>Conheça nossa história <ArrowRight size={16}/></Link></div>
     </div>
     <div className="hero__gallery">
       <div className="hero__frames">
-        {slides.map((item, i) => <figure className={slide === i ? 'active' : ''} style={{backgroundImage: `url(${item.src})`, backgroundPosition: item.position}} key={item.src}>
+        {slides.map((item, i) => <figure className={slide === i ? 'active' : ''} style={{backgroundImage: `url(${assetUrl(item.src)})`, backgroundPosition: item.position}} key={item.src}>
           <figcaption>{item.label}</figcaption>
         </figure>)}
       </div>
@@ -145,10 +146,11 @@ function Hero() {
 }
 
 function Footer() {
-  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src="/images/bandeira-grecia.svg" alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><a href="/coletividade">A Coletividade</a><a href="/aulas">Aulas</a><a href="/agenda">Agenda</a><a href="/cultura">Cultura e memória</a><a href="/#duvidas">Perguntas frequentes</a><a href="/arquivo">Arquivo integral</a></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><a href="/contato">Contato</a><a href="/privacidade">Política de Privacidade</a></div><small>© 2026 Coletividade Helênica de São Paulo</small></footer>
+  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/aulas">Aulas</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link><Link to="/arquivo">Arquivo integral</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© 2026 Coletividade Helênica de São Paulo</small></footer>
 }
 
 function HomePage() {
+  const location = useLocation()
   const [activity, setActivity] = useState(0)
   const [faq, setFaq] = useState(0)
   const current = activities[activity]
@@ -157,7 +159,7 @@ function HomePage() {
   useEffect(() => {
     document.title = 'Coletividade Helênica de São Paulo'
     const scrollToHash = () => {
-      const id = window.location.hash.replace('#', '')
+      const id = new URLSearchParams(location.search).get('section') || window.location.hash.replace('#', '')
       if (!id) return
       window.requestAnimationFrame(() => {
         const target = document.getElementById(id)
@@ -172,7 +174,7 @@ function HomePage() {
     document.fonts?.ready.then(scrollToHash) ?? scrollToHash()
     window.addEventListener('hashchange', scrollToHash)
     return () => window.removeEventListener('hashchange', scrollToHash)
-  }, [])
+  }, [location.search])
 
   return <>
     <Header />
@@ -186,7 +188,7 @@ function HomePage() {
           <div>
             <p className="large-copy">Há quase nove décadas, aproximamos São Paulo da cultura grega e mantemos vivas as histórias que atravessaram o oceano.</p>
             <p>Representamos associados, gregos, descendentes e filo-helenos por meio de aulas, encontros, celebrações e ações culturais. Nossa missão é cívica, religiosa, filantrópica, beneficente, cultural e recreativa.</p>
-            <a className="text-link" href="#memoria">Descubra nossa trajetória <ArrowRight size={16}/></a>
+            <Link className="text-link" to={sectionTarget('memoria')}>Descubra nossa trajetória <ArrowRight size={16}/></Link>
           </div>
         </div>
         <div className="values">
@@ -216,7 +218,7 @@ function HomePage() {
           {activities.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={activity === i} key={item.id} className={activity === i ? 'active' : ''} onClick={() => setActivity(i)}>{item.title}</button>)}
         </div>
         <div className="experience-card" role="tabpanel" id={`panel-${current.id}`} aria-labelledby={`tab-${current.id}`} key={current.id}>
-          <div className="experience-card__symbol" style={{'--experience-image': `url(${current.visual})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span>{current.eyebrow}</span></div>
+          <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span>{current.eyebrow}</span></div>
           <div className="experience-card__copy">
             <p className="eyebrow">{current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
             <ul>{current.meta.map(item => <li key={item}><Sparkles size={15}/>{item}</li>)}</ul>
@@ -242,20 +244,20 @@ function HomePage() {
       <section className="agenda section" id="agenda">
         <div className="section-heading section-heading--dark">
           <div><p className="section-index">Agenda da comunidade</p><h2>A cultura ganha vida<br/><em>quando nos reunimos.</em></h2></div>
-          <a className="text-link" href="/agenda">Ver agenda completa <ArrowRight size={16}/></a>
+          <Link className="text-link" to="/agenda">Ver agenda completa <ArrowRight size={16}/></Link>
         </div>
         <div className="agenda__list">
           {agenda.map((event) => <article key={event.title}>
             <div className="date date--label"><CalendarDays size={20}/><span>{event.label}</span></div>
             <div><p>{event.type}</p><h3>{event.title}</h3></div>
-            <span className="place"><MapPin size={16}/>{event.place}</span><a className="event-link" href={event.href} aria-label={`Ver informações sobre ${event.title}`}><ArrowRight/></a>
+            <span className="place"><MapPin size={16}/>{event.place}</span><Link className="event-link" to={event.href} aria-label={`Ver informações sobre ${event.title}`}><ArrowRight/></Link>
           </article>)}
         </div>
       </section>
 
       <section className="memory section" id="memoria">
         <div className="memory__image"><ResponsiveImage src="/images/primeira-diretoria-chsp.webp" alt="Primeira diretoria da Coletividade Helênica de São Paulo" loading="lazy" decoding="async" /></div>
-        <div className="memory__copy"><p className="section-index">Cultura e memória</p><p className="greek-label">Από γενιά σε γενιά</p><h2>De geração<br/><em>em geração.</em></h2><p>Preservar uma cultura é dar futuro à memória. Reunimos relatos, fotografias, música, gastronomia, destinos e curiosidades para que cada geração encontre seu próprio caminho até a Grécia.</p><a className="text-link" href="/cultura/paginas/acontece-memorias">Explore nosso acervo <ArrowRight size={16}/></a></div>
+        <div className="memory__copy"><p className="section-index">Cultura e memória</p><p className="greek-label">Από γενιά σε γενιά</p><h2>De geração<br/><em>em geração.</em></h2><p>Preservar uma cultura é dar futuro à memória. Reunimos relatos, fotografias, música, gastronomia, destinos e curiosidades para que cada geração encontre seu próprio caminho até a Grécia.</p><Link className="text-link" to="/cultura/paginas/acontece-memorias">Explore nosso acervo <ArrowRight size={16}/></Link></div>
       </section>
 
       <section className="faq section" id="duvidas">
@@ -264,7 +266,7 @@ function HomePage() {
       </section>
 
       <section className="join">
-        <p className="greek-label">Η κοινότητά μας</p><h2>Essa história também<br/>pode ser <em>sua.</em></h2><p>Associe-se, participe das atividades ou venha tomar um café conosco. A Coletividade está de portas abertas.</p><div><a className="button button--white" href="/participe">Quero participar <ArrowRight size={17}/></a><a className="text-link text-link--white" href="/agenda">Conheça os próximos encontros</a></div>
+        <p className="greek-label">Η κοινότητά μας</p><h2>Essa história também<br/>pode ser <em>sua.</em></h2><p>Associe-se, participe das atividades ou venha tomar um café conosco. A Coletividade está de portas abertas.</p><div><Link className="button button--white" to="/participe">Quero participar <ArrowRight size={17}/></Link><Link className="text-link text-link--white" to="/agenda">Conheça os próximos encontros</Link></div>
       </section>
     </main>
     <Footer />

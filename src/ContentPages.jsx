@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, CalendarDays, Mail, MapPin, MessageCircle, Phone 
 import { Link, useParams } from 'react-router-dom'
 import siteContent from './content/site-content.json'
 import ResponsiveImage from './ResponsiveImage.jsx'
+import { routeUrl } from './paths.js'
 
 const lessonSlugs = [
   'aulas-de-grego-moderno',
@@ -354,9 +355,9 @@ function rewriteLegacyLinks(html = '') {
     if (!isLegacyDomain && !isLocal) return
     const slug = url.pathname.split('/').filter(Boolean).pop()
     const mappedHash = legacyHashMap[url.hash] || url.hash
-    if (legacyPathMap[url.pathname]) anchor.setAttribute('href', `${legacyPathMap[url.pathname]}${mappedHash}`)
-    else if (pageBySlug[slug]) anchor.setAttribute('href', `${pathForPage(pageBySlug[slug])}${mappedHash}`)
-    if (postBySlug[slug]) anchor.setAttribute('href', `/cultura/${slug}${mappedHash}`)
+    if (legacyPathMap[url.pathname]) anchor.setAttribute('href', routeUrl(`${legacyPathMap[url.pathname]}${mappedHash}`))
+    else if (pageBySlug[slug]) anchor.setAttribute('href', routeUrl(`${pathForPage(pageBySlug[slug])}${mappedHash}`))
+    if (postBySlug[slug]) anchor.setAttribute('href', routeUrl(`/cultura/${slug}${mappedHash}`))
     if (!anchor.textContent.trim() && !anchor.getAttribute('aria-label')) {
       const finalSlug = new URL(anchor.getAttribute('href'), window.location.origin).pathname.split('/').filter(Boolean).pop()
       const destination = pageBySlug[slug] || postBySlug[slug] || pageBySlug[finalSlug] || postBySlug[finalSlug]
