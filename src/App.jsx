@@ -123,6 +123,7 @@ function Hero() {
 
   return <section className="hero" id="inicio">
     <div className="hero__content">
+      <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
       <p className="hero__identity">Coletividade Helênica de São Paulo</p>
       <p className="kicker">Desde 1937</p>
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
