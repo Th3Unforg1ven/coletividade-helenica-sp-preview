@@ -90,6 +90,7 @@ const auditExpression = `(() => {
 
 const viewports = [
   { name: 'small-mobile', width: 320, height: 568, mobile: true },
+  { name: 'iphone-se', width: 375, height: 667, mobile: true },
   { name: 'mobile', width: 390, height: 844, mobile: true },
   { name: 'tablet', width: 768, height: 1024, mobile: true },
   { name: 'mobile-landscape', width: 844, height: 390, mobile: true },
