@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { Component, useEffect, useState } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import {
   ArrowDown, ArrowRight, BookOpen, CalendarDays, ChevronDown,
@@ -6,21 +6,11 @@ import {
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
 import { assetUrl, sectionTarget } from './paths.js'
-
-const lazyPage = name => lazy(() => import('./ContentPages.jsx').then(module => ({ default: module[name] })))
-const AgendaPage = lazyPage('AgendaPage')
-const ArchivePage = lazyPage('ArchivePage')
-const CategoryPage = lazyPage('CategoryPage')
-const ContactPage = lazyPage('ContactPage')
-const CultureIndex = lazyPage('CultureIndex')
-const GenericPage = lazyPage('GenericPage')
-const InstitutionIndex = lazyPage('InstitutionIndex')
-const InstitutionPage = lazyPage('InstitutionPage')
-const LessonPage = lazyPage('LessonPage')
-const LessonsIndex = lazyPage('LessonsIndex')
-const MemoryPage = lazyPage('MemoryPage')
-const NotFound = lazyPage('NotFound')
-const PostPage = lazyPage('PostPage')
+import {
+  AgendaPage, ArchivePage, CategoryPage, ContactPage, CultureIndex,
+  GenericPage, InstitutionIndex, InstitutionPage, LessonPage, LessonsIndex,
+  MemoryPage, NotFound, PostPage,
+} from './ContentPages.jsx'
 
 const WA = 'https://wa.link/ryey8t'
 
@@ -290,8 +280,33 @@ function InteriorPage({ children }) {
   return <div className="inner-page"><Header />{children}<Footer /></div>
 }
 
+class PageErrorBoundary extends Component {
+  state = { failed: false }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  componentDidCatch(error, details) {
+    console.error('Falha ao exibir a página', error, details)
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children
+
+    return <main className="page-error" role="alert">
+      <img src={assetUrl('/images/chsp-logo-256.png')} alt="" width="72" height="72" />
+      <p className="eyebrow">Coletividade Helênica de São Paulo</p>
+      <h1>Não foi possível abrir esta página.</h1>
+      <p>O conteúdo continua disponível. Tente novamente ou retorne à página inicial.</p>
+      <div><button className="button" type="button" onClick={() => window.location.reload()}>Tentar novamente</button><Link className="text-link" to="/">Ir para o início <ArrowRight size={16}/></Link></div>
+    </main>
+  }
+}
+
 function App() {
-  return <Suspense fallback={<main className="page-loading" aria-live="polite"><span>Carregando conteúdo…</span></main>}><Routes>
+  const location = useLocation()
+  return <PageErrorBoundary key={location.pathname}><Routes>
     <Route path="/" element={<HomePage />} />
     <Route path="/aulas" element={<InteriorPage><LessonsIndex /></InteriorPage>} />
     <Route path="/aulas/:slug" element={<InteriorPage><LessonPage /></InteriorPage>} />
@@ -309,7 +324,7 @@ function App() {
     <Route path="/paginas/:slug" element={<InteriorPage><GenericPage /></InteriorPage>} />
     <Route path="/arquivo" element={<InteriorPage><ArchivePage /></InteriorPage>} />
     <Route path="*" element={<InteriorPage><NotFound /></InteriorPage>} />
-  </Routes></Suspense>
+  </Routes></PageErrorBoundary>
 }
 
 export default App
