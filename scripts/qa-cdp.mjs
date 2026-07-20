@@ -50,6 +50,8 @@ const wait = milliseconds => new Promise(resolve => setTimeout(resolve, millisec
 
 await send('Page.enable')
 await send('Runtime.enable')
+await send('Network.enable')
+await send('Network.clearBrowserCache')
 
 const auditExpression = `(() => {
   const visible = element => {
