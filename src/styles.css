@@ -161,7 +161,6 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .memory__copy p:not(.section-index,.greek-label) { color:var(--muted); line-height:1.8; margin:30px 0; }
 .memory__copy .greek-label { font-family:var(--serif); text-transform:none; font-size:1rem; margin-bottom:20px; }
 .faq { position:relative; isolation:isolate; overflow:hidden; background:white; }
-.faq::before { content:''; position:absolute; z-index:0; width:940px; height:600px; right:-315px; top:-170px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.14; pointer-events:none; transform:rotate(-4deg); }
 .faq > * { position:relative; z-index:1; }
 .faq__grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:10vw; }
 .faq__item { border-top:1px solid var(--sand); }
