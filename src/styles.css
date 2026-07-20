@@ -99,7 +99,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .trust__item figcaption strong { font-family:var(--serif); font-size:1.35rem; font-weight:400; }
 .trust__item figcaption span { font-size:.67rem; line-height:1.45; color:#e8f0f7; }
 .experiences { background:#efede6; color:var(--ink); position:relative; isolation:isolate; overflow:hidden; padding-top:150px; }
-.experiences::before { content:'ΠΑΙΔΕΙΑ'; position:absolute; right:-.04em; top:38px; color:rgba(18,60,140,.055); font-family:var(--serif); font-size:12vw; letter-spacing:.04em; }
+.experiences::before { content:'ΠΑΙΔΕΙΑ'; position:absolute; right:2vw; top:10px; color:rgba(18,60,140,.055); font-family:var(--serif); font-size:min(9.6vw,11.5rem); line-height:1; letter-spacing:.035em; white-space:nowrap; pointer-events:none; }
 .experiences::after { content:''; position:absolute; z-index:0; inset:12% -12vw -10% 34%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.034; pointer-events:none; transform:rotate(-3deg); }
 .experiences > * { position:relative; z-index:1; }
 .section-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:10vw; margin-bottom:65px; }
