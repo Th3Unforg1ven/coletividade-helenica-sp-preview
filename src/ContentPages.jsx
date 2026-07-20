@@ -402,11 +402,11 @@ function Breadcrumbs({ items = [] }) {
   </nav>
 }
 
-function ContentHero({ eyebrow, title, introduction, image, motifs = false }) {
+function ContentHero({ eyebrow, title, introduction, image, motifTheme }) {
   useEffect(() => {
     document.title = `${title} | Coletividade Helênica de São Paulo`
   }, [title])
-  return <header className={`content-hero${motifs ? ' content-hero--motifs' : ''}`}>
+  return <header className={`content-hero${motifTheme ? ` content-hero--themed content-hero--${motifTheme}` : ''}`}>
     <div>
       <p className="content-kicker">{eyebrow}</p>
       <h1>{title}</h1>
@@ -464,9 +464,9 @@ function SourceNote({ link }) {
 
 export function LessonsIndex() {
   const overview = pageBySlug['atividades-culturais-da-chsp']
-  return <main className="content-page content-page--motifs">
+  return <main className="content-page content-page--themed content-page--aulas">
     <Breadcrumbs items={[{ label: 'Aulas' }]} />
-    <ContentHero eyebrow="Aulas" title="Aprenda e viva a cultura grega" introduction="Língua, dança, música e oficinas para diferentes idades, níveis e formas de participação." image="/images/aulas-grego-turma-recorte-original.webp" motifs />
+    <ContentHero eyebrow="Aulas" title="Aprenda e viva a cultura grega" introduction="Língua, dança, música e oficinas para diferentes idades, níveis e formas de participação." image="/images/aulas-grego-turma-recorte-original.webp" motifTheme="aulas" />
     <section className="directory-grid">
       {lessonSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link className="directory-card" to={`/aulas/${page.slug}`} key={page.id}>
         <span>Aulas</span><h2>{decode(page.title).replace(/^Aulas de /i, '')}</h2><p>{courseIntroductions[page.slug] || stripHtml(page.excerpt)}</p><b>Ver informações completas <ArrowRight size={16}/></b>
@@ -492,9 +492,9 @@ export function LessonPage() {
 }
 
 export function InstitutionIndex() {
-  return <main className="content-page content-page--motifs">
+  return <main className="content-page content-page--themed content-page--coletividade">
     <Breadcrumbs items={[{ label: 'A Coletividade' }]} />
-    <ContentHero eyebrow="A Coletividade" title="Uma história grega em São Paulo" introduction="Conheça a origem, a missão, as pessoas e os valores que sustentam a Coletividade Helênica de São Paulo." image="/images/primeira-diretoria-chsp.webp" motifs />
+    <ContentHero eyebrow="A Coletividade" title="Uma história grega em São Paulo" introduction="Conheça a origem, a missão, as pessoas e os valores que sustentam a Coletividade Helênica de São Paulo." image="/images/primeira-diretoria-chsp.webp" motifTheme="coletividade" />
     <section className="directory-grid directory-grid--compact">
       {institutionNavSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link className="directory-card" to={`/coletividade/${page.slug}`} key={page.id}><span>A Coletividade</span><h2>{institutionLabels[page.slug]}</h2><b>Ler página completa <ArrowRight size={16}/></b></Link>)}
     </section>
@@ -585,9 +585,9 @@ function PostCard({ post }) {
 }
 
 export function CultureIndex() {
-  return <main className="content-page content-page--motifs">
+  return <main className="content-page content-page--themed content-page--cultura">
     <Breadcrumbs items={[{ label: 'Cultura e memória' }]} />
-    <ContentHero eyebrow="Cultura e memória" title="Grécia para ler, ouvir, provar e lembrar" introduction={`O arquivo reúne ${siteContent.posts.length} publicações preservadas do site anterior.`} image="/images/afresco-comunidade-v2.webp" motifs />
+    <ContentHero eyebrow="Cultura e memória" title="Grécia para ler, ouvir, provar e lembrar" introduction={`O arquivo reúne ${siteContent.posts.length} publicações preservadas do site anterior.`} image="/images/exposicao-cultural-original.webp" motifTheme="cultura" />
     <nav className="category-links">
       {siteContent.categories.filter(category => category.count > 0).map(category => <Link to={`/cultura/categoria/${category.slug}`} key={category.id}>{decode(category.name)} <span>{category.count}</span></Link>)}
     </nav>
@@ -641,9 +641,9 @@ export function PostPage() {
 export function AgendaPage() {
   const page = pageBySlug['agenda-de-eventos-e-festas']
   const events = siteContent.posts.filter(post => post.categories.includes(13))
-  return <main className="content-page content-page--motifs">
+  return <main className="content-page content-page--themed content-page--agenda">
     <Breadcrumbs items={[{ label: 'Agenda' }]} />
-    <ContentHero eyebrow="Agenda" title="Eventos, festas e celebrações" introduction="Acompanhe encontros culturais, festividades cívicas, celebrações religiosas e atividades da comunidade." image="/images/afresco-comunidade-v2.webp" motifs />
+    <ContentHero eyebrow="Agenda" title="Eventos, festas e celebrações" introduction="Acompanhe encontros culturais, festividades cívicas, celebrações religiosas e atividades da comunidade." image="/images/evento-comunidade-original.webp" motifTheme="agenda" />
     {page && <section className="legacy-overview"><LegacyHtml html={page.content}/></section>}
     <section className="posts-grid">{events.map(post => <PostCard post={post} key={post.id}/>)}</section>
     {page && <SourceNote link={page.link}/ >}
