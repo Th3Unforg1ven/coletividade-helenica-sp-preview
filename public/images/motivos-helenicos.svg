@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" fill="none">
+  <defs>
+    <filter id="traco-manual" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="17" result="textura"/>
+      <feDisplacementMap in="SourceGraphic" in2="textura" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g stroke="#2479B9" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#traco-manual)">
+    <g aria-label="Sol sobre o mar">
+      <circle cx="132" cy="122" r="27"/>
+      <path d="M132 69v-24M132 199v-24M79 122H55M209 122h-24M94 84 77 67M187 177l-17-17M170 84l17-17M94 160l-17 17"/>
+      <path d="M47 220c24-17 48-17 72 0s48 17 72 0 48-17 72 0M47 245c24-17 48-17 72 0s48 17 72 0 48-17 72 0"/>
+    </g>
+
+    <g aria-label="Concha">
+      <path d="M468 115c28-48 77-67 129-37 54 31 70 88 38 131-33 45-99 57-148 20-42-32-49-76-19-114Z"/>
+      <path d="M481 117c48 9 98 42 143 91M508 87c28 34 55 75 77 139M550 70c6 46 9 95 8 158M594 79c-14 48-30 94-51 139"/>
+      <path d="M466 116c22 13 38 34 46 61"/>
+    </g>
+
+    <g aria-label="Coluna jônica">
+      <path d="M871 91h206M891 112h166M913 137h122M923 159h102M922 159v304M1026 159v304M905 485h139M888 510h174M870 535h210"/>
+      <path d="M938 165v292M962 165v292M986 165v292M1010 165v292"/>
+      <path d="M910 137c-35 4-54-8-54-29 0-23 24-38 48-28 19 8 23 33 7 44-13 9-34 1-31-13 2-10 15-13 22-6M1038 137c35 4 54-8 54-29 0-23-24-38-48-28-19 8-23 33-7 44 13 9 34 1 31-13-2-10-15-13-22-6"/>
+    </g>
+
+    <g aria-label="Ânfora">
+      <path d="M233 365h78M246 365c6 26 3 48-18 71-25 28-24 88-8 126 15 35 74 35 90 0 17-38 18-98-8-126-21-23-23-45-17-71"/>
+      <path d="M238 403c-52-9-65 52-31 87M296 403c52-9 65 52 31 87M225 519h83M231 560h71M254 365v-44h36v44"/>
+      <path d="M238 466c23 15 45 15 66 0M230 495c28 16 56 16 84 0"/>
+    </g>
+
+    <g aria-label="Ramo de oliveira">
+      <path d="M423 639c99-90 206-149 322-180"/>
+      <path d="M472 596c-34-4-54-19-63-44 31-2 54 9 69 34M507 570c-6-33 3-58 27-75 8 30 1 55-19 73M555 543c-33-2-55-16-66-41 31-4 55 6 72 30M596 520c-5-34 6-59 31-75 7 31-2 57-23 73M646 495c-31-6-50-22-57-48 30 0 52 12 66 37M689 477c0-31 13-53 39-65 2 29-10 52-33 66"/>
+      <ellipse cx="481" cy="616" rx="12" ry="18" transform="rotate(-42 481 616)"/>
+      <ellipse cx="548" cy="562" rx="12" ry="18" transform="rotate(-42 548 562)"/>
+      <ellipse cx="618" cy="520" rx="12" ry="18" transform="rotate(-55 618 520)"/>
+      <ellipse cx="683" cy="490" rx="12" ry="18" transform="rotate(-62 683 490)"/>
+    </g>
+
+    <g aria-label="Lira">
+      <path d="M913 611c-23-57-15-111 21-148 9 35 25 51 49 54 25-3 41-19 50-54 36 37 44 91 21 148"/>
+      <path d="M913 611h141M932 630h103M952 517v92M973 521v88M994 519v90M1015 511v98M926 476c15 18 33 29 57 41 24-12 42-23 57-41"/>
+    </g>
+
+    <g aria-label="Friso grego">
+      <path d="M48 670h1104M48 692h1104"/>
+      <path d="M65 670v-22h38v22M103 648v-20h38v42M141 648h38v22M179 648v-20h38v42M217 648h38v22M255 648v-20h38v42M293 648h38v22M331 648v-20h38v42"/>
+      <path d="M831 670v-22h38v22M869 648v-20h38v42M907 648h38v22M945 648v-20h38v42M983 648h38v22M1021 648v-20h38v42M1059 648h38v22M1097 648v-20h38v42"/>
+    </g>
+  </g>
+</svg>
