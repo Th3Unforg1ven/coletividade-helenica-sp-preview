@@ -117,6 +117,7 @@ const consolidatedFallbacks = {
 }
 
 const editorialReplacements = [
+  [/^\s*festividades\s*$/i, 'Festividades'],
   [/\bfestividades-civicas-e-religiosas\b/gi, 'Festividades Cívicas e Religiosas'],
   [/\bAulas de Danca\b/gi, 'Aulas de Dança'],
   [/\bDancas Gregas\b/gi, 'Danças Gregas'],

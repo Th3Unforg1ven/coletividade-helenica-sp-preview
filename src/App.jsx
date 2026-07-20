@@ -58,7 +58,7 @@ const trustGallery = [
 ]
 
 const agenda = [
-  { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades cívicas e religiosas', place: 'Datas divulgadas na agenda', href: '/paginas/festividades-civicas-e-religiosas' },
+  { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades Cívicas e Religiosas', place: 'Datas divulgadas na agenda', href: '/paginas/festividades-civicas-e-religiosas' },
   { label: 'Ao longo do ano', type: 'Cultura e convivência', title: 'Eventos e encontros da comunidade', place: 'Sede da CHSP e outros espaços', href: '/agenda' },
   { label: 'Novas turmas', type: 'Aprendizado e participação', title: 'Aulas e oficinas culturais', place: 'Atividades presenciais e online', href: '/aulas' },
 ]
