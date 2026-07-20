@@ -85,6 +85,7 @@ const auditExpression = `(() => {
     notFound: document.body.textContent.includes('Página não encontrada'),
     truncatedMarker: /\\[(?:…|\\.\\.\\.)\\]/.test(document.body.textContent),
     mojibake: /Ã.|Î.|â€|�/.test(document.body.textContent),
+    obsoletePhone: /(?:\\(?11\\)?[.\\s-]*)?99782[\\s-]*5300/.test(document.body.textContent),
   }
 })()`
 
@@ -152,6 +153,7 @@ for (const viewport of viewports) {
       row.notFound ||
       row.truncatedMarker ||
       row.mojibake ||
+      row.obsoletePhone ||
       (interactions && Object.values(interactions).some(value => value === false))
 
     if (hasFailure) auditSummary.failures.push(row)

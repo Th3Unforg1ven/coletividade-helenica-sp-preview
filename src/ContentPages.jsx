@@ -193,8 +193,6 @@ const editorialReplacements = [
   [/\btem caráter, cívico\b/gi, 'tem caráter cívico'],
   [/\bTem como visão, ser\b/g, 'Tem como visão ser'],
   [/\bValores;\s*/g, 'Valores: '],
-  [/\b11\.\s*99782-5300\b/g, '(11) 99782-5300'],
-  [/\b11 99782-5300\b/g, '(11) 99782-5300'],
   [/\b03 de Agosto\b/g, '3 de agosto'],
   [/\bAté meados da década de 30\b/g, 'Até meados da década de 1930'],
   [/\bna região da 25 de Março\b/gi, 'na região da Rua 25 de Março'],
@@ -257,6 +255,15 @@ function rewriteLegacyLinks(html = '') {
     node.nodeValue = correctEditorialText(node.nodeValue)
     node = walker.nextNode()
   }
+  const obsoletePhone = /(?:\(?11\)?[.\s-]*)?99782[\s-]*5300/
+  element.querySelectorAll('p, li').forEach(block => {
+    if (!obsoletePhone.test(block.textContent)) return
+    const previousBlock = block.previousElementSibling
+    block.remove()
+    if (previousBlock?.matches('p') && /^(?:inscri[cç][oõ]es|mais informa[cç][oõ]es|informa[cç][oõ]es)\b/i.test(previousBlock.textContent.trim())) {
+      previousBlock.remove()
+    }
+  })
   element.querySelectorAll('p').forEach(paragraph => {
     if (!paragraph.textContent.trim() && !paragraph.querySelector('img, iframe, video')) paragraph.remove()
   })
