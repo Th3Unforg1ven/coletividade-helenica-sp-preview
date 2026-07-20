@@ -32,7 +32,7 @@ button { font: inherit; }
 .hero { min-height:850px; height:min(100vh,1000px); position:relative; display:grid; grid-template-columns:52% 48%; align-items:stretch; overflow:hidden; background:var(--ivory); padding-top:94px; }
 .hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:12px; background:var(--blue-800); }
 .hero__content { position:relative; isolation:isolate; z-index:2; width:auto; min-width:0; margin:0; padding:clamp(70px,9vh,120px) 4vw 70px 7vw; display:flex; flex-direction:column; justify-content:center; overflow:hidden; }
-.hero__content::before { content:''; position:absolute; z-index:0; width:min(650px,72vw); height:min(650px,72vw); right:-145px; bottom:-135px; background:url('/images/mapa-grecia-linhas.webp') center/contain no-repeat; filter:brightness(0); opacity:.8; pointer-events:none; transform:rotate(-4deg); }
+.hero__content::before { content:''; position:absolute; z-index:0; width:min(650px,72vw); height:min(650px,72vw); right:-145px; bottom:-135px; background:url('/images/mapa-grecia-linhas.webp') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; transform:rotate(-4deg); }
 .hero__content > * { position:relative; z-index:1; }
 .kicker,.section-index,.eyebrow,.greek-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.18em; font-weight:600; color:var(--blue-800); }
 .kicker span { font-family:var(--serif); font-size:.9rem; }
@@ -81,7 +81,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .values strong { color:var(--blue-800); font-family:var(--serif); font-size:1.65rem; font-weight:400; }
 .values span { font-size:.72rem; color:var(--muted); line-height:1.5; }
 .trust { position:relative; isolation:isolate; overflow:hidden; background:white; }
-.trust::before { content:''; position:absolute; z-index:0; width:980px; height:620px; left:-330px; top:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; filter:brightness(0); opacity:.48; pointer-events:none; transform:rotate(3deg); }
+.trust::before { content:''; position:absolute; z-index:0; width:980px; height:620px; left:-330px; top:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; transform:rotate(3deg); }
 .trust > * { position:relative; z-index:1; }
 .trust__gallery { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); grid-auto-rows:245px; gap:16px; }
 .trust__item { position:relative; min-width:0; margin:0; overflow:hidden; background:var(--blue-100); }
@@ -99,8 +99,8 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .trust__item figcaption strong { font-family:var(--serif); font-size:1.35rem; font-weight:400; }
 .trust__item figcaption span { font-size:.67rem; line-height:1.45; color:#e8f0f7; }
 .experiences { background:#efede6; color:var(--ink); position:relative; isolation:isolate; overflow:hidden; padding-top:150px; }
-.experiences::before { content:'ΠΑΙΔΕΙΑ'; position:absolute; right:2vw; top:10px; color:rgba(10,18,28,.28); font-family:var(--serif); font-size:min(9.6vw,11.5rem); line-height:1; letter-spacing:.035em; white-space:nowrap; pointer-events:none; }
-.experiences::after { content:''; position:absolute; z-index:0; inset:12% -12vw -10% 34%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; filter:brightness(0); opacity:.48; pointer-events:none; transform:rotate(-3deg); }
+.experiences::before { content:'ΠΑΙΔΕΙΑ'; position:absolute; right:2vw; top:10px; color:rgba(10,18,28,.27); font-family:var(--serif); font-size:min(9.6vw,11.5rem); line-height:1; letter-spacing:.035em; white-space:nowrap; pointer-events:none; }
+.experiences::after { content:''; position:absolute; z-index:0; inset:12% -12vw -10% 34%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; transform:rotate(-3deg); }
 .experiences > * { position:relative; z-index:1; }
 .section-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:10vw; margin-bottom:65px; }
 .section-heading > p { max-width:380px; color:var(--muted); line-height:1.7; }
@@ -125,9 +125,9 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .experience-card__copy li { display:flex; align-items:center; gap:7px; }
 .experience-card__copy .button--white { color:white; background:var(--blue-800); border-color:var(--blue-800); }
 .language { min-height:800px; position:relative; isolation:isolate; display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:9vw; overflow:hidden; }
-.language::after { content:''; position:absolute; z-index:0; width:980px; height:490px; right:-320px; bottom:-75px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; filter:brightness(0); opacity:.48; pointer-events:none; transform:rotate(-3deg); }
+.language::after { content:''; position:absolute; z-index:0; width:980px; height:490px; right:-320px; bottom:-75px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; transform:rotate(-3deg); }
 .language > *:not(.greek-word) { position:relative; z-index:1; }
-.greek-word { position:absolute; font-family:var(--serif); font-size:31vw; color:rgba(10,18,28,.28); left:-4vw; top:-5vw; }
+.greek-word { position:absolute; font-family:var(--serif); font-size:31vw; color:rgba(10,18,28,.27); left:-4vw; top:-5vw; }
 .language__content { position:relative; max-width:680px; }
 .language__content > p:not(.section-index) { color:var(--muted); line-height:1.8; max-width:570px; margin:35px 0; }
 .language__features { display:flex; flex-wrap:wrap; gap:15px 24px; margin-bottom:38px; }
@@ -138,7 +138,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .quote-card blockquote { font-family:var(--serif); font-size:1.75rem; line-height:1.35; margin:22px 0 35px; color:var(--blue-900); }
 .quote-card small { color:var(--muted); font-size:.65rem; text-transform:uppercase; letter-spacing:.11em; }
 .agenda { position:relative; isolation:isolate; overflow:hidden; background:white; }
-.agenda::before { content:''; position:absolute; z-index:0; width:720px; height:570px; left:-245px; bottom:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; filter:brightness(0); opacity:.48; pointer-events:none; transform:rotate(5deg); }
+.agenda::before { content:''; position:absolute; z-index:0; width:720px; height:570px; left:-245px; bottom:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; transform:rotate(5deg); }
 .agenda > * { position:relative; z-index:1; }
 .section-heading--dark > a { margin-bottom:8px; }
 .agenda__list { border-top:1px solid var(--sand); }
@@ -153,7 +153,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .agenda .event-link { width:46px; height:46px; border:1px solid var(--sand); border-radius:50%; background:white; color:var(--blue-800); display:grid; place-items:center; cursor:pointer; }
 .agenda__note { display:flex; gap:8px; align-items:center; color:#9298a2; font-size:.67rem; margin-top:20px; }
 .memory { position:relative; isolation:isolate; overflow:hidden; display:grid; grid-template-columns:1.1fr .9fr; gap:8vw; align-items:center; background:var(--ivory); }
-.memory::before { content:''; position:absolute; z-index:0; width:620px; height:500px; right:-110px; bottom:-120px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; filter:brightness(0); opacity:.48; pointer-events:none; }
+.memory::before { content:''; position:absolute; z-index:0; width:620px; height:500px; right:-110px; bottom:-120px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; }
 .memory > * { position:relative; z-index:1; }
 .memory__image { position:relative; }
 .memory__image::after { content:''; position:absolute; inset:18px -18px -18px 18px; background:var(--blue-100); z-index:0; }
