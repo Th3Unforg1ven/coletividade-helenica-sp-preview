@@ -82,7 +82,7 @@ function Header() {
     <Brand />
     <button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} aria-controls="main-navigation">{open ? <X /> : <Menu />}</button>
     <nav id="main-navigation" className={open ? 'nav is-open' : 'nav'} onClick={() => setOpen(false)} aria-label="Navegação principal">
-      <Link to="/coletividade">A Coletividade</Link><Link to="/cultura">Cultura e memória</Link><Link to="/aulas">Aulas</Link><Link to="/contato">Contato</Link><Link to="/agenda">Agenda</Link>
+      <Link to="/coletividade">A Coletividade</Link><Link to="/cultura">Cultura e memória</Link><Link to="/aulas">Aulas</Link><Link to="/contato">Participe</Link><Link to="/agenda">Agenda</Link>
       <a className="button button--small" href={WA} target="_blank" rel="noreferrer">Fale conosco <ArrowRight size={16}/></a>
     </nav>
   </header>
