@@ -183,7 +183,6 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .page-loading { min-height:70svh; display:grid; place-items:center; background:var(--ivory); color:var(--blue-800); }
 .page-loading span { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
 .footer { padding:70px 7vw 30px; background:var(--blue-900); color:white; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; position:relative; isolation:isolate; overflow:hidden; }
-.footer::before { content:''; position:absolute; z-index:-1; width:min(1100px,80vw); height:270px; right:-150px; bottom:-70px; background:url('/images/ornamentos/faixa-cultural.webp') center/contain no-repeat; opacity:.144; pointer-events:none; }
 .brand--footer { color:white; gap:16px; }
 .brand--footer img { width:78px; height:78px; padding:5px; background:white; border-radius:50%; filter:none; box-shadow:0 0 0 1px rgba(255,255,255,.28); }
 .brand--footer strong { font-size:.94rem; }
