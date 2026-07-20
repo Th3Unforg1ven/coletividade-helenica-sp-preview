@@ -32,7 +32,7 @@ button { font: inherit; }
 .hero { min-height:850px; height:min(100vh,1000px); position:relative; display:grid; grid-template-columns:52% 48%; align-items:stretch; overflow:hidden; background:var(--ivory); padding-top:94px; }
 .hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:12px; background:var(--blue-800); }
 .hero__content { position:relative; isolation:isolate; z-index:2; width:auto; min-width:0; margin:0; padding:clamp(70px,9vh,120px) 4vw 70px 7vw; display:flex; flex-direction:column; justify-content:center; overflow:hidden; }
-.hero__content::before { content:''; position:absolute; z-index:0; width:min(650px,72vw); height:min(650px,72vw); right:-145px; bottom:-135px; background:url('/images/mapa-grecia-linhas.webp') center/contain no-repeat; opacity:.24; pointer-events:none; transform:rotate(-4deg); }
+.hero__content::before { content:''; position:absolute; z-index:0; width:min(650px,72vw); height:min(650px,72vw); right:-145px; bottom:-135px; background:url('/images/mapa-grecia-linhas.webp') center/contain no-repeat; opacity:.276; pointer-events:none; transform:rotate(-4deg); }
 .hero__content > * { position:relative; z-index:1; }
 .kicker,.section-index,.eyebrow,.greek-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.18em; font-weight:600; color:var(--blue-800); }
 .kicker span { font-family:var(--serif); font-size:.9rem; }
@@ -67,8 +67,8 @@ h2 em { font-weight:400; color:var(--blue-600); }
 .hero__stamp strong { font-family:var(--serif); font-size:1.5rem; letter-spacing:0; margin:2px 0; }
 .section { padding:120px 7vw; }
 .manifesto { position:relative; isolation:isolate; background:var(--ivory); overflow:hidden; padding-top:140px; }
-.manifesto::before { content:''; position:absolute; z-index:0; width:min(1050px,76vw); height:88%; right:-12vw; bottom:-13%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.036; pointer-events:none; }
-.manifesto::after { content:''; position:absolute; z-index:0; width:min(760px,62vw); height:400px; left:-235px; top:-105px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; opacity:.06; pointer-events:none; transform:rotate(2deg); }
+.manifesto::before { content:''; position:absolute; z-index:0; width:min(1050px,76vw); height:88%; right:-12vw; bottom:-13%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.042; pointer-events:none; }
+.manifesto::after { content:''; position:absolute; z-index:0; width:min(760px,62vw); height:400px; left:-235px; top:-105px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; opacity:.069; pointer-events:none; transform:rotate(2deg); }
 .manifesto > * { position:relative; z-index:1; }
 .section-index { margin-bottom:50px; }
 .manifesto__grid { display:grid; grid-template-columns:1fr 1fr; gap:11vw; }
@@ -81,7 +81,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .values strong { color:var(--blue-800); font-family:var(--serif); font-size:1.65rem; font-weight:400; }
 .values span { font-size:.72rem; color:var(--muted); line-height:1.5; }
 .trust { position:relative; isolation:isolate; overflow:hidden; background:white; }
-.trust::before { content:''; position:absolute; z-index:0; width:980px; height:620px; left:-330px; top:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.03; pointer-events:none; transform:rotate(3deg); }
+.trust::before { content:''; position:absolute; z-index:0; width:980px; height:620px; left:-330px; top:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.035; pointer-events:none; transform:rotate(3deg); }
 .trust > * { position:relative; z-index:1; }
 .trust__gallery { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); grid-auto-rows:245px; gap:16px; }
 .trust__item { position:relative; min-width:0; margin:0; overflow:hidden; background:var(--blue-100); }
@@ -99,8 +99,8 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .trust__item figcaption strong { font-family:var(--serif); font-size:1.35rem; font-weight:400; }
 .trust__item figcaption span { font-size:.67rem; line-height:1.45; color:#e8f0f7; }
 .experiences { background:#efede6; color:var(--ink); position:relative; isolation:isolate; overflow:hidden; padding-top:150px; }
-.experiences::before { content:'ΠΑΙΔΕΙΑ'; position:absolute; right:2vw; top:10px; color:rgba(18,60,140,.055); font-family:var(--serif); font-size:min(9.6vw,11.5rem); line-height:1; letter-spacing:.035em; white-space:nowrap; pointer-events:none; }
-.experiences::after { content:''; position:absolute; z-index:0; inset:12% -12vw -10% 34%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.034; pointer-events:none; transform:rotate(-3deg); }
+.experiences::before { content:'ΠΑΙΔΕΙΑ'; position:absolute; right:2vw; top:10px; color:rgba(18,60,140,.064); font-family:var(--serif); font-size:min(9.6vw,11.5rem); line-height:1; letter-spacing:.035em; white-space:nowrap; pointer-events:none; }
+.experiences::after { content:''; position:absolute; z-index:0; inset:12% -12vw -10% 34%; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.039; pointer-events:none; transform:rotate(-3deg); }
 .experiences > * { position:relative; z-index:1; }
 .section-heading { display:flex; justify-content:space-between; align-items:flex-end; gap:10vw; margin-bottom:65px; }
 .section-heading > p { max-width:380px; color:var(--muted); line-height:1.7; }
@@ -125,9 +125,9 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .experience-card__copy li { display:flex; align-items:center; gap:7px; }
 .experience-card__copy .button--white { color:white; background:var(--blue-800); border-color:var(--blue-800); }
 .language { min-height:800px; position:relative; isolation:isolate; display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:9vw; overflow:hidden; }
-.language::after { content:''; position:absolute; z-index:0; width:980px; height:490px; right:-320px; bottom:-75px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; opacity:.06; pointer-events:none; transform:rotate(-3deg); }
+.language::after { content:''; position:absolute; z-index:0; width:980px; height:490px; right:-320px; bottom:-75px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; opacity:.069; pointer-events:none; transform:rotate(-3deg); }
 .language > *:not(.greek-word) { position:relative; z-index:1; }
-.greek-word { position:absolute; font-family:var(--serif); font-size:31vw; color:rgba(18,60,140,.038); left:-4vw; top:-5vw; }
+.greek-word { position:absolute; font-family:var(--serif); font-size:31vw; color:rgba(18,60,140,.044); left:-4vw; top:-5vw; }
 .language__content { position:relative; max-width:680px; }
 .language__content > p:not(.section-index) { color:var(--muted); line-height:1.8; max-width:570px; margin:35px 0; }
 .language__features { display:flex; flex-wrap:wrap; gap:15px 24px; margin-bottom:38px; }
@@ -138,7 +138,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .quote-card blockquote { font-family:var(--serif); font-size:1.75rem; line-height:1.35; margin:22px 0 35px; color:var(--blue-900); }
 .quote-card small { color:var(--muted); font-size:.65rem; text-transform:uppercase; letter-spacing:.11em; }
 .agenda { position:relative; isolation:isolate; overflow:hidden; background:white; }
-.agenda::before { content:''; position:absolute; z-index:0; width:720px; height:570px; left:-245px; bottom:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.029; pointer-events:none; transform:rotate(5deg); }
+.agenda::before { content:''; position:absolute; z-index:0; width:720px; height:570px; left:-245px; bottom:-190px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.034; pointer-events:none; transform:rotate(5deg); }
 .agenda > * { position:relative; z-index:1; }
 .section-heading--dark > a { margin-bottom:8px; }
 .agenda__list { border-top:1px solid var(--sand); }
@@ -153,7 +153,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .agenda .event-link { width:46px; height:46px; border:1px solid var(--sand); border-radius:50%; background:white; color:var(--blue-800); display:grid; place-items:center; cursor:pointer; }
 .agenda__note { display:flex; gap:8px; align-items:center; color:#9298a2; font-size:.67rem; margin-top:20px; }
 .memory { position:relative; isolation:isolate; overflow:hidden; display:grid; grid-template-columns:1.1fr .9fr; gap:8vw; align-items:center; background:var(--ivory); }
-.memory::before { content:''; position:absolute; z-index:0; width:620px; height:500px; right:-110px; bottom:-120px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; opacity:.06; pointer-events:none; }
+.memory::before { content:''; position:absolute; z-index:0; width:620px; height:500px; right:-110px; bottom:-120px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; opacity:.069; pointer-events:none; }
 .memory > * { position:relative; z-index:1; }
 .memory__image { position:relative; }
 .memory__image::after { content:''; position:absolute; inset:18px -18px -18px 18px; background:var(--blue-100); z-index:0; }
@@ -161,7 +161,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .memory__copy p:not(.section-index,.greek-label) { color:var(--muted); line-height:1.8; margin:30px 0; }
 .memory__copy .greek-label { font-family:var(--serif); text-transform:none; font-size:1rem; margin-bottom:20px; }
 .faq { position:relative; isolation:isolate; overflow:hidden; background:white; }
-.faq::before { content:''; position:absolute; z-index:0; width:940px; height:600px; right:-315px; top:-170px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.031; pointer-events:none; transform:rotate(-4deg); }
+.faq::before { content:''; position:absolute; z-index:0; width:940px; height:600px; right:-315px; top:-170px; background:url('/images/ornamentos/ornamentos-pretos-campo.webp') center/contain no-repeat; opacity:.036; pointer-events:none; transform:rotate(-4deg); }
 .faq > * { position:relative; z-index:1; }
 .faq__grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:10vw; }
 .faq__item { border-top:1px solid var(--sand); }
@@ -174,7 +174,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .faq__item.open > div > p { padding-bottom:25px; }
 .faq__item.open svg { transform:rotate(180deg); }
 .join { text-align:center; color:white; padding:120px 20px; background:var(--blue-800); position:relative; overflow:hidden; }
-.join::before { content:''; position:absolute; inset:0; background:url('/images/ornamentos/faixa-cultural.webp') center/cover no-repeat; opacity:.105; pointer-events:none; }
+.join::before { content:''; position:absolute; inset:0; background:url('/images/ornamentos/faixa-cultural.webp') center/cover no-repeat; opacity:.121; pointer-events:none; }
 .join > * { position:relative; z-index:1; }
 .join .greek-label { color:#b9cef0; font-family:var(--serif); text-transform:none; font-size:1rem; }
 .join h2 { margin:22px 0 25px; }.join h2 em { color:#bcd3f8; }
@@ -184,7 +184,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .page-loading { min-height:70svh; display:grid; place-items:center; background:var(--ivory); color:var(--blue-800); }
 .page-loading span { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
 .footer { padding:70px 7vw 30px; background:var(--blue-900); color:white; display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; position:relative; isolation:isolate; overflow:hidden; }
-.footer::before { content:''; position:absolute; z-index:-1; width:min(1100px,80vw); height:270px; right:-150px; bottom:-70px; background:url('/images/ornamentos/faixa-cultural.webp') center/contain no-repeat; opacity:.035; pointer-events:none; }
+.footer::before { content:''; position:absolute; z-index:-1; width:min(1100px,80vw); height:270px; right:-150px; bottom:-70px; background:url('/images/ornamentos/faixa-cultural.webp') center/contain no-repeat; opacity:.04; pointer-events:none; }
 .brand--footer { color:white; gap:16px; }
 .brand--footer img { width:78px; height:78px; padding:5px; background:white; border-radius:50%; filter:none; box-shadow:0 0 0 1px rgba(255,255,255,.28); }
 .brand--footer strong { font-size:.94rem; }
@@ -201,13 +201,13 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .inner-page .header { position:relative; background:rgba(255,255,255,.94); }
 .content-page { padding:0 7vw 110px; min-height:70vh; }
 .content-page--motifs { position:relative; isolation:isolate; overflow:hidden; }
-.content-page--motifs::before { content:''; position:absolute; z-index:0; width:min(1050px,78vw); height:720px; right:-18vw; top:520px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; opacity:.038; pointer-events:none; }
+.content-page--motifs::before { content:''; position:absolute; z-index:0; width:min(1050px,78vw); height:720px; right:-18vw; top:520px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; opacity:.044; pointer-events:none; }
 .content-page--motifs > * { position:relative; z-index:1; }
 .breadcrumbs { min-height:60px; display:flex; align-items:center; gap:10px; color:#687584; font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; }
 .breadcrumbs span { display:flex; align-items:center; gap:10px; }.breadcrumbs b { color:#aab4bf; font-weight:400; }.breadcrumbs em { color:var(--blue-800); font-style:normal; }
 .content-hero { min-height:430px; display:grid; grid-template-columns:1.05fr .95fr; background:white; margin:0 -7vw 80px; padding-left:7vw; overflow:hidden; }
 .content-hero--motifs { position:relative; isolation:isolate; }
-.content-hero--motifs::before { content:''; position:absolute; z-index:0; width:640px; height:420px; left:-110px; bottom:-155px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; opacity:.05; pointer-events:none; }
+.content-hero--motifs::before { content:''; position:absolute; z-index:0; width:640px; height:420px; left:-110px; bottom:-155px; background:url('/images/motivos-helenicos.svg') center/contain no-repeat; opacity:.058; pointer-events:none; }
 .content-hero--motifs > * { position:relative; z-index:1; }
 .content-hero > div { padding:70px 7vw 70px 0; display:flex; justify-content:center; flex-direction:column; }
 .content-kicker { color:var(--blue-800); text-transform:uppercase; letter-spacing:.18em; font-weight:600; font-size:.68rem; margin-bottom:25px; }
@@ -215,7 +215,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .content-hero > div > p:last-child:not(.content-kicker) { color:var(--muted); line-height:1.75; max-width:660px; margin:30px 0 0; }
 .content-hero figure { margin:0; min-height:430px; background:var(--blue-800); position:relative; overflow:hidden; }
 .content-hero figure img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; }
-.content-hero__art::before { content:''; position:absolute; inset:-8%; background:url('/images/motivos-helenicos.svg') center/cover no-repeat; filter:brightness(0) invert(1); opacity:.16; transform:rotate(-4deg); }
+.content-hero__art::before { content:''; position:absolute; inset:-8%; background:url('/images/motivos-helenicos.svg') center/cover no-repeat; filter:brightness(0) invert(1); opacity:.184; transform:rotate(-4deg); }
 .content-layout { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:8vw; max-width:1280px; margin:0 auto; align-items:start; }
 .content-layout article { min-width:0; }
 .page-navigation { position:sticky; top:24px; display:flex; flex-direction:column; padding:24px; background:white; box-shadow:0 15px 45px rgba(23,79,133,.07); }
