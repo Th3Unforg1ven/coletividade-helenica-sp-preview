@@ -228,8 +228,18 @@ body.intro-active { overflow:hidden; }
 }
 
 @media (prefers-reduced-motion:reduce) {
-  .intro-cover *,
-  .intro-cover *::before,
-  .intro-cover *::after { animation-duration:.01ms !important; animation-delay:0ms !important; }
-  .intro-cover.is-exiting { transform:translateY(-102%); }
+  .intro-cover__welcome,
+  .intro-cover__seal,
+  .intro-cover h1,
+  .intro-cover__tagline,
+  .intro-cover__action { transform:none; }
+  .intro-cover__welcome { animation:intro-reveal-detail .42s .16s ease-out forwards !important; }
+  .intro-cover__seal { animation:intro-reveal-detail .44s .3s ease-out forwards !important; }
+  .intro-cover h1 { animation:intro-reveal-detail .48s .44s ease-out forwards !important; }
+  .intro-cover__tagline { animation:intro-reveal-detail .42s .6s ease-out forwards !important; }
+  .intro-cover__action { animation:intro-reveal-detail .42s .75s ease-out forwards !important; }
+  .intro-cover__inscription { animation:intro-reveal-detail .36s .88s ease-out forwards !important; }
+  .intro-cover__scroll { animation:intro-reveal-detail .36s 1s ease-out forwards !important; }
+  .intro-cover__scroll::after { animation:none !important; transform:scaleY(1); }
+  .intro-cover.is-exiting { animation:none !important; transform:translateY(-102%); }
 }
