@@ -1,10 +1,11 @@
-import { Component, useEffect, useState } from 'react'
+import { Component, lazy, Suspense, useEffect, useState } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import {
   ArrowDown, ArrowRight, BookOpen, CalendarDays, ChevronDown,
   Languages, MapPin, Menu, Music2, Sparkles, Users, X
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
+import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
 import {
   AgendaPage, ArchivePage, CategoryPage, ContactPage, CultureIndex,
@@ -13,6 +14,7 @@ import {
 } from './ContentPages.jsx'
 
 const WA = 'https://wa.link/ryey8t'
+const IntroCover = lazy(() => import('./IntroCover.jsx'))
 
 const activities = [
   {
@@ -168,6 +170,7 @@ function HomePage() {
   }, [location.search])
 
   return <>
+    <Suspense fallback={<div className="intro-cover intro-cover--loading" aria-hidden="true" />}><IntroCover /></Suspense>
     <Header />
     <main>
       <Hero />
