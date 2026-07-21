@@ -116,11 +116,6 @@ function Hero() {
   return <section className="hero" id="inicio">
     <div className="hero__content">
       <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
-      <div className="hero__identity-block">
-        <img className="hero__identity-logo" src={assetUrl('/images/chsp-logo-256.png')} alt="" aria-hidden="true" width="72" height="72" />
-        <p className="hero__identity">Coletividade Helênica de São Paulo</p>
-      </div>
-      <p className="kicker">Desde 1937</p>
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
       <p className="hero__statement">A Grécia vive<br/><i>onde nós estamos.</i></p>
       <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos a cultura através de encontros da comunidade, aulas focadas no aprendizado do idioma grego contemporâneo, dança e o instrumento Bouzouki.</p>
