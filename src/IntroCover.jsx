@@ -23,8 +23,8 @@ const fragmentShader = /* glsl */`
 
   const vec3 IVORY = vec3(.966, .954, .925);
   const vec3 WARM_STONE = vec3(.900, .884, .846);
-  const vec3 VEIN_GREY = vec3(.445, .500, .565);
-  const vec3 VEIN_BLUE = vec3(.265, .430, .585);
+  const vec3 VEIN_GREY = vec3(.345, .405, .480);
+  const vec3 VEIN_BLUE = vec3(.205, .365, .535);
   const vec3 CARVED_BLUE = vec3(.430, .570, .700);
 
   float hash21(vec2 p) {
@@ -88,7 +88,7 @@ const fragmentShader = /* glsl */`
 
   vec3 marble(vec2 uv, float aspect) {
     vec2 point = vec2(uv.x * aspect, uv.y) * 2.65;
-    float slowTime = uTime * .026;
+    float slowTime = uTime * .040;
     vec2 warp = vec2(
       fbm(point * .78 + vec2(2.1, slowTime)),
       fbm(point * .86 + vec2(8.7, -slowTime * .65))
@@ -100,31 +100,31 @@ const fragmentShader = /* glsl */`
     float fieldA = (point.x * .48 + point.y * 1.08) + warp.x * 2.65 + fbm(point * 1.72) * .48;
     float ridgeA = pow(max(0.0, 1.0 - abs(sin(fieldA * 2.35))), 18.0);
     float maskA = smoothstep(.42, .72, fbm(point * .42 + 5.4));
-    color = mix(color, VEIN_GREY, ridgeA * maskA * .34);
+    color = mix(color, VEIN_GREY, ridgeA * maskA * .48);
 
     float fieldB = (point.y * .82 - point.x * .36) + warp.y * 2.1 + fbm(point * 2.3 + 9.0) * .36;
     float ridgeB = pow(max(0.0, 1.0 - abs(sin(fieldB * 3.1))), 32.0);
     float maskB = smoothstep(.53, .78, fbm(point * .49 + 12.3));
-    color = mix(color, VEIN_BLUE, ridgeB * maskB * .22);
+    color = mix(color, VEIN_BLUE, ridgeB * maskB * .34);
 
     float hairline = pow(max(0.0, 1.0 - abs(sin(fieldA * 4.72 + warp.y))), 46.0);
-    color = mix(color, VEIN_GREY, hairline * maskA * .095);
+    color = mix(color, VEIN_GREY, hairline * maskA * .16);
 
     float rightMask = smoothstep(.48, .82, uv.x);
-    float rightTime = uTime * .034;
+    float rightTime = uTime * .050;
     vec2 rightPoint = point + vec2(-rightTime * .34, rightTime);
     float rightWarp = fbm(rightPoint * 1.08 + vec2(13.4, 4.2));
     float rightField = rightPoint.y * 1.14 - rightPoint.x * .32 + rightWarp * 3.1;
     float rightVein = pow(max(0.0, 1.0 - abs(sin(rightField * 2.75))), 17.0);
     float rightVeinMask = smoothstep(.38, .70, fbm(rightPoint * .52 + 17.8));
-    color = mix(color, VEIN_GREY, rightVein * rightVeinMask * rightMask * .30);
+    color = mix(color, VEIN_GREY, rightVein * rightVeinMask * rightMask * .44);
 
     vec2 branchPoint = point + vec2(rightTime * .18, -rightTime * .48);
     float branchWarp = fbm(branchPoint * 1.74 + vec2(4.8, 19.1));
     float branchField = branchPoint.y * .72 + branchPoint.x * .56 + branchWarp * 2.65;
     float branchVein = pow(max(0.0, 1.0 - abs(sin(branchField * 4.15))), 30.0);
     float branchMask = smoothstep(.50, .76, fbm(branchPoint * .67 + 2.6));
-    color = mix(color, VEIN_BLUE, branchVein * branchMask * rightMask * .17);
+    color = mix(color, VEIN_BLUE, branchVein * branchMask * rightMask * .27);
 
     color += (noise(point * 72.0) - .5) * .008;
     float mineralBreath = .5 + .5 * sin(uTime * .24 + fbm(point * 1.35) * 6.2831);
