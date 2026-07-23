@@ -33,26 +33,12 @@
       body{margin:0;background:#f7f5ef}
       .intro-boot{position:fixed;inset:0;z-index:1000;min-height:560px;overflow:hidden;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.92),rgba(247,245,239,.34) 42%,transparent 70%),#eee9df;color:#174f85}
       .no-intro-boot .intro-boot{display:none}
-      .intro-boot__content{height:100%;padding:clamp(34px,5vw,72px) 24px clamp(78px,9vh,104px);display:flex;box-sizing:border-box;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-      .intro-boot__welcome{margin:0 0 16px;font-family:Georgia,serif;font-size:clamp(.88rem,1.4vw,1.05rem);letter-spacing:.2em;color:#1f6fb2}
-      .intro-boot__seal{width:clamp(112px,13vh,142px);height:clamp(112px,13vh,142px);margin-bottom:clamp(20px,2.8vh,30px);object-fit:contain;filter:drop-shadow(0 9px 20px rgba(23,79,133,.15))}
-      .intro-boot__title{max-width:15ch;margin:0;font-family:Georgia,serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:400;line-height:.98;letter-spacing:-.03em;opacity:0}
-      .intro-boot__tagline{height:26px;margin:24px 0 0;opacity:0}
-      .intro-boot__action{width:228px;height:49px;margin-top:30px;opacity:0}
-      @media(max-width:760px){.intro-boot{min-height:500px}.intro-boot__content{padding:72px 24px 82px}.intro-boot__seal{margin-bottom:18px}.intro-boot__title{font-size:clamp(2.35rem,11vw,3.4rem)}.intro-boot__tagline{margin-top:14px}.intro-boot__action{margin-top:24px}}
+      @media(max-width:760px){.intro-boot{min-height:500px}}
     </style>
   </head>
   <body>
     <div id="root">
-      <section class="intro-boot" aria-hidden="true">
-        <div class="intro-boot__content">
-          <p class="intro-boot__welcome" lang="el">ΚΑΛΩΣ ΗΡΘΑΤΕ</p>
-          <img class="intro-boot__seal" src="/images/chsp-logo-256.png" alt="" width="142" height="142" />
-          <div class="intro-boot__title">Coletividade Helênica de São Paulo</div>
-          <div class="intro-boot__tagline"></div>
-          <div class="intro-boot__action"></div>
-        </div>
-      </section>
+      <div class="intro-boot" aria-hidden="true"></div>
     </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

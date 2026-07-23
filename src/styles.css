@@ -60,6 +60,7 @@ h2 em { font-weight:400; color:var(--blue-600); }
 .hero__frames { position:relative; width:100%; height:min(67vh,650px); z-index:2; overflow:hidden; border:12px solid rgba(255,255,255,.92); box-shadow:0 22px 55px rgba(23,79,133,.24); background-color:var(--blue-600); }
 .hero__frames figure { position:absolute; inset:0; margin:0; opacity:0; transform:scale(1.06); transition:opacity 1.2s ease,transform 6s ease; background-size:cover; background-position:center; }
 .hero__frames figure.active { opacity:1; transform:scale(1); z-index:1; }
+body.intro-active .hero__frames figure { transition:none; }
 .hero__frames figure:nth-child(2),.hero__frames figure:nth-child(3),.hero__frames figure:nth-child(4) { background-position:center 46%; }
 .hero__frames figcaption { position:absolute; bottom:0; left:0; background:rgba(255,255,255,.94); color:var(--blue-900); padding:13px 18px; font-size:.58rem; text-transform:uppercase; letter-spacing:.15em; }
 .hero__controls { position:absolute; right:1.4vw; top:50%; transform:translateY(-50%); z-index:4; display:flex; flex-direction:column; gap:12px; }

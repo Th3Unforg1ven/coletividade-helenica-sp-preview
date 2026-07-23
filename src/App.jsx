@@ -149,7 +149,9 @@ function Hero() {
       else if (preloadId != null) window.clearTimeout(preloadId)
     }
     const timer = window.setInterval(() => {
-      if (!document.hidden) setSlide(value => (value + 1) % slides.length)
+      if (!document.hidden && !document.body.classList.contains('intro-active')) {
+        setSlide(value => (value + 1) % slides.length)
+      }
     }, 4600)
     return () => {
       window.clearInterval(timer)

@@ -97,17 +97,17 @@ const fragmentShader = /* glsl */`
     vec3 color = mix(IVORY, WARM_STONE, cloud * .31);
 
     float fieldA = (point.x * .48 + point.y * 1.08) + warp.x * 2.65 + fbm(point * 1.72) * .48;
-    float ridgeA = pow(max(0.0, 1.0 - abs(sin(fieldA * 2.35))), 18.0);
+    float ridgeA = pow(max(0.0, 1.0 - abs(sin(fieldA * 2.35))), 15.0);
     float maskA = smoothstep(.42, .72, fbm(point * .42 + 5.4));
-    color = mix(color, VEIN_GREY, ridgeA * maskA * .48);
+    color = mix(color, VEIN_GREY, ridgeA * maskA * .56);
 
     float fieldB = (point.y * .82 - point.x * .36) + warp.y * 2.1 + fbm(point * 2.3 + 9.0) * .36;
-    float ridgeB = pow(max(0.0, 1.0 - abs(sin(fieldB * 3.1))), 32.0);
+    float ridgeB = pow(max(0.0, 1.0 - abs(sin(fieldB * 3.1))), 26.0);
     float maskB = smoothstep(.53, .78, fbm(point * .49 + 12.3));
-    color = mix(color, VEIN_BLUE, ridgeB * maskB * .34);
+    color = mix(color, VEIN_BLUE, ridgeB * maskB * .42);
 
     float hairline = pow(max(0.0, 1.0 - abs(sin(fieldA * 4.72 + warp.y))), 46.0);
-    color = mix(color, VEIN_GREY, hairline * maskA * .16);
+    color = mix(color, VEIN_GREY, hairline * maskA * .20);
 
     float rightMask = smoothstep(.48, .82, uv.x);
     float rightTime = uTime * .050;
@@ -116,14 +116,14 @@ const fragmentShader = /* glsl */`
     float rightField = rightPoint.y * 1.14 - rightPoint.x * .32 + rightWarp * 3.1;
     float rightVein = pow(max(0.0, 1.0 - abs(sin(rightField * 2.75))), 17.0);
     float rightVeinMask = smoothstep(.38, .70, fbm(rightPoint * .52 + 17.8));
-    color = mix(color, VEIN_GREY, rightVein * rightVeinMask * rightMask * .44);
+    color = mix(color, VEIN_GREY, rightVein * rightVeinMask * rightMask * .50);
 
     vec2 branchPoint = point + vec2(rightTime * .18, -rightTime * .48);
     float branchWarp = fbm(branchPoint * 1.74 + vec2(4.8, 19.1));
     float branchField = branchPoint.y * .72 + branchPoint.x * .56 + branchWarp * 2.65;
     float branchVein = pow(max(0.0, 1.0 - abs(sin(branchField * 4.15))), 30.0);
     float branchMask = smoothstep(.50, .76, fbm(branchPoint * .67 + 2.6));
-    color = mix(color, VEIN_BLUE, branchVein * branchMask * rightMask * .27);
+    color = mix(color, VEIN_BLUE, branchVein * branchMask * rightMask * .33);
 
     color += (noise(point * 72.0) - .5) * .008;
     float mineralBreath = .5 + .5 * sin(uTime * .24 + fbm(point * 1.35) * 6.2831);
@@ -168,7 +168,7 @@ const fragmentShader = /* glsl */`
   }
 `
 
-export default function MarbleCanvas({ sealRef, startExitRef }) {
+export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onReady }) {
   const marbleRef = useRef(null)
 
   useEffect(() => {
@@ -195,10 +195,13 @@ export default function MarbleCanvas({ sealRef, startExitRef }) {
     let sealY = .58
     let renderWidth = 1
     let renderHeight = 1
+    let readyReported = false
+    let disposed = false
     const startingTime = performance.now()
 
     if (!gl) {
       container.classList.add('intro-cover__marble--fallback')
+      onReady()
       return () => container.replaceChildren()
     }
 
@@ -235,6 +238,7 @@ export default function MarbleCanvas({ sealRef, startExitRef }) {
       gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
     } catch (error) {
       container.classList.add('intro-cover__marble--fallback')
+      onReady()
       console.warn('A animação de mármore foi substituída pelo fundo estático.', error)
       return () => {
         if (positionBuffer) gl.deleteBuffer(positionBuffer)
@@ -276,6 +280,7 @@ export default function MarbleCanvas({ sealRef, startExitRef }) {
     }
 
     const draw = (time = performance.now()) => {
+      if (disposed) return
       const elapsed = (time - startingTime) / 1000
       smoothPointerX += (pointerX - smoothPointerX) * .035
       smoothPointerY += (pointerY - smoothPointerY) * .035
@@ -287,6 +292,10 @@ export default function MarbleCanvas({ sealRef, startExitRef }) {
       gl.uniform1f(locations.uIntro, reduceMotion ? 1 : Math.min(1, elapsed / .95))
       gl.uniform1f(locations.uExit, exitStartedAt ? Math.min(1, (time - exitStartedAt) / 650) : 0)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
+      if (!readyReported) {
+        readyReported = true
+        window.requestAnimationFrame(onReady)
+      }
       if (!reduceMotion) animationFrame = requestAnimationFrame(draw)
     }
 
@@ -298,12 +307,9 @@ export default function MarbleCanvas({ sealRef, startExitRef }) {
       pointerY = -(event.clientY / window.innerHeight - .5) * 2
     }
     const startExit = () => { exitStartedAt ||= performance.now() }
-    startExitRef.current = startExit
-    window.addEventListener('pointermove', pointerMove, { passive: true })
-    window.addEventListener('resize', resize, { passive: true })
-    seal.addEventListener('load', alignSeal)
-
-    return () => {
+    const dispose = () => {
+      if (disposed) return
+      disposed = true
       cancelAnimationFrame(animationFrame)
       window.removeEventListener('pointermove', pointerMove)
       window.removeEventListener('resize', resize)
@@ -314,7 +320,14 @@ export default function MarbleCanvas({ sealRef, startExitRef }) {
       gl.deleteShader(fragment)
       container.replaceChildren()
     }
-  }, [sealRef, startExitRef])
+    startExitRef.current = startExit
+    disposeRef.current = dispose
+    window.addEventListener('pointermove', pointerMove, { passive: true })
+    window.addEventListener('resize', resize, { passive: true })
+    seal.addEventListener('load', alignSeal)
+
+    return dispose
+  }, [sealRef, startExitRef, disposeRef, onReady])
 
   return <div ref={marbleRef} className="intro-cover__marble" aria-hidden="true" />
 }

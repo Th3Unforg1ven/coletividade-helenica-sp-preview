@@ -32,7 +32,8 @@ body.intro-active { overflow:hidden; }
 
 .intro-cover__marble { z-index:0; }
 .intro-cover__marble--fallback { background:#f7f5ef; }
-.intro-cover__marble canvas { opacity:0; animation:intro-marble-in .58s ease-out forwards; }
+.intro-cover__marble canvas { opacity:0; transition:opacity .48s ease-out; }
+.intro-cover.is-ready .intro-cover__marble canvas { opacity:1; }
 
 .intro-cover__content {
   position:relative;
@@ -134,6 +135,7 @@ body.intro-active { overflow:hidden; }
 .intro-cover__action:hover { background:#174f85; transform:translateY(-2px); box-shadow:0 16px 38px rgba(31,111,178,.25); }
 .intro-cover__action:hover::after { transform:translate(4px,-53%); }
 .intro-cover__action:focus-visible { outline:2px solid #1f6fb2; outline-offset:4px; }
+.intro-cover__action:disabled { pointer-events:none; }
 
 .intro-cover__inscription {
   position:absolute;
@@ -183,19 +185,16 @@ body.intro-active { overflow:hidden; }
 
 .intro-cover__scroll-mobile { display:none; }
 
-html.intro-had-boot .intro-cover__welcome,
-html.intro-had-boot .intro-cover__seal {
-  opacity:1;
-  transform:none;
-  animation:none;
+.intro-cover:not(.is-ready) .intro-cover__welcome,
+.intro-cover:not(.is-ready) .intro-cover__seal,
+.intro-cover:not(.is-ready) h1,
+.intro-cover:not(.is-ready) .intro-cover__tagline,
+.intro-cover:not(.is-ready) .intro-cover__action,
+.intro-cover:not(.is-ready) .intro-cover__inscription,
+.intro-cover:not(.is-ready) .intro-cover__scroll,
+.intro-cover:not(.is-ready) .intro-cover__scroll::after {
+  animation-play-state:paused;
 }
-
-html.intro-had-boot .intro-cover h1 { animation-delay:.1s; }
-html.intro-had-boot .intro-cover__tagline { animation-delay:.3s; }
-html.intro-had-boot .intro-cover__action { animation-delay:.52s,1.55s; }
-html.intro-had-boot .intro-cover__inscription { animation-delay:.68s; }
-html.intro-had-boot .intro-cover__scroll { animation-delay:.78s; }
-html.intro-had-boot .intro-cover__scroll::after { animation-delay:1.1s; }
 
 .intro-cover.is-exiting .intro-cover__content,
 .intro-cover.is-exiting .intro-cover__scroll,
@@ -206,7 +205,6 @@ html.intro-had-boot .intro-cover__scroll::after { animation-delay:1.1s; }
 .intro-cover.is-exiting { animation:intro-open-cover .82s .27s cubic-bezier(.74,0,.16,1) forwards; }
 
 @keyframes intro-soft-arrive { to { opacity:1; transform:translate3d(0,0,0); } }
-@keyframes intro-marble-in { to { opacity:1; } }
 @keyframes intro-reveal-seal { to { opacity:1; transform:translate3d(0,0,0) scale(1); } }
 @keyframes intro-reveal-detail { to { opacity:1; } }
 @keyframes intro-action-invite {
