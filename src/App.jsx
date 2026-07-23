@@ -126,6 +126,7 @@ function Header() {
 }
 
 function Hero() {
+  const slideDuration = 4600
   const slides = [
     { src: '/images/evento-comunidade-original.webp', label: 'Dança • comunidade', position: 'center 44%' },
     { src: '/images/sala-aulas-sede-original.webp', label: 'Nossa sede • Brás', position: 'center' },
@@ -152,7 +153,7 @@ function Hero() {
       if (!document.hidden && !document.body.classList.contains('intro-active')) {
         setSlide(value => (value + 1) % slides.length)
       }
-    }, 4600)
+    }, slideDuration)
     return () => {
       window.clearInterval(timer)
       if (preloadId != null && 'cancelIdleCallback' in window) window.cancelIdleCallback(preloadId)
@@ -160,7 +161,7 @@ function Hero() {
     }
   }, [])
 
-  return <section className="hero" id="inicio">
+  return <section className="hero" id="inicio" style={{ '--hero-cycle': `${slideDuration}ms` }}>
     <div className="hero__content">
       <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
@@ -171,7 +172,8 @@ function Hero() {
     </div>
     <div className="hero__gallery">
       <div className="hero__frames">
-        {slides.map((item, i) => <figure className={slide === i ? 'active' : ''} style={{backgroundImage: `url(${assetUrl(item.src)})`, backgroundPosition: item.position}} key={item.src}>
+        {slides.map((item, i) => <figure className={slide === i ? 'active' : ''} style={{ '--hero-position': item.position }} key={item.src}>
+          <img src={assetUrl(item.src)} alt="" aria-hidden="true" decoding="async" />
           <figcaption>{item.label}</figcaption>
         </figure>)}
       </div>
