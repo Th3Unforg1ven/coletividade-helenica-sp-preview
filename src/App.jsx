@@ -5,16 +5,11 @@ import {
   Languages, MapPin, Menu, Music2, Sparkles, Users, X
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
+import IntroCover from './IntroCover.jsx'
 import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
 
 const WA = 'https://wa.link/ryey8t'
-let introCoverPromise
-const loadIntroCover = () => {
-  introCoverPromise ??= import('./IntroCover.jsx')
-  return introCoverPromise
-}
-const IntroCover = lazy(loadIntroCover)
 const lazyPage = name => lazy(() => import('./ContentPages.jsx').then(module => ({ default: module[name] })))
 const AgendaPage = lazyPage('AgendaPage')
 const ArchivePage = lazyPage('ArchivePage')
@@ -38,13 +33,14 @@ function shouldShowIntroCover() {
   const isHome = usesHashRouter
     ? !hash || hash === '#' || hash === '#/'
     : relativePath === '/'
+  const search = new URLSearchParams(window.location.search)
+  const forceIntro = search.get('intro') === '1'
 
-  if (!isHome || hash || new URLSearchParams(window.location.search).get('section')) return false
+  if (!isHome || hash || search.get('section')) return false
+  if (forceIntro) return true
   try { return window.sessionStorage.getItem('chsp-intro-seen') !== '1' }
   catch { return true }
 }
-
-if (shouldShowIntroCover()) loadIntroCover()
 
 const activities = [
   {
@@ -169,7 +165,7 @@ function Hero() {
       <p className="hero__statement">A Grécia vive<br/><i>onde nós estamos.</i></p>
       <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos essa cultura por meio de encontros da comunidade e aulas de grego contemporâneo, Danças Gregas e Bouzouki.</p>
       <div className="hero__facts"><span>Online ou presencial</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
-      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça as aulas <ArrowDown size={17}/></Link><Link className="text-link" to={sectionTarget('sobre')}>Conheça nossa história <ArrowRight size={16}/></Link></div>
+      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça os cursos <ArrowDown size={17}/></Link><Link className="text-link" to={sectionTarget('sobre')}>Conheça nossa história <ArrowRight size={16}/></Link></div>
     </div>
     <div className="hero__gallery">
       <div className="hero__frames">
@@ -234,7 +230,7 @@ function HomePage() {
 
   return <>
     <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
-    {showIntro && <Suspense fallback={<div className="intro-cover intro-cover--loading" aria-hidden="true" />}><IntroCover /></Suspense>}
+    {showIntro && <IntroCover />}
     <Header />
     <main id="main-content">
       <Hero />
