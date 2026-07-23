@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
-import { ArrowRight, BookOpen, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { ArrowRight, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import siteContent from './content/site-content.json'
+import mediaMap from './content/media-map.json'
 import ResponsiveImage from './ResponsiveImage.jsx'
-import { routeUrl } from './paths.js'
+import { assetUrl, routeUrl } from './paths.js'
 
 const lessonSlugs = [
   'aulas-de-grego-moderno',
@@ -78,7 +79,7 @@ const lessonContentOverrides = {
     <h2>Informações sobre as aulas</h2>
     <p>Turmas, horários, formato e valores podem variar ao longo do ano. Entre em contato com a Coletividade para conhecer a programação disponível.</p>
     <p><a href="/contato">Consultar a equipe da Coletividade</a></p>
-    <figure><img src="https://www.helenica.com.br/wp-content/uploads/2021/01/church-2020258_1920-768x503.jpg" alt="Patrimônio cultural grego"/></figure>
+    <figure><img src="/images/aulas-bouzouki-original.webp" alt="Aula de bouzouki na Coletividade Helênica de São Paulo"/></figure>
   `,
   'oficinas-culturais': `
     <h2>Cultura grega para aprender fazendo</h2>
@@ -97,6 +98,24 @@ const lessonContentOverrides = {
   `,
 }
 
+const pageContentOverrides = {
+  'politica-de-privacidade': `
+    <h2>Compromisso com a privacidade</h2>
+    <p>A Coletividade Helênica de São Paulo respeita a privacidade de visitantes, associados, estudantes e demais pessoas que entram em contato com a instituição. Não comercializamos dados pessoais.</p>
+    <h2>Dados e canais de contato</h2>
+    <p>Este site não possui cadastro próprio nem formulário de coleta. Quando você utiliza telefone, e-mail ou WhatsApp, os dados fornecidos são tratados para responder solicitações sobre aulas, eventos, associação e atividades da Coletividade.</p>
+    <h2>Serviços de terceiros</h2>
+    <p>O site pode incorporar recursos de serviços externos, como Google Maps, YouTube, Google Fonts e WhatsApp. Esses serviços podem processar informações técnicas, como endereço IP, características do dispositivo e dados necessários ao funcionamento de seus recursos, conforme suas próprias políticas de privacidade.</p>
+    <h2>Compartilhamento e conservação</h2>
+    <p>Dados pessoais não são divulgados a outras instituições, exceto quando necessário para atender uma solicitação, cumprir uma obrigação legal ou responder a uma ordem de autoridade competente. As informações são conservadas apenas pelo período necessário às finalidades informadas e às obrigações aplicáveis.</p>
+    <h2>Seus direitos</h2>
+    <p>Nos termos da Lei Geral de Proteção de Dados Pessoais, você pode solicitar confirmação de tratamento, acesso, correção, atualização ou eliminação de dados, quando aplicável.</p>
+    <h2>Fale conosco</h2>
+    <p>Para dúvidas ou solicitações relacionadas à privacidade, escreva para <a href="mailto:coletividade@helenica.com.br">coletividade@helenica.com.br</a>.</p>
+    <p><small>Última atualização: julho de 2026.</small></p>
+  `,
+}
+
 const pageIntroductions = {
   'acontece2': 'Acompanhe os acontecimentos da Coletividade e explore eventos, curiosidades, memórias, música, destinos e gastronomia.',
   'sobre-a-chsp': 'Conheça a origem, a atuação e os princípios que orientam a Coletividade Helênica de São Paulo desde 1937.',
@@ -109,6 +128,17 @@ const pageTitles = {
 const pageBySlug = Object.fromEntries(siteContent.pages.map(page => [page.slug, page]))
 const postBySlug = Object.fromEntries(siteContent.posts.map(post => [post.slug, post]))
 const categoryById = Object.fromEntries(siteContent.categories.map(category => [category.id, category]))
+const hiddenArchiveSlugs = new Set(['home', 'sample-page', 'temp'])
+const publicArchivePages = siteContent.pages.filter(page => !hiddenArchiveSlugs.has(page.slug))
+
+function mediaUrl(value = '') {
+  if (!value) return value
+  if (value.startsWith('/')) return value
+  const normalized = value
+    .replace(/^http:\/\/(?:www\.)?helenica\.com\.br/i, 'https://www.helenica.com.br')
+    .replace(/^https:\/\/helenica\.com\.br/i, 'https://www.helenica.com.br')
+  return mediaMap[normalized] || value
+}
 
 const consolidatedFallbacks = {
   'nossa-historia': 'sobre-a-chsp',
@@ -158,6 +188,13 @@ const editorialReplacements = [
   [/\bcerne e as batatas\b/gi, 'carne e as batatas'],
   [/\bÁ elas\b/g, 'A elas'],
   [/\bao mesmo, reconstruir\b/gi, 'ao mesmo tempo, reconstruir'],
+  [/\bSão Pauço\b/g, 'São Paulo'],
+  [/\bcuja a maior\b/gi, 'cuja maior'],
+  [/\bproporcionadas peça CHSP\b/gi, 'proporcionadas pela CHSP'],
+  [/\bgraças à inúmeras\b/gi, 'graças a inúmeras'],
+  [/\bFamilia\b/g, 'Família'],
+  [/\bVideo:\b/g, 'Vídeo:'],
+  [/\.\s*regue com o suco\b/gi, '. Regue com o suco'],
   [/\bGreco-\s+Italiana\b/g, 'Greco-Italiana'],
   [/\bà respeito\b/gi, 'a respeito'],
   [/\bna rua Bresser\b/gi, 'na Rua Bresser'],
@@ -274,13 +311,23 @@ function rewriteLegacyLinks(html = '') {
     heading.replaceWith(replacement)
   })
   element.querySelectorAll('img').forEach(image => {
-    if (!image.hasAttribute('alt')) image.setAttribute('alt', '')
+    image.setAttribute('src', assetUrl(mediaUrl(image.getAttribute('src'))))
+    image.removeAttribute('srcset')
+    image.removeAttribute('sizes')
+    if (!image.getAttribute('alt')?.trim()) {
+      const caption = image.closest('figure')?.querySelector('figcaption')?.textContent.trim()
+      image.setAttribute('alt', caption || '')
+    }
     image.setAttribute('loading', 'lazy')
     image.setAttribute('decoding', 'async')
   })
   element.querySelectorAll('iframe').forEach(frame => {
     if (!frame.hasAttribute('title')) frame.setAttribute('title', 'Conteúdo incorporado')
     frame.setAttribute('loading', 'lazy')
+  })
+  element.querySelectorAll('video').forEach(video => {
+    video.setAttribute('src', assetUrl(mediaUrl(video.getAttribute('src'))))
+    video.setAttribute('preload', 'metadata')
   })
 
   const openingHeading = Array.from(element.querySelectorAll('h1,h2,h3')).find(heading => /^Sobre a$/i.test(heading.textContent.trim()))
@@ -356,6 +403,11 @@ function rewriteLegacyLinks(html = '') {
   element.querySelectorAll('a[href]').forEach(anchor => {
     const href = anchor.getAttribute('href')
     if (!href || href === '#') { anchor.replaceWith(...anchor.childNodes); return }
+    const preservedMedia = mediaUrl(href)
+    if (preservedMedia !== href && preservedMedia.startsWith('/images/archive/')) {
+      anchor.setAttribute('href', assetUrl(preservedMedia))
+      return
+    }
     let url
     try { url = new URL(href, window.location.origin) } catch { return }
     const isLegacyDomain = /(^|\.)helenica\.com\.br$/i.test(url.hostname)
@@ -411,8 +463,23 @@ function Breadcrumbs({ items = [] }) {
 
 function ContentHero({ eyebrow, title, introduction, image, motifTheme }) {
   useEffect(() => {
-    document.title = `${title} | Coletividade Helênica de São Paulo`
-  }, [title])
+    const pageTitle = `${title} | Coletividade Helênica de São Paulo`
+    const description = introduction || 'Conheça a Coletividade Helênica de São Paulo, sua história, aulas e atividades culturais.'
+    document.title = pageTitle
+    const setMeta = (selector, attribute, value) => {
+      let element = document.head.querySelector(selector)
+      if (!element) {
+        element = document.createElement('meta')
+        const [name, key] = attribute.split('=')
+        element.setAttribute(name, key)
+        document.head.appendChild(element)
+      }
+      element.setAttribute('content', value)
+    }
+    setMeta('meta[name="description"]', 'name=description', description)
+    setMeta('meta[property="og:title"]', 'property=og:title', pageTitle)
+    setMeta('meta[property="og:description"]', 'property=og:description', description)
+  }, [title, introduction])
   return <header className={`content-hero${motifTheme ? ` content-hero--themed content-hero--${motifTheme}` : ''}`}>
     <div>
       <p className="content-kicker">{eyebrow}</p>
@@ -420,7 +487,7 @@ function ContentHero({ eyebrow, title, introduction, image, motifTheme }) {
       {introduction && <p>{introduction}</p>}
     </div>
     <figure className={image ? '' : 'content-hero__art'}>
-      {image && <ResponsiveImage src={image} alt="" />}
+      {image && <ResponsiveImage src={mediaUrl(image)} alt="" />}
     </figure>
   </header>
 }
@@ -442,7 +509,7 @@ function FullPage({ page, eyebrow = 'Coletividade Helênica de São Paulo', navi
   if (!page) return <NotFound />
   const fallback = pageBySlug[consolidatedFallbacks[page.slug]]
   const originalIsEmpty = !page.content.trim()
-  const displayedContent = originalIsEmpty && fallback ? fallback.content : page.content
+  const displayedContent = pageContentOverrides[page.slug] || (originalIsEmpty && fallback ? fallback.content : page.content)
   return <main className="content-page">
     <Breadcrumbs items={[{ label: eyebrow }]} />
     <ContentHero
@@ -458,15 +525,7 @@ function FullPage({ page, eyebrow = 'Coletividade Helênica de São Paulo', navi
       </article>
       {navigation}
     </div>
-    <SourceNote link={page.link} />
   </main>
-}
-
-function SourceNote({ link }) {
-  return <div className="source-note">
-    <BookOpen size={18}/><p>Conteúdo migrado do site anterior e revisado para a nova experiência da Coletividade Helênica de São Paulo.</p>
-    <a href={link} target="_blank" rel="noreferrer">Consultar original</a>
-  </div>
 }
 
 export function LessonsIndex() {
@@ -479,7 +538,7 @@ export function LessonsIndex() {
         <span>Aulas</span><h2>{decode(page.title).replace(/^Aulas de /i, '')}</h2><p>{courseIntroductions[page.slug] || stripHtml(page.excerpt)}</p><b>Ver informações completas <ArrowRight size={16}/></b>
       </Link>)}
     </section>
-    {overview && <section className="legacy-overview"><LegacyHtml html={overview.content}/><SourceNote link={overview.link}/></section>}
+    {overview && <section className="legacy-overview"><LegacyHtml html={overview.content}/></section>}
   </main>
 }
 
@@ -494,7 +553,6 @@ export function LessonPage() {
       <article><LegacyHtml html={lessonContentOverrides[slug] || page.content}/></article>
       <PageNavigation slugs={lessonSlugs} basePath="/aulas" />
     </div>
-    <SourceNote link={page.link}/>
   </main>
 }
 
@@ -512,7 +570,7 @@ export function InstitutionIndex() {
   </main>
 }
 
-function InstitutionSectionPage({ title, introduction, image, html, sourceLink, children }) {
+function InstitutionSectionPage({ title, introduction, image, html, children }) {
   return <main className="content-page">
     <Breadcrumbs items={[{ label: 'A Coletividade', to: '/coletividade' }, { label: title }]} />
     <ContentHero eyebrow="A Coletividade Helênica de São Paulo" title={title} introduction={introduction} image={image} />
@@ -523,7 +581,6 @@ function InstitutionSectionPage({ title, introduction, image, html, sourceLink, 
       </article>
       <PageNavigation slugs={institutionNavSlugs} basePath="/coletividade" labels={institutionLabels} />
     </div>
-    <SourceNote link={sourceLink} />
   </main>
 }
 
@@ -544,25 +601,23 @@ function GovernanceLinks() {
 export function InstitutionPage() {
   const { slug } = useParams()
   if (!institutionSlugs.includes(slug)) return <NotFound />
+  if (slug === 'conselheiros') return <Navigate replace to="/coletividade/lista-de-conselheiros" />
   const source = pageBySlug['sobre-a-chsp']
   if (slug === 'nossa-historia') return <InstitutionSectionPage
     title="Nossa história"
     introduction="Da fundação em 1937 ao trabalho educacional e cultural que atravessa gerações em São Paulo."
     image="/images/primeira-diretoria-chsp.webp"
     html={extractLegacySection(source.content, /^Nossa História$/i, /^No que acreditamos$/i)}
-    sourceLink={source.link}
   />
   if (slug === 'missao-visao-valores') return <InstitutionSectionPage
     title="Missão, visão e valores"
     introduction="Os princípios que orientam a atuação cívica, religiosa, filantrópica, beneficente, cultural e recreativa da Coletividade."
     html={extractLegacySection(source.content, /^Nossa Missão, visão e valores$/i, /^diretoria executiva$/i)}
-    sourceLink={source.link}
   />
   if (slug === 'conselho-deliberativo-e-diretoria-executiva') return <InstitutionSectionPage
     title="Diretoria e conselhos"
     introduction="Conheça a estrutura administrativa publicada pela Coletividade e acesse os registros de quem ajudou a conduzir a instituição."
     html={extractLegacySection(source.content, /^diretoria executiva$/i, /^Conselheiros de 2020 a 2024$/i, true)}
-    sourceLink={source.link}
   ><GovernanceLinks /></InstitutionSectionPage>
   if (slug === 'conselheiros' || slug === 'lista-de-conselheiros') {
     const page = pageBySlug['lista-de-conselheiros']
@@ -571,14 +626,12 @@ export function InstitutionPage() {
       introduction="Registros das pessoas que integraram os conselhos e presidiram os órgãos da Coletividade Helênica de São Paulo."
       image="/images/primeira-diretoria-chsp.webp"
       html={page.content}
-      sourceLink={page.link}
     ><GovernanceLinks /></InstitutionSectionPage>
   }
   if (slug === 'um-pouco-mais-sobre-a-grecia') return <InstitutionSectionPage
     title="Um pouco mais sobre a Grécia"
     introduction="Informações essenciais para conhecer o território, a história e alguns dos símbolos da cultura grega."
     html={extractLegacySection(source.content, /^Um pouco mais sobre$/i, null, true)}
-    sourceLink={source.link}
   />
   return <FullPage page={pageBySlug[slug]} eyebrow="A Coletividade" navigation={<PageNavigation slugs={institutionNavSlugs} basePath="/coletividade" labels={institutionLabels} />} />
 }
@@ -586,19 +639,44 @@ export function InstitutionPage() {
 function PostCard({ post }) {
   const category = categoryById[post.categories[0]]
   return <Link className="post-card" to={`/cultura/${post.slug}`}>
-    {post.featuredMedia?.sourceUrl && <img src={post.featuredMedia.sourceUrl} alt={post.featuredMedia.alt || ''} loading="lazy" />}
+    {post.featuredMedia?.sourceUrl && <img src={assetUrl(mediaUrl(post.featuredMedia.sourceUrl))} alt="" loading="lazy" decoding="async" />}
     <div><span>{decode(category?.name || 'Cultura')}</span><h2>{decode(post.title)}</h2><p>{stripHtml(post.excerpt).slice(0, 180)}</p><b>Ler conteúdo completo <ArrowRight size={15}/></b></div>
   </Link>
 }
 
 export function CultureIndex() {
+  const [query, setQuery] = useState('')
+  const [categoryId, setCategoryId] = useState('all')
+  const [visibleCount, setVisibleCount] = useState(12)
+  const categories = siteContent.categories.filter(category => category.count > 0 && category.slug !== 'uncategorized')
+  const normalizedQuery = query.trim().toLocaleLowerCase('pt-BR')
+  const filteredPosts = siteContent.posts.filter(post => {
+    const matchesCategory = categoryId === 'all' || post.categories.includes(Number(categoryId))
+    const searchable = `${decode(post.title)} ${stripHtml(post.excerpt)} ${stripHtml(post.content)}`.toLocaleLowerCase('pt-BR')
+    return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery))
+  })
+  const updateQuery = event => {
+    setQuery(event.target.value)
+    setVisibleCount(12)
+  }
+  const updateCategory = event => {
+    setCategoryId(event.target.value)
+    setVisibleCount(12)
+  }
   return <main className="content-page content-page--themed content-page--cultura">
     <Breadcrumbs items={[{ label: 'Cultura e memória' }]} />
     <ContentHero eyebrow="Cultura e memória" title="Grécia para ler, ouvir, provar e lembrar" introduction={`O arquivo reúne ${siteContent.posts.length} publicações preservadas do site anterior.`} image="/images/exposicao-cultural-original.webp" motifTheme="cultura" />
-    <nav className="category-links">
-      {siteContent.categories.filter(category => category.count > 0).map(category => <Link to={`/cultura/categoria/${category.slug}`} key={category.id}>{decode(category.name)} <span>{category.count}</span></Link>)}
+    <section className="archive-tools" aria-label="Pesquisar o acervo cultural">
+      <label><span>Buscar no acervo</span><input type="search" value={query} onChange={updateQuery} placeholder="Digite um tema, lugar ou título" /></label>
+      <label><span>Categoria</span><select value={categoryId} onChange={updateCategory}><option value="all">Todas as categorias</option>{categories.map(category => <option value={category.id} key={category.id}>{decode(category.name)} ({category.count})</option>)}</select></label>
+    </section>
+    <div className="collection-heading"><h2>Publicações</h2><span>{filteredPosts.length} resultados</span></div>
+    {filteredPosts.length
+      ? <><section className="posts-grid">{filteredPosts.slice(0, visibleCount).map(post => <PostCard post={post} key={post.id}/>)}</section>{visibleCount < filteredPosts.length && <div className="load-more"><button type="button" className="button" onClick={() => setVisibleCount(count => count + 12)}>Carregar mais publicações</button></div>}</>
+      : <p className="empty-results">Nenhuma publicação corresponde aos filtros selecionados.</p>}
+    <nav className="category-links" aria-label="Abrir páginas das categorias">
+      {categories.map(category => <Link to={`/cultura/categoria/${category.slug}`} key={category.id}>{decode(category.name)} <span>{category.count}</span></Link>)}
     </nav>
-    <section className="posts-grid">{siteContent.posts.map(post => <PostCard post={post} key={post.id}/>)}</section>
     <section className="cultural-pages"><h2>Páginas culturais do acervo</h2>{culturalPageSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link to={`/cultura/paginas/${page.slug}`} key={page.id}>{decode(page.title)}<ArrowRight size={15}/></Link>)}</section>
   </main>
 }
@@ -628,7 +706,6 @@ export function MemoryPage() {
     </section>
     <div className="collection-heading"><h2>Explore as memórias</h2><span>{posts.length} histórias preservadas</span></div>
     <section className="posts-grid">{posts.map(post => <PostCard post={post} key={post.id}/>)}</section>
-    {page && <SourceNote link={page.link}/ >}
   </main>
 }
 
@@ -641,28 +718,31 @@ export function PostPage() {
     <Breadcrumbs items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(post.title) }]} />
     <ContentHero eyebrow={decode(category?.name || 'Cultura')} title={decode(post.title)} introduction={stripHtml(post.excerpt)} image={post.featuredMedia?.sourceUrl} />
     <div className="content-layout"><article><LegacyHtml html={post.content}/></article><aside className="page-navigation"><p>Informações</p><span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>{post.categories.map(id => categoryById[id]).filter(Boolean).map(item => <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>{decode(item.name)}<ArrowRight size={15}/></Link>)}</aside></div>
-    <SourceNote link={post.link}/>
   </main>
 }
 
 export function AgendaPage() {
-  const page = pageBySlug['agenda-de-eventos-e-festas']
   const events = siteContent.posts.filter(post => post.categories.includes(13))
   return <main className="content-page content-page--themed content-page--agenda">
     <Breadcrumbs items={[{ label: 'Agenda' }]} />
     <ContentHero eyebrow="Agenda" title="Eventos, festas e celebrações" introduction="Acompanhe encontros culturais, festividades cívicas, celebrações religiosas e atividades da comunidade." image="/images/evento-comunidade-original.webp" motifTheme="agenda" />
-    {page && <section className="legacy-overview"><LegacyHtml html={page.content}/></section>}
+    <section className="agenda-status">
+      <p className="content-kicker">Próxima programação</p>
+      <h2>Novas datas serão divulgadas em breve.</h2>
+      <p>Para confirmar festas, encontros e atividades, fale com a equipe da Coletividade. Enquanto isso, você pode conhecer os eventos que marcaram nossa história.</p>
+      <Link className="button" to="/contato">Consultar a Coletividade <ArrowRight size={16}/></Link>
+    </section>
+    <div className="collection-heading"><h2>Eventos anteriores</h2><span>{events.length} registros preservados</span></div>
     <section className="posts-grid">{events.map(post => <PostCard post={post} key={post.id}/>)}</section>
-    {page && <SourceNote link={page.link}/ >}
   </main>
 }
 
 export function ArchivePage() {
   return <main className="content-page">
     <Breadcrumbs items={[{ label: 'Arquivo integral' }]} />
-    <ContentHero eyebrow="Arquivo integral" title="Todo o conteúdo do site anterior" introduction={`${siteContent.totals.pages} páginas e ${siteContent.totals.posts} publicações preservadas e acessíveis.`} />
+    <ContentHero eyebrow="Arquivo histórico" title="Conteúdo preservado da Coletividade" introduction={`${publicArchivePages.length} páginas institucionais e ${siteContent.posts.length} publicações históricas acessíveis.`} />
     <section className="archive-columns">
-      <div><h2>Páginas</h2>{siteContent.pages.map(page => <Link to={pathForPage(page)} key={page.id}><span>{decode(page.title)}</span><small>{page.slug}</small></Link>)}</div>
+      <div><h2>Páginas</h2>{publicArchivePages.map(page => <Link to={pathForPage(page)} key={page.id}><span>{decode(page.title)}</span><small>{page.slug}</small></Link>)}</div>
       <div><h2>Publicações</h2>{siteContent.posts.map(post => <Link to={`/cultura/${post.slug}`} key={post.id}><span>{decode(post.title)}</span><small>{new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</small></Link>)}</div>
     </section>
   </main>
@@ -670,7 +750,14 @@ export function ArchivePage() {
 
 export function GenericPage({ fixedSlug, eyebrow = 'Arquivo do site anterior' }) {
   const params = useParams()
-  return <FullPage page={pageBySlug[fixedSlug || params.slug]} eyebrow={eyebrow} />
+  const slug = fixedSlug || params.slug
+  const page = pageBySlug[slug]
+  if (!page || (!fixedSlug && hiddenArchiveSlugs.has(slug))) return <NotFound />
+  if (!fixedSlug) {
+    const canonicalPath = pathForPage(page)
+    if (canonicalPath !== `/paginas/${slug}`) return <Navigate replace to={canonicalPath} />
+  }
+  return <FullPage page={page} eyebrow={eyebrow} />
 }
 
 export function ContactPage() {
@@ -684,10 +771,9 @@ export function ContactPage() {
         <a href="mailto:coletividade@helenica.com.br"><Mail/><span><small>E-mail</small><strong>coletividade@helenica.com.br</strong></span></a>
         <div><MapPin/><span><small>Endereço</small><strong>Rua Bresser, 793</strong><em>Brás, São Paulo, SP</em></span></div>
       </div>
-      <aside className="contact-return"><MessageCircle/><p className="content-kicker">Prefere que entremos em contato com você?</p><h2>Fale com nossa equipe.</h2><p>Envie uma mensagem pelo WhatsApp e conte brevemente como podemos ajudar.</p><a className="button button--white" href="https://wa.link/ryey8t" target="_blank" rel="noreferrer">Conversar pelo WhatsApp <ArrowRight size={16}/></a></aside>
+      <aside className="contact-return"><MessageCircle/><p className="content-kicker">Prefere conversar pelo WhatsApp?</p><h2>Fale com nossa equipe.</h2><p>Envie uma mensagem e conte brevemente como podemos ajudar.</p><a className="button button--white" href="https://wa.link/ryey8t" target="_blank" rel="noreferrer">Conversar pelo WhatsApp <ArrowRight size={16}/></a></aside>
     </section>
     <div className="contact-map"><iframe title="Mapa da sede da Coletividade Helênica de São Paulo" src="https://maps.google.com/maps?q=Rua%20Bresser%2C%20793&amp;t=m&amp;z=17&amp;output=embed&amp;iwloc=near" loading="lazy"/></div>
-    <SourceNote link={pageBySlug.contato.link}/>
   </main>
 }
 

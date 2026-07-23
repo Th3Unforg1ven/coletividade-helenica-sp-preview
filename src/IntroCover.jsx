@@ -169,7 +169,11 @@ const fragmentShader = /* glsl */`
 
 export default function IntroCover() {
   const hasSectionTarget = Boolean(window.location.hash || new URLSearchParams(window.location.search).get('section'))
-  const [visible, setVisible] = useState(!hasSectionTarget)
+  const hasSeenIntro = (() => {
+    try { return window.sessionStorage.getItem('chsp-intro-seen') === '1' }
+    catch { return false }
+  })()
+  const [visible, setVisible] = useState(!hasSectionTarget && !hasSeenIntro)
   const [exiting, setExiting] = useState(false)
   const coverRef = useRef(null)
   const marbleRef = useRef(null)
@@ -186,7 +190,7 @@ export default function IntroCover() {
     if (!visible) return undefined
     const container = marbleRef.current
     const seal = sealRef.current
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData
     const uniforms = {
       uTime: { value: 0 },
       uResolution: { value: new THREE.Vector2(1, 1) },
@@ -286,6 +290,8 @@ export default function IntroCover() {
       if (exiting) return
       setExiting(true)
       openRef.current()
+      try { window.sessionStorage.setItem('chsp-intro-seen', '1') }
+      catch { /* A abertura continua funcionando mesmo sem armazenamento disponível. */ }
       window.setTimeout(() => {
         document.body.classList.remove('intro-active')
         setVisible(false)

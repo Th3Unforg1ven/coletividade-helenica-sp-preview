@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useEffect, useState } from 'react'
+import { Component, lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import {
   ArrowDown, ArrowRight, BookOpen, CalendarDays, ChevronDown,
@@ -7,14 +7,23 @@ import {
 import ResponsiveImage from './ResponsiveImage.jsx'
 import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
-import {
-  AgendaPage, ArchivePage, CategoryPage, ContactPage, CultureIndex,
-  GenericPage, InstitutionIndex, InstitutionPage, LessonPage, LessonsIndex,
-  MemoryPage, NotFound, PostPage,
-} from './ContentPages.jsx'
 
 const WA = 'https://wa.link/ryey8t'
 const IntroCover = lazy(() => import('./IntroCover.jsx'))
+const lazyPage = name => lazy(() => import('./ContentPages.jsx').then(module => ({ default: module[name] })))
+const AgendaPage = lazyPage('AgendaPage')
+const ArchivePage = lazyPage('ArchivePage')
+const CategoryPage = lazyPage('CategoryPage')
+const ContactPage = lazyPage('ContactPage')
+const CultureIndex = lazyPage('CultureIndex')
+const GenericPage = lazyPage('GenericPage')
+const InstitutionIndex = lazyPage('InstitutionIndex')
+const InstitutionPage = lazyPage('InstitutionPage')
+const LessonPage = lazyPage('LessonPage')
+const LessonsIndex = lazyPage('LessonsIndex')
+const MemoryPage = lazyPage('MemoryPage')
+const NotFound = lazyPage('NotFound')
+const PostPage = lazyPage('PostPage')
 
 const activities = [
   {
@@ -23,20 +32,21 @@ const activities = [
     copy: 'Aprenda a conversar, viajar e acessar a cultura grega sem tradução. Turmas do elementar ao avançado, com professores nativos e metodologia alinhada à certificação oficial.',
     meta: ['Presencial ou online', 'Adultos e crianças', 'Do básico ao avançado'],
     icon: Languages, visual: '/images/aulas-grego-turma-recorte-original.webp', visualSize: 'auto 116%', visualPosition: 'center',
+    href: '/aulas/aulas-de-grego-moderno',
   },
   {
     id: 'danca', eyebrow: 'Χορός • Dança', title: 'Danças Gregas',
     statement: 'O corpo aprende aquilo que a memória não esquece.',
     copy: 'Entre ritmos, passos e histórias de cada região, a dança cria pertencimento, saúde e amizades. Aulas para quem começa agora e grupos de apresentação.',
     meta: ['Aulas presenciais', 'Crianças, jovens e adultos', 'Grupo Hellas e Pedilea'],
-    icon: Users, visual: '/images/aulas-danca-original.webp',
+    icon: Users, visual: '/images/aulas-danca-original.webp', href: '/aulas/aulas-de-danca',
   },
   {
     id: 'bouzouki', eyebrow: 'Μουσική • Música', title: 'Bouzouki',
     statement: 'Toque o som que atravessou gerações.',
     copy: 'Conheça o instrumento-símbolo da música grega e desenvolva repertório, expressão e conexão cultural em uma vivência musical compartilhada.',
     meta: ['Aprendizado musical', 'Repertório tradicional', 'Cultura em cada acorde'],
-    icon: Music2, visual: '/images/aulas-bouzouki-original.webp',
+    icon: Music2, visual: '/images/aulas-bouzouki-original.webp', href: '/aulas/aulas-de-bouzouki',
   },
 ]
 
@@ -50,7 +60,7 @@ const trustGallery = [
 ]
 
 const agenda = [
-  { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades Cívicas e Religiosas', place: 'Datas divulgadas na agenda', href: '/paginas/festividades-civicas-e-religiosas' },
+  { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades Cívicas e Religiosas', place: 'Datas divulgadas na agenda', href: '/cultura/paginas/festividades-civicas-e-religiosas' },
   { label: 'Ao longo do ano', type: 'Cultura e convivência', title: 'Eventos e encontros da comunidade', place: 'Sede da CHSP e outros espaços', href: '/agenda' },
   { label: 'Novas turmas', type: 'Aprendizado e participação', title: 'Aulas e oficinas culturais', place: 'Atividades presenciais e online', href: '/aulas' },
 ]
@@ -70,12 +80,30 @@ function Brand({ footer = false }) {
 
 function Header() {
   const [open, setOpen] = useState(false)
+  const location = useLocation()
+  const toggleRef = useRef(null)
+  const navRef = useRef(null)
+  useEffect(() => {
+    if (!open) return undefined
+    navRef.current?.querySelector('a')?.focus()
+    const closeWithEscape = event => {
+      if (event.key !== 'Escape') return
+      setOpen(false)
+      toggleRef.current?.focus()
+    }
+    window.addEventListener('keydown', closeWithEscape)
+    return () => window.removeEventListener('keydown', closeWithEscape)
+  }, [open])
+  const current = path => location.pathname === path || location.pathname.startsWith(`${path}/`)
   return <header className="header">
     <Brand />
-    <button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} aria-controls="main-navigation">{open ? <X /> : <Menu />}</button>
-    <nav id="main-navigation" className={open ? 'nav is-open' : 'nav'} onClick={() => setOpen(false)} aria-label="Navegação principal">
-      <Link to="/coletividade">A Coletividade</Link><Link to="/cultura">Cultura e memória</Link><Link to="/aulas">Aulas</Link><Link to="/agenda">Agenda</Link>
-      <Link className="button button--small" to="/contato">Fale conosco <ArrowRight size={16}/></Link>
+    <button ref={toggleRef} type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Fechar menu' : 'Abrir menu'} aria-expanded={open} aria-controls="main-navigation">{open ? <X /> : <Menu />}</button>
+    <nav ref={navRef} id="main-navigation" className={open ? 'nav is-open' : 'nav'} onClick={() => setOpen(false)} aria-label="Navegação principal">
+      <Link to="/coletividade" aria-current={current('/coletividade') ? 'page' : undefined}>A Coletividade</Link>
+      <Link to="/cultura" aria-current={current('/cultura') ? 'page' : undefined}>Cultura e memória</Link>
+      <Link to="/aulas" aria-current={current('/aulas') ? 'page' : undefined}>Aulas</Link>
+      <Link to="/agenda" aria-current={current('/agenda') ? 'page' : undefined}>Agenda</Link>
+      <Link className="button button--small" to="/contato" aria-current={current('/contato') ? 'page' : undefined}>Fale conosco <ArrowRight size={16}/></Link>
     </nav>
   </header>
 }
@@ -118,7 +146,7 @@ function Hero() {
       <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
       <p className="hero__statement">A Grécia vive<br/><i>onde nós estamos.</i></p>
-      <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos a cultura através de encontros da comunidade, aulas focadas no aprendizado do idioma grego contemporâneo, dança e o instrumento Bouzouki.</p>
+      <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos essa cultura por meio de encontros da comunidade e aulas de grego contemporâneo, Danças Gregas e Bouzouki.</p>
       <div className="hero__facts"><span>Online ou presencial</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
       <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça as aulas <ArrowDown size={17}/></Link><Link className="text-link" to={sectionTarget('sobre')}>Conheça nossa história <ArrowRight size={16}/></Link></div>
     </div>
@@ -137,7 +165,7 @@ function Hero() {
 }
 
 function Footer() {
-  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/aulas">Aulas</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link><Link to="/arquivo">Arquivo integral</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© 2026 Coletividade Helênica de São Paulo</small></footer>
+  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/aulas">Aulas</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small></footer>
 }
 
 function HomePage() {
@@ -146,9 +174,24 @@ function HomePage() {
   const [faq, setFaq] = useState(0)
   const current = activities[activity]
   const Icon = current.icon
+  const navigateActivityTabs = event => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    event.preventDefault()
+    const next = event.key === 'Home'
+      ? 0
+      : event.key === 'End'
+        ? activities.length - 1
+        : (activity + (event.key === 'ArrowRight' ? 1 : -1) + activities.length) % activities.length
+    setActivity(next)
+    event.currentTarget.querySelectorAll('[role="tab"]')[next]?.focus()
+  }
 
   useEffect(() => {
     document.title = 'Coletividade Helênica de São Paulo'
+    const description = 'Língua, arte, música, fé, dança e memória compartilhadas pela Coletividade Helênica de São Paulo desde 1937.'
+    document.head.querySelector('meta[name="description"]')?.setAttribute('content', description)
+    document.head.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title)
+    document.head.querySelector('meta[property="og:description"]')?.setAttribute('content', description)
     const scrollToHash = () => {
       const id = new URLSearchParams(location.search).get('section') || window.location.hash.replace('#', '')
       if (!id) return
@@ -168,9 +211,10 @@ function HomePage() {
   }, [location.search])
 
   return <>
+    <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
     <Suspense fallback={<div className="intro-cover intro-cover--loading" aria-hidden="true" />}><IntroCover /></Suspense>
     <Header />
-    <main>
+    <main id="main-content">
       <Hero />
 
       <section className="manifesto section" id="sobre">
@@ -206,15 +250,15 @@ function HomePage() {
           <div><p className="section-index light">Aulas</p><h2>Não é só aprender.<br/><em>É se transformar.</em></h2></div>
           <p>Aulas para diferentes idades e níveis, conduzidas por quem vive e compartilha a cultura grega.</p>
         </div>
-        <div className="experience-tabs" role="tablist">
-          {activities.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={activity === i} key={item.id} className={activity === i ? 'active' : ''} onClick={() => setActivity(i)}>{item.title}</button>)}
+        <div className="experience-tabs" role="tablist" aria-label="Modalidades de aulas" onKeyDown={navigateActivityTabs}>
+          {activities.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={activity === i} tabIndex={activity === i ? 0 : -1} key={item.id} className={activity === i ? 'active' : ''} onClick={() => setActivity(i)}>{item.title}</button>)}
         </div>
         <div className="experience-card" role="tabpanel" id={`panel-${current.id}`} aria-labelledby={`tab-${current.id}`} key={current.id}>
           <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span>{current.eyebrow}</span></div>
           <div className="experience-card__copy">
             <p className="eyebrow">{current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
             <ul>{current.meta.map(item => <li key={item}><Sparkles size={15}/>{item}</li>)}</ul>
-            <a className="button button--white" href={WA} target="_blank" rel="noreferrer">Quero saber mais <ArrowRight size={17}/></a>
+            <Link className="button button--white" to={current.href}>Conheça esta aula <ArrowRight size={17}/></Link>
           </div>
         </div>
       </section>
@@ -228,7 +272,7 @@ function HomePage() {
           <div className="language__features">
             <span><BookOpen/> Metodologia oficial grega</span><span><Users/> Professores nativos</span><span><Languages/> Presencial e online</span>
           </div>
-          <a className="button" href={WA} target="_blank" rel="noreferrer">Encontre sua turma <ArrowRight size={17}/></a>
+          <Link className="button" to="/aulas/aulas-de-grego-moderno">Conheça as aulas de grego <ArrowRight size={17}/></Link>
         </div>
         <aside className="quote-card"><span>“</span><blockquote>Aprender grego pode ser a primeira vez que você ouve a história da sua família com a sua própria voz.</blockquote><small>O que o aprendizado pode despertar</small></aside>
       </section>
@@ -236,7 +280,7 @@ function HomePage() {
       <section className="agenda section" id="agenda">
         <div className="section-heading section-heading--dark">
           <div><p className="section-index">Agenda da comunidade</p><h2>A cultura ganha vida<br/><em>quando nos reunimos.</em></h2></div>
-          <Link className="text-link" to="/agenda">Ver agenda completa <ArrowRight size={16}/></Link>
+          <Link className="text-link" to="/agenda">Consultar programação <ArrowRight size={16}/></Link>
         </div>
         <div className="agenda__list">
           {agenda.map((event) => <article key={event.title}>
@@ -278,7 +322,7 @@ function InteriorPage({ children }) {
     })
     return () => window.cancelAnimationFrame(frame)
   }, [location.pathname, location.hash])
-  return <div className="inner-page"><Header />{children}<Footer /></div>
+  return <div className="inner-page"><a className="skip-link" href="#main-content">Pular para o conteúdo</a><Header /><div id="main-content">{children}</div><Footer /></div>
 }
 
 class PageErrorBoundary extends Component {
@@ -307,7 +351,7 @@ class PageErrorBoundary extends Component {
 
 function App() {
   const location = useLocation()
-  return <PageErrorBoundary key={location.pathname}><Routes>
+  return <PageErrorBoundary key={location.pathname}><Suspense fallback={<main className="route-loading" aria-live="polite"><img src={assetUrl('/images/chsp-logo-256.png')} alt="" width="64" height="64"/><p>Carregando conteúdo...</p></main>}><Routes>
     <Route path="/" element={<HomePage />} />
     <Route path="/aulas" element={<InteriorPage><LessonsIndex /></InteriorPage>} />
     <Route path="/aulas/:slug" element={<InteriorPage><LessonPage /></InteriorPage>} />
@@ -325,7 +369,7 @@ function App() {
     <Route path="/paginas/:slug" element={<InteriorPage><GenericPage /></InteriorPage>} />
     <Route path="/arquivo" element={<InteriorPage><ArchivePage /></InteriorPage>} />
     <Route path="*" element={<InteriorPage><NotFound /></InteriorPage>} />
-  </Routes></PageErrorBoundary>
+  </Routes></Suspense></PageErrorBoundary>
 }
 
 export default App
