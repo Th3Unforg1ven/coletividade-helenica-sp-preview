@@ -5,11 +5,11 @@ import {
   Languages, MapPin, Menu, Music2, Sparkles, Users, X
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
+import IntroCover from './IntroCover.jsx'
 import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
 
 const WA = 'https://wa.link/ryey8t'
-const IntroCover = lazy(() => import('./IntroCover.jsx'))
 const lazyPage = name => lazy(() => import('./ContentPages.jsx').then(module => ({ default: module[name] })))
 const AgendaPage = lazyPage('AgendaPage')
 const ArchivePage = lazyPage('ArchivePage')
@@ -212,7 +212,7 @@ function HomePage() {
 
   return <>
     <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
-    <Suspense fallback={<div className="intro-cover intro-cover--loading" aria-hidden="true" />}><IntroCover /></Suspense>
+    <IntroCover />
     <Header />
     <main id="main-content">
       <Hero />

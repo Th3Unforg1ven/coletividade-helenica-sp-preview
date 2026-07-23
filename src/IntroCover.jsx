@@ -297,7 +297,7 @@ export default function IntroCover() {
       gl.uniform2f(locations.uResolution, renderWidth, renderHeight)
       gl.uniform2f(locations.uPointer, smoothPointerX, smoothPointerY)
       gl.uniform2f(locations.uSeal, sealX, sealY)
-      gl.uniform1f(locations.uIntro, reduceMotion ? 1 : Math.min(1, elapsed / 2.35))
+      gl.uniform1f(locations.uIntro, reduceMotion ? 1 : Math.min(1, elapsed / 1.55))
       gl.uniform1f(locations.uExit, exitStartedAt ? Math.min(1, (time - exitStartedAt) / 650) : 0)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
       if (!reduceMotion) animationFrame = requestAnimationFrame(draw)
@@ -344,7 +344,7 @@ export default function IntroCover() {
       window.setTimeout(() => {
         document.body.classList.remove('intro-active')
         setVisible(false)
-      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 1500)
+      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 1150)
     }
     const wheel = event => {
       if (event.deltaY <= 0) return
