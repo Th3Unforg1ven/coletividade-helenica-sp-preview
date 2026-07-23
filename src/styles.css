@@ -132,7 +132,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .language { min-height:800px; position:relative; isolation:isolate; display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:9vw; overflow:hidden; }
 .language::after { content:''; position:absolute; z-index:0; width:980px; height:490px; right:-320px; bottom:-75px; background:url('/images/esculturas-gregas-desenhadas.webp') center/contain no-repeat; filter:brightness(0); opacity:.27; pointer-events:none; transform:rotate(-3deg); }
 .language > *:not(.greek-word) { position:relative; z-index:1; }
-.greek-word { position:absolute; font-family:var(--serif); font-size:24.8vw; color:rgba(10,18,28,.27); left:clamp(16px,2vw,32px); top:-5vw; }
+.greek-word { position:absolute; font-family:var(--serif); font-size:24.8vw; color:rgba(10,18,28,.13); left:clamp(16px,2vw,32px); top:-5vw; }
 .language__content { position:relative; max-width:680px; }
 .language__content > p:not(.section-index) { color:var(--muted); line-height:1.8; max-width:570px; margin:35px 0; }
 .language__features { display:flex; flex-wrap:wrap; gap:15px 24px; margin-bottom:38px; }

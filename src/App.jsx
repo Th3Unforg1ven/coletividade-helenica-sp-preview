@@ -165,9 +165,9 @@ function Hero() {
       <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
       <p className="hero__statement">A Grécia vive<br/><i>onde nós estamos.</i></p>
-      <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos essa cultura por meio de encontros da comunidade e aulas de grego contemporâneo, Danças Gregas e Bouzouki.</p>
+      <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos essa cultura por meio de encontros da comunidade e aulas de Grego Contemporâneo, Danças Gregas e Bouzouki.</p>
       <div className="hero__facts"><span>Online ou presencial</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
-      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça os cursos <ArrowDown size={17}/></Link><Link className="text-link" to={sectionTarget('sobre')}>Conheça nossa história <ArrowRight size={16}/></Link></div>
+      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça os cursos <ArrowDown size={17}/></Link><Link className="text-link" to="/coletividade">Conheça nossa história <ArrowRight size={16}/></Link></div>
     </div>
     <div className="hero__gallery">
       <div className="hero__frames">
@@ -294,7 +294,7 @@ function HomePage() {
           </div>
           <Link className="button" to="/aulas/aulas-de-grego-moderno">Conheça as aulas de grego <ArrowRight size={17}/></Link>
         </div>
-        <aside className="quote-card"><span>“</span><blockquote>Aprender grego pode ser a primeira vez que você ouve a história da sua família com a sua própria voz.</blockquote><small>O que o aprendizado pode despertar</small></aside>
+        <aside className="quote-card"><span>“</span><blockquote>Aprender grego transforma a maneira como você vive a história humana e se conecta com a ancestralidade.</blockquote><small>O que o aprendizado pode despertar</small></aside>
       </section>
 
       <section className="agenda section" id="agenda">
