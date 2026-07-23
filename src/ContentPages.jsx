@@ -3,6 +3,7 @@ import { ArrowRight, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lu
 import { Link, Navigate, useParams } from 'react-router-dom'
 import siteContent from './content/site-content.json'
 import mediaMap from './content/media-map.json'
+import archiveVariants from './content/archive-variants.json'
 import ResponsiveImage from './ResponsiveImage.jsx'
 import { assetUrl, routeUrl } from './paths.js'
 
@@ -311,7 +312,8 @@ function rewriteLegacyLinks(html = '') {
     heading.replaceWith(replacement)
   })
   element.querySelectorAll('img').forEach(image => {
-    image.setAttribute('src', assetUrl(mediaUrl(image.getAttribute('src'))))
+    const preservedSource = mediaUrl(image.getAttribute('src'))
+    image.setAttribute('src', assetUrl(preservedSource))
     image.removeAttribute('srcset')
     image.removeAttribute('sizes')
     if (!image.getAttribute('alt')?.trim()) {
@@ -320,13 +322,41 @@ function rewriteLegacyLinks(html = '') {
     }
     image.setAttribute('loading', 'lazy')
     image.setAttribute('decoding', 'async')
+    const availableWidths = archiveVariants[preservedSource] || []
+    if (availableWidths.length && !image.closest('picture')) {
+      const picture = document.createElement('picture')
+      const smallSource = document.createElement('source')
+      const mediumSource = document.createElement('source')
+      const smallImage = availableWidths.includes(640) ? preservedSource.replace(/\.webp$/, '-640.webp') : preservedSource
+      const mediumImage = availableWidths.includes(960) ? preservedSource.replace(/\.webp$/, '-960.webp') : smallImage
+      smallSource.setAttribute('media', '(max-width: 560px)')
+      smallSource.setAttribute('srcset', assetUrl(smallImage))
+      mediumSource.setAttribute('media', '(max-width: 1000px)')
+      mediumSource.setAttribute('srcset', assetUrl(mediumImage))
+      image.replaceWith(picture)
+      picture.append(smallSource, mediumSource, image)
+    }
   })
   element.querySelectorAll('iframe').forEach(frame => {
     if (!frame.hasAttribute('title')) frame.setAttribute('title', 'Conteúdo incorporado')
     frame.setAttribute('loading', 'lazy')
   })
   element.querySelectorAll('video').forEach(video => {
-    video.setAttribute('src', assetUrl(mediaUrl(video.getAttribute('src'))))
+    const preservedMedia = mediaUrl(video.getAttribute('src'))
+    if (preservedMedia.endsWith('.webp')) {
+      const figure = document.createElement('figure')
+      const image = document.createElement('img')
+      const caption = document.createElement('figcaption')
+      image.setAttribute('src', assetUrl(preservedMedia))
+      image.setAttribute('alt', 'Registro visual do acervo histórico da Coletividade Helênica de São Paulo')
+      image.setAttribute('loading', 'lazy')
+      image.setAttribute('decoding', 'async')
+      caption.textContent = 'Registro visual preservado do vídeo original'
+      figure.append(image, caption)
+      video.replaceWith(figure)
+      return
+    }
+    video.setAttribute('src', assetUrl(preservedMedia))
     video.setAttribute('preload', 'metadata')
   })
 
@@ -487,7 +517,7 @@ function ContentHero({ eyebrow, title, introduction, image, motifTheme }) {
       {introduction && <p>{introduction}</p>}
     </div>
     <figure className={image ? '' : 'content-hero__art'}>
-      {image && <ResponsiveImage src={mediaUrl(image)} alt="" />}
+      {image && <ResponsiveImage src={mediaUrl(image)} variantWidths={archiveVariants[mediaUrl(image)]} alt="" />}
     </figure>
   </header>
 }
@@ -639,7 +669,7 @@ export function InstitutionPage() {
 function PostCard({ post }) {
   const category = categoryById[post.categories[0]]
   return <Link className="post-card" to={`/cultura/${post.slug}`}>
-    {post.featuredMedia?.sourceUrl && <img src={assetUrl(mediaUrl(post.featuredMedia.sourceUrl))} alt="" loading="lazy" decoding="async" />}
+    {post.featuredMedia?.sourceUrl && <ResponsiveImage src={mediaUrl(post.featuredMedia.sourceUrl)} variantWidths={archiveVariants[mediaUrl(post.featuredMedia.sourceUrl)]} alt="" loading="lazy" decoding="async" />}
     <div><span>{decode(category?.name || 'Cultura')}</span><h2>{decode(post.title)}</h2><p>{stripHtml(post.excerpt).slice(0, 180)}</p><b>Ler conteúdo completo <ArrowRight size={15}/></b></div>
   </Link>
 }

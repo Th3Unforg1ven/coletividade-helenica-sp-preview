@@ -1,7 +1,8 @@
 :root {
   --blue-900: #174f85; --blue-800: #1f6fb2; --blue-600: #4b92d0; --blue-100: #e2eff9;
   --white: #fff; --ivory: #f7f5ef; --sand: #e7dfd2; --ink: #101b31; --muted: #5c6472;
-  --serif: 'GFS Didot', Georgia, serif; --sans: 'DM Sans', Arial, sans-serif;
+  --serif: 'GFS Didot', 'Bodoni 72', 'Bodoni MT', Didot, Georgia, 'Times New Roman', serif;
+  --sans: 'DM Sans', Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-family: var(--sans); color: var(--ink); background: var(--ivory); font-synthesis: none;
 }
 * { box-sizing: border-box; }
@@ -120,6 +121,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .experience-card__symbol::after { content:'ΕΛΛΑΣ'; position:absolute; left:34px; top:50%; transform:translateY(-50%); writing-mode:vertical-rl; color:white; font-family:var(--serif); font-size:.72rem; letter-spacing:.35em; }
 .experience-card__symbol svg { width:82px; height:82px; z-index:1; filter:drop-shadow(0 3px 12px rgba(0,0,0,.35)); }
 .experience-card__symbol span { position:absolute; bottom:42px; font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; background:var(--blue-900); padding:12px 15px; }
+.experience-card__symbol span b { font-weight:inherit; }
 .experience-card__copy { background:white; color:var(--ink); padding:72px 6vw 55px 5vw; }
 .experience-card__copy h3 { font-family:var(--serif); font-size:clamp(2.2rem,3vw,3.7rem); line-height:1.05; font-weight:400; color:var(--blue-900); margin:18px 0 24px; }
 .experience-card__copy > p:not(.eyebrow) { color:var(--muted); line-height:1.7; }
@@ -284,7 +286,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .empty-results { max-width:1280px; margin:0 auto 70px; padding:36px; background:white; color:var(--muted); text-align:center; }
 .post-card { min-height:440px; background:white; display:flex; flex-direction:column; overflow:hidden; transition:.25s; }
 .post-card:hover { transform:translateY(-5px); box-shadow:0 20px 45px rgba(23,79,133,.1); }
-.post-card > img { width:100%; height:210px; object-fit:cover; }.post-card > div { padding:28px; display:flex; flex:1; flex-direction:column; }
+.post-card > picture { display:contents; }.post-card > img,.post-card > picture img { width:100%; height:210px; object-fit:cover; }.post-card > div { padding:28px; display:flex; flex:1; flex-direction:column; }
 .post-card h2 { font-size:1.8rem; line-height:1.1; color:var(--blue-900); margin:18px 0 14px; }.post-card p { color:var(--muted); line-height:1.6; font-size:.84rem; }
 .collection-intro { max-width:1280px; margin:0 auto 90px; padding:52px 0 58px; border-top:1px solid #d8dde1; border-bottom:1px solid #d8dde1; }
 .collection-intro > .content-kicker { margin-bottom:34px; }

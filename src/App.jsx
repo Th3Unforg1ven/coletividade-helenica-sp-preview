@@ -27,7 +27,7 @@ const PostPage = lazyPage('PostPage')
 
 const activities = [
   {
-    id: 'grego', eyebrow: 'Γλώσσα • Língua', title: 'Grego Moderno',
+    id: 'grego', greek: 'ΓΛΩΣΣΑ', eyebrow: 'Língua', title: 'Grego Moderno',
     statement: 'Uma nova língua. Uma parte de você que ganha voz.',
     copy: 'Aprenda a conversar, viajar e acessar a cultura grega sem tradução. Turmas do elementar ao avançado, com professores nativos e metodologia alinhada à certificação oficial.',
     meta: ['Presencial ou online', 'Adultos e crianças', 'Do básico ao avançado'],
@@ -35,14 +35,14 @@ const activities = [
     href: '/aulas/aulas-de-grego-moderno',
   },
   {
-    id: 'danca', eyebrow: 'Χορός • Dança', title: 'Danças Gregas',
+    id: 'danca', greek: 'ΧΟΡΟΣ', eyebrow: 'Dança', title: 'Danças Gregas',
     statement: 'O corpo aprende aquilo que a memória não esquece.',
     copy: 'Entre ritmos, passos e histórias de cada região, a dança cria pertencimento, saúde e amizades. Aulas para quem começa agora e grupos de apresentação.',
     meta: ['Aulas presenciais', 'Crianças, jovens e adultos', 'Grupo Hellas e Pedilea'],
     icon: Users, visual: '/images/aulas-danca-original.webp', href: '/aulas/aulas-de-danca',
   },
   {
-    id: 'bouzouki', eyebrow: 'Μουσική • Música', title: 'Bouzouki',
+    id: 'bouzouki', greek: 'ΜΟΥΣΙΚΗ', eyebrow: 'Música', title: 'Bouzouki',
     statement: 'Toque o som que atravessou gerações.',
     copy: 'Conheça o instrumento-símbolo da música grega e desenvolva repertório, expressão e conexão cultural em uma vivência musical compartilhada.',
     meta: ['Aprendizado musical', 'Repertório tradicional', 'Cultura em cada acorde'],
@@ -229,9 +229,9 @@ function HomePage() {
         </div>
         <div className="values">
           <div><strong>1937</strong><span>ano de fundação<br/>em São Paulo</span></div>
-          <div><strong>Παιδεία</strong><span>educação que<br/>forma e transforma</span></div>
-          <div><strong>Φιλία</strong><span>amizade que<br/>cria comunidade</span></div>
-          <div><strong>Μνήμη</strong><span>memória que<br/>mantém raízes vivas</span></div>
+          <div><strong lang="el">Παιδεία</strong><span>educação que<br/>forma e transforma</span></div>
+          <div><strong lang="el">Φιλία</strong><span>amizade que<br/>cria comunidade</span></div>
+          <div><strong lang="el">Μνήμη</strong><span>memória que<br/>mantém raízes vivas</span></div>
         </div>
       </section>
 
@@ -254,9 +254,9 @@ function HomePage() {
           {activities.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={activity === i} tabIndex={activity === i ? 0 : -1} key={item.id} className={activity === i ? 'active' : ''} onClick={() => setActivity(i)}>{item.title}</button>)}
         </div>
         <div className="experience-card" role="tabpanel" id={`panel-${current.id}`} aria-labelledby={`tab-${current.id}`} key={current.id}>
-          <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span>{current.eyebrow}</span></div>
+          <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span><b lang="el">{current.greek}</b> • {current.eyebrow}</span></div>
           <div className="experience-card__copy">
-            <p className="eyebrow">{current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
+            <p className="eyebrow"><span lang="el">{current.greek}</span> • {current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
             <ul>{current.meta.map(item => <li key={item}><Sparkles size={15}/>{item}</li>)}</ul>
             <Link className="button button--white" to={current.href}>Conheça esta aula <ArrowRight size={17}/></Link>
           </div>
@@ -264,7 +264,7 @@ function HomePage() {
       </section>
 
       <section className="language section">
-        <div className="greek-word" aria-hidden="true">μιλώ</div>
+        <div className="greek-word" lang="el" aria-hidden="true">μιλώ</div>
         <div className="language__content">
           <p className="section-index">Grego Moderno</p>
           <h2>Quando você aprende<br/>a língua, o mundo<br/><em>ganha outra voz.</em></h2>
@@ -293,7 +293,7 @@ function HomePage() {
 
       <section className="memory section" id="memoria">
         <div className="memory__image"><ResponsiveImage src="/images/primeira-diretoria-chsp.webp" alt="Primeira diretoria da Coletividade Helênica de São Paulo" loading="lazy" decoding="async" /></div>
-        <div className="memory__copy"><p className="section-index">Cultura e memória</p><p className="greek-label">Από γενιά σε γενιά</p><h2>De geração<br/><em>em geração.</em></h2><p>Preservar uma cultura é dar futuro à memória. Reunimos relatos, fotografias, música, gastronomia, destinos e curiosidades para que cada geração encontre seu próprio caminho até a Grécia.</p><Link className="text-link" to="/cultura/paginas/acontece-memorias">Explore nosso acervo <ArrowRight size={16}/></Link></div>
+        <div className="memory__copy"><p className="section-index">Cultura e memória</p><p className="greek-label" lang="el">Από γενιά σε γενιά</p><h2>De geração<br/><em>em geração.</em></h2><p>Preservar uma cultura é dar futuro à memória. Reunimos relatos, fotografias, música, gastronomia, destinos e curiosidades para que cada geração encontre seu próprio caminho até a Grécia.</p><Link className="text-link" to="/cultura/paginas/acontece-memorias">Explore nosso acervo <ArrowRight size={16}/></Link></div>
       </section>
 
       <section className="faq section" id="duvidas">
@@ -302,7 +302,7 @@ function HomePage() {
       </section>
 
       <section className="join">
-        <p className="greek-label">Η κοινότητά μας</p><h2>Essa história também<br/>pode ser <em>sua.</em></h2><p>Associe-se, participe das atividades ou venha tomar um café conosco. A Coletividade está de portas abertas.</p><div><Link className="button button--white" to="/participe">Quero participar <ArrowRight size={17}/></Link><Link className="text-link text-link--white" to="/agenda">Conheça os próximos encontros</Link></div>
+        <p className="greek-label" lang="el">Η κοινότητά μας</p><h2>Essa história também<br/>pode ser <em>sua.</em></h2><p>Associe-se, participe das atividades ou venha tomar um café conosco. A Coletividade está de portas abertas.</p><div><Link className="button button--white" to="/participe">Quero participar <ArrowRight size={17}/></Link><Link className="text-link text-link--white" to="/agenda">Conheça os próximos encontros</Link></div>
       </section>
     </main>
     <Footer />

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import * as THREE from 'three'
 import { assetUrl } from './paths.js'
 
 const vertexShader = /* glsl */`
+  attribute vec2 aPosition;
   varying vec2 vUv;
   void main() {
-    vUv = uv;
-    gl_Position = vec4(position.xy, 0.0, 1.0);
+    vUv = aPosition * .5 + .5;
+    gl_Position = vec4(aPosition, 0.0, 1.0);
   }
 `
 
@@ -191,74 +191,120 @@ export default function IntroCover() {
     const container = marbleRef.current
     const seal = sealRef.current
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData
-    const uniforms = {
-      uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(1, 1) },
-      uPointer: { value: new THREE.Vector2(0, 0) },
-      uSeal: { value: new THREE.Vector2(.5, .58) },
-      uIntro: { value: reduceMotion ? 1 : 0 },
-      uExit: { value: 0 },
-    }
-    let renderer
+    const canvas = document.createElement('canvas')
+    canvas.setAttribute('aria-hidden', 'true')
+    container.appendChild(canvas)
+    const gl = canvas.getContext('webgl', {
+      alpha: false,
+      antialias: false,
+      depth: false,
+      stencil: false,
+      powerPreference: 'high-performance',
+    })
     let animationFrame
     let exitStartedAt = 0
     let pointerX = 0
     let pointerY = 0
+    let smoothPointerX = 0
+    let smoothPointerY = 0
+    let sealX = .5
+    let sealY = .58
+    let renderWidth = 1
+    let renderHeight = 1
     const startingTime = performance.now()
+
+    if (!gl) {
+      container.classList.add('intro-cover__marble--fallback')
+      return () => container.replaceChildren()
+    }
+
+    const compileShader = (type, source) => {
+      const shader = gl.createShader(type)
+      gl.shaderSource(shader, source)
+      gl.compileShader(shader)
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        const reason = gl.getShaderInfoLog(shader)
+        gl.deleteShader(shader)
+        throw new Error(reason || 'Não foi possível compilar o mármore.')
+      }
+      return shader
+    }
+
+    let program
+    let positionBuffer
+    let vertex
+    let fragment
+    try {
+      vertex = compileShader(gl.VERTEX_SHADER, vertexShader)
+      fragment = compileShader(gl.FRAGMENT_SHADER, fragmentShader)
+      program = gl.createProgram()
+      gl.attachShader(program, vertex)
+      gl.attachShader(program, fragment)
+      gl.linkProgram(program)
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || 'Não foi possível iniciar o mármore.')
+      positionBuffer = gl.createBuffer()
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW)
+      gl.useProgram(program)
+      const position = gl.getAttribLocation(program, 'aPosition')
+      gl.enableVertexAttribArray(position)
+      gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
+    } catch (error) {
+      container.classList.add('intro-cover__marble--fallback')
+      console.warn('A animação de mármore foi substituída pelo fundo estático.', error)
+      return () => {
+        if (positionBuffer) gl.deleteBuffer(positionBuffer)
+        if (program) gl.deleteProgram(program)
+        if (vertex) gl.deleteShader(vertex)
+        if (fragment) gl.deleteShader(fragment)
+        container.replaceChildren()
+      }
+    }
+
+    const locations = Object.fromEntries(
+      ['uTime', 'uResolution', 'uPointer', 'uSeal', 'uIntro', 'uExit']
+        .map(name => [name, gl.getUniformLocation(program, name)]),
+    )
 
     const alignSeal = () => {
       const containerRect = container.getBoundingClientRect()
       const sealRect = seal.getBoundingClientRect()
       if (!containerRect.width || !containerRect.height || !sealRect.width) return
-      uniforms.uSeal.value.set(
-        (sealRect.left + sealRect.width / 2 - containerRect.left) / containerRect.width,
-        1 - (sealRect.top + sealRect.height / 2 - containerRect.top) / containerRect.height,
-      )
+      sealX = (sealRect.left + sealRect.width / 2 - containerRect.left) / containerRect.width
+      sealY = 1 - (sealRect.top + sealRect.height / 2 - containerRect.top) / containerRect.height
     }
 
     const resize = () => {
-      if (!renderer) return
       const rect = container.getBoundingClientRect()
-      const pixelRatioLimit = window.innerWidth < 600 ? 1.35 : 1.7
+      const pixelRatioLimit = window.innerWidth < 600 ? 1.2 : 1.5
       const pixelRatio = Math.min(window.devicePixelRatio || 1, pixelRatioLimit)
       const width = Math.max(1, Math.round(rect.width))
       const height = Math.max(1, Math.round(rect.height))
-      renderer.setPixelRatio(pixelRatio)
-      renderer.setSize(width, height, false)
-      uniforms.uResolution.value.set(width * pixelRatio, height * pixelRatio)
+      renderWidth = Math.round(width * pixelRatio)
+      renderHeight = Math.round(height * pixelRatio)
+      canvas.width = renderWidth
+      canvas.height = renderHeight
+      gl.viewport(0, 0, renderWidth, renderHeight)
       alignSeal()
     }
 
     const draw = (time = performance.now()) => {
       const elapsed = (time - startingTime) / 1000
-      uniforms.uTime.value = reduceMotion ? 24 : elapsed
-      uniforms.uIntro.value = reduceMotion ? 1 : Math.min(1, elapsed / 2.35)
-      uniforms.uPointer.value.x += (pointerX - uniforms.uPointer.value.x) * .035
-      uniforms.uPointer.value.y += (pointerY - uniforms.uPointer.value.y) * .035
-      if (exitStartedAt) uniforms.uExit.value = Math.min(1, (time - exitStartedAt) / 650)
-      renderer.render(scene, camera)
+      smoothPointerX += (pointerX - smoothPointerX) * .035
+      smoothPointerY += (pointerY - smoothPointerY) * .035
+      gl.useProgram(program)
+      gl.uniform1f(locations.uTime, reduceMotion ? 24 : elapsed)
+      gl.uniform2f(locations.uResolution, renderWidth, renderHeight)
+      gl.uniform2f(locations.uPointer, smoothPointerX, smoothPointerY)
+      gl.uniform2f(locations.uSeal, sealX, sealY)
+      gl.uniform1f(locations.uIntro, reduceMotion ? 1 : Math.min(1, elapsed / 2.35))
+      gl.uniform1f(locations.uExit, exitStartedAt ? Math.min(1, (time - exitStartedAt) / 650) : 0)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
       if (!reduceMotion) animationFrame = requestAnimationFrame(draw)
     }
 
-    let scene
-    let camera
-    try {
-      renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: 'high-performance' })
-      renderer.outputColorSpace = THREE.SRGBColorSpace
-      renderer.domElement.setAttribute('aria-hidden', 'true')
-      container.appendChild(renderer.domElement)
-      scene = new THREE.Scene()
-      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
-      const material = new THREE.ShaderMaterial({ uniforms, vertexShader, fragmentShader })
-      const plane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material)
-      plane.frustumCulled = false
-      scene.add(plane)
-      resize()
-      animationFrame = requestAnimationFrame(draw)
-    } catch (error) {
-      container.classList.add('intro-cover__marble--fallback')
-      console.warn('A animação de mármore foi substituída pelo fundo estático.', error)
-    }
+    resize()
+    animationFrame = requestAnimationFrame(draw)
 
     const pointerMove = event => {
       pointerX = (event.clientX / window.innerWidth - .5) * 2
@@ -275,7 +321,10 @@ export default function IntroCover() {
       window.removeEventListener('pointermove', pointerMove)
       window.removeEventListener('resize', resize)
       seal.removeEventListener('load', alignSeal)
-      renderer?.dispose()
+      gl.deleteBuffer(positionBuffer)
+      gl.deleteProgram(program)
+      gl.deleteShader(vertex)
+      gl.deleteShader(fragment)
       container.replaceChildren()
     }
   }, [visible])
@@ -339,13 +388,13 @@ export default function IntroCover() {
   return <section ref={coverRef} className={`intro-cover${exiting ? ' is-exiting' : ''}`} aria-labelledby="intro-cover-title">
     <div ref={marbleRef} className="intro-cover__marble" aria-hidden="true" />
     <div className="intro-cover__content">
-      <p className="intro-cover__welcome">ΚΑΛΩΣ ΗΡΘΑΤΕ</p>
+          <p className="intro-cover__welcome" lang="el">ΚΑΛΩΣ ΗΡΘΑΤΕ</p>
       <img ref={sealRef} className="intro-cover__seal" src={assetUrl('/images/chsp-logo-256.png')} alt="Brasão da Coletividade Helênica de São Paulo" width="142" height="142" />
       <h1 id="intro-cover-title">Coletividade Helênica de São Paulo</h1>
       <p className="intro-cover__tagline">Desde 1937, a casa da Grécia em São Paulo.</p>
       <button className="intro-cover__action" type="button">Entre e conheça</button>
     </div>
     <span className="intro-cover__scroll" aria-hidden="true"><span className="intro-cover__scroll-desktop">Role</span><span className="intro-cover__scroll-mobile">Arraste</span></span>
-    <span className="intro-cover__inscription" aria-hidden="true">ΜΝΗΜΗ · ΠΑΙΔΕΙΑ · ΦΙΛΙΑ</span>
+        <span className="intro-cover__inscription" lang="el" aria-hidden="true">ΜΝΗΜΗ · ΠΑΙΔΕΙΑ · ΦΙΛΙΑ</span>
   </section>
 }

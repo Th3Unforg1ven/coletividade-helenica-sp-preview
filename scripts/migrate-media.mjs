@@ -69,17 +69,16 @@ async function migrate(url) {
   const isVideo = mime.startsWith('video/') || /\.mp4(?:$|\?)/i.test(normalized)
   const baseName = safeName(normalized)
   const temporaryPath = path.join(temporaryDirectory, `${baseName}.source`)
-  const outputName = `${baseName}.${isVideo ? 'mp4' : 'webp'}`
+  const outputName = `${baseName}.webp`
   const outputPath = path.join(outputDirectory, outputName)
   await writeFile(temporaryPath, Buffer.from(await response.arrayBuffer()))
 
   if (isVideo) {
     await run('ffmpeg', [
-      '-y', '-loglevel', 'error', '-i', temporaryPath,
-      '-vf', 'scale=-2:min(540\\,ih)',
-      '-c:v', 'libx264', '-preset', 'medium', '-crf', '31',
-      '-c:a', 'aac', '-b:a', '64k', '-movflags', '+faststart',
-      '-map_metadata', '-1', outputPath,
+      '-y', '-loglevel', 'error', '-ss', '30', '-i', temporaryPath,
+      '-vf', 'scale=min(1280\\,iw):-2',
+      '-frames:v', '1', '-c:v', 'libwebp', '-q:v', '78',
+      '-compression_level', '5', '-map_metadata', '-1', outputPath,
     ])
   } else {
     await run('ffmpeg', [
@@ -93,7 +92,6 @@ async function migrate(url) {
   await rm(temporaryPath, { force: true })
   const localPath = `/images/archive/${outputName}`
   manifest[normalized] = localPath
-  manifest[url] = localPath
   completed += 1
   process.stdout.write(`\rMídias preservadas: ${completed}/${urls.size}`)
 }
