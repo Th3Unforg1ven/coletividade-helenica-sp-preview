@@ -5,11 +5,16 @@ import {
   Languages, MapPin, Menu, Music2, Sparkles, Users, X
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
-import IntroCover from './IntroCover.jsx'
 import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
 
 const WA = 'https://wa.link/ryey8t'
+let introCoverPromise
+const loadIntroCover = () => {
+  introCoverPromise ??= import('./IntroCover.jsx')
+  return introCoverPromise
+}
+const IntroCover = lazy(loadIntroCover)
 const lazyPage = name => lazy(() => import('./ContentPages.jsx').then(module => ({ default: module[name] })))
 const AgendaPage = lazyPage('AgendaPage')
 const ArchivePage = lazyPage('ArchivePage')
@@ -24,6 +29,22 @@ const LessonsIndex = lazyPage('LessonsIndex')
 const MemoryPage = lazyPage('MemoryPage')
 const NotFound = lazyPage('NotFound')
 const PostPage = lazyPage('PostPage')
+
+function shouldShowIntroCover() {
+  const usesHashRouter = import.meta.env.VITE_ROUTER_MODE === 'hash'
+  const hash = window.location.hash
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+  const relativePath = window.location.pathname.slice(basePath.length) || '/'
+  const isHome = usesHashRouter
+    ? !hash || hash === '#' || hash === '#/'
+    : relativePath === '/'
+
+  if (!isHome || hash || new URLSearchParams(window.location.search).get('section')) return false
+  try { return window.sessionStorage.getItem('chsp-intro-seen') !== '1' }
+  catch { return true }
+}
+
+if (shouldShowIntroCover()) loadIntroCover()
 
 const activities = [
   {
@@ -170,6 +191,7 @@ function Footer() {
 
 function HomePage() {
   const location = useLocation()
+  const [showIntro] = useState(shouldShowIntroCover)
   const [activity, setActivity] = useState(0)
   const [faq, setFaq] = useState(0)
   const current = activities[activity]
@@ -212,7 +234,7 @@ function HomePage() {
 
   return <>
     <a className="skip-link" href="#main-content">Pular para o conteúdo</a>
-    <IntroCover />
+    {showIntro && <Suspense fallback={<div className="intro-cover intro-cover--loading" aria-hidden="true" />}><IntroCover /></Suspense>}
     <Header />
     <main id="main-content">
       <Hero />
