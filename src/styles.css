@@ -232,7 +232,9 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .content-hero > div { padding:70px 7vw 70px 0; display:flex; justify-content:center; flex-direction:column; }
 .content-kicker { color:var(--blue-800); text-transform:uppercase; letter-spacing:.18em; font-weight:600; font-size:.68rem; margin-bottom:25px; }
 .content-hero h1 { display:block; font-size:clamp(3.4rem,5vw,6.3rem); line-height:.94; text-transform:none; letter-spacing:-.04em; margin:0; }
-.content-hero > div > p:last-child:not(.content-kicker) { color:var(--muted); line-height:1.75; max-width:660px; margin:30px 0 0; }
+.content-hero > div > p:not(.content-kicker) { color:var(--muted); line-height:1.75; max-width:660px; margin:30px 0 0; }
+.content-hero__action { align-self:flex-start; margin-top:28px; max-width:100%; }
+.content-hero__action svg { flex-shrink:0; }
 .content-hero figure { margin:0; min-height:430px; background:var(--blue-800); position:relative; overflow:hidden; }
 .content-hero figure img { width:100%; height:100%; position:absolute; inset:0; object-fit:cover; }
 .content-hero__art::before { content:''; position:absolute; inset:-8%; background:url('/images/motivos-helenicos.svg') center/cover no-repeat; filter:brightness(0) invert(1); opacity:.302; transform:rotate(-4deg); }

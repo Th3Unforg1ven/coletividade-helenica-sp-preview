@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ArrowRight, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import siteContent from './content/site-content.json'
+import GreekCourse, { GreekTeacherMosaic } from './GreekCourse.jsx'
 import mediaMap from './content/media-map.json'
 import archiveVariants from './content/archive-variants.json'
 import ResponsiveImage from './ResponsiveImage.jsx'
@@ -56,7 +57,7 @@ const culturalPageSlugs = [
 ]
 
 const courseIntroductions = {
-  'aulas-de-grego-moderno': 'Aprenda a conversar, compreender canções, viajar com autonomia e acessar a cultura grega em sua própria língua.',
+  'aulas-de-grego-moderno': 'Curso de Grego Moderno da Coletividade Helênica de São Paulo para adultos e crianças, do iniciante ao avançado. Aulas presenciais no Brás e online, com duração de 1h30 cada.',
   'aulas-de-danca': 'Conheça ritmos de diferentes regiões da Grécia e transforme movimento em memória, saúde e convivência.',
   'aulas-de-bouzouki': 'Descubra o instrumento que acompanha gerações de música grega e desenvolva expressão por meio de seu repertório.',
   'oficinas-culturais': 'Experimente diferentes expressões da cultura helênica por meio de encontros, práticas e oficinas abertas à comunidade.',
@@ -151,6 +152,7 @@ const editorialReplacements = [
   [/^\s*festividades\s*$/i, 'Festividades'],
   [/\bfestividades-civicas-e-religiosas\b/gi, 'Festividades Cívicas e Religiosas'],
   [/\bAulas de Danca\b/gi, 'Aulas de Dança'],
+  [/\bAulas de Grego Moderno\b/gi, 'Curso de Grego Moderno'],
   [/\bDancas Gregas\b/gi, 'Danças Gregas'],
   [/\bPolitica de privacidade\b/gi, 'Política de Privacidade'],
   [/\bMusica\b/g, 'Música'],
@@ -271,7 +273,7 @@ function stripHtml(value = '') {
 }
 
 function pathForPage(page) {
-  if (lessonSlugs.includes(page.slug)) return `/aulas/${page.slug}`
+  if (lessonSlugs.includes(page.slug)) return `/cursos/${page.slug === 'aulas-de-grego-moderno' ? 'grego-moderno' : page.slug}`
   if (institutionSlugs.includes(page.slug)) return `/coletividade/${page.slug}`
   if (page.slug === 'agenda-de-eventos-e-festas') return '/agenda'
   if (page.slug === 'associados-e-parceiros') return '/participe'
@@ -491,9 +493,9 @@ function Breadcrumbs({ items = [] }) {
   </nav>
 }
 
-function ContentHero({ eyebrow, title, introduction, image, motifTheme }) {
+function ContentHero({ eyebrow, title, introduction, image, motifTheme, visual, action, seoTitle }) {
   useEffect(() => {
-    const pageTitle = `${title} | Coletividade Helênica de São Paulo`
+    const pageTitle = seoTitle || `${title} | Coletividade Helênica de São Paulo`
     const description = introduction || 'Conheça a Coletividade Helênica de São Paulo, sua história, aulas e atividades culturais.'
     document.title = pageTitle
     const setMeta = (selector, attribute, value) => {
@@ -509,16 +511,17 @@ function ContentHero({ eyebrow, title, introduction, image, motifTheme }) {
     setMeta('meta[name="description"]', 'name=description', description)
     setMeta('meta[property="og:title"]', 'property=og:title', pageTitle)
     setMeta('meta[property="og:description"]', 'property=og:description', description)
-  }, [title, introduction])
+  }, [title, introduction, seoTitle])
   return <header className={`content-hero${motifTheme ? ` content-hero--themed content-hero--${motifTheme}` : ''}`}>
     <div>
       <p className="content-kicker">{eyebrow}</p>
       <h1>{title}</h1>
       {introduction && <p>{introduction}</p>}
+      {action && <a className="button content-hero__action" href={action.href}><MessageCircle size={18} />{action.label}<ArrowRight size={18} /></a>}
     </div>
-    <figure className={image ? '' : 'content-hero__art'}>
+    {visual || <figure className={image ? '' : 'content-hero__art'}>
       {image && <ResponsiveImage src={mediaUrl(image)} variantWidths={archiveVariants[mediaUrl(image)]} alt="" />}
-    </figure>
+    </figure>}
   </header>
 }
 
@@ -530,7 +533,7 @@ function PageNavigation({ slugs, basePath, labels = {} }) {
   return <aside className="page-navigation">
     <p>Nesta seção</p>
     {slugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => (
-      <Link key={page.id} to={`${basePath}/${page.slug}`}>{labels[page.slug] || decode(page.title)}<ArrowRight size={15}/></Link>
+      <Link key={page.id} to={lessonSlugs.includes(page.slug) ? pathForPage(page) : `${basePath}/${page.slug}`}>{page.slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno' : labels[page.slug] || decode(page.title)}<ArrowRight size={15}/></Link>
     ))}
   </aside>
 }
@@ -561,11 +564,11 @@ function FullPage({ page, eyebrow = 'Coletividade Helênica de São Paulo', navi
 export function LessonsIndex() {
   const overview = pageBySlug['atividades-culturais-da-chsp']
   return <main className="content-page content-page--themed content-page--aulas">
-    <Breadcrumbs items={[{ label: 'Aulas' }]} />
-    <ContentHero eyebrow="Aulas" title="Aprenda e viva a cultura grega" introduction="Língua, dança, música e oficinas para diferentes idades, níveis e formas de participação." image="/images/aulas-grego-turma-recorte-original.webp" motifTheme="aulas" />
+    <Breadcrumbs items={[{ label: 'Cursos' }]} />
+    <ContentHero eyebrow="Cursos e oficinas" title="Aprenda e viva a cultura grega" introduction="Língua, dança, música e oficinas para diferentes idades, níveis e formas de participação." image="/images/aulas-grego-turma-recorte-original.webp" motifTheme="aulas" seoTitle="Cursos e oficinas | Coletividade Helênica de São Paulo" />
     <section className="directory-grid">
-      {lessonSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link className="directory-card" to={`/aulas/${page.slug}`} key={page.id}>
-        <span>Aulas</span><h2>{decode(page.title).replace(/^Aulas de /i, '')}</h2><p>{courseIntroductions[page.slug] || stripHtml(page.excerpt)}</p><b>Ver informações completas <ArrowRight size={16}/></b>
+      {lessonSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link className="directory-card" to={pathForPage(page)} key={page.id}>
+        <span>{page.slug === 'oficinas-culturais' ? 'Oficinas' : 'Cursos'}</span><h2>{decode(page.title).replace(/^Aulas de /i, '')}</h2><p>{courseIntroductions[page.slug] || stripHtml(page.excerpt)}</p><b>Ver informações completas <ArrowRight size={16}/></b>
       </Link>)}
     </section>
     {overview && <section className="legacy-overview"><LegacyHtml html={overview.content}/></section>}
@@ -573,16 +576,20 @@ export function LessonsIndex() {
 }
 
 export function LessonPage() {
-  const { slug } = useParams()
+  const { slug: routeSlug } = useParams()
+  const location = useLocation()
+  const slug = routeSlug === 'grego-moderno' ? 'aulas-de-grego-moderno' : routeSlug
   const page = pageBySlug[slug]
   if (!page || !lessonSlugs.includes(slug)) return <NotFound />
-  return <main className="content-page">
-    <Breadcrumbs items={[{ label: 'Aulas', to: '/aulas' }, { label: decode(page.title) }]} />
-    <ContentHero eyebrow="Aulas" title={decode(page.title)} introduction={courseIntroductions[slug]} image={lessonImages[slug]} />
-    <div className="content-layout">
+  if (location.pathname !== pathForPage(page)) return <Navigate replace to={`${pathForPage(page)}${location.search}${location.hash}`} />
+  const title = slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno' : decode(page.title)
+  return <main className={`content-page${slug === 'aulas-de-grego-moderno' ? ' content-page--greek' : ''}`}>
+    <Breadcrumbs items={[{ label: 'Cursos', to: '/cursos' }, { label: title }]} />
+    <ContentHero eyebrow="Cursos" title={title} seoTitle={slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno em São Paulo e online | CHSP' : undefined} introduction={courseIntroductions[slug]} image={lessonImages[slug]} visual={slug === 'aulas-de-grego-moderno' ? <GreekTeacherMosaic /> : undefined} action={slug === 'aulas-de-grego-moderno' ? { href: 'https://wa.link/ryey8t', label: 'Consultar vagas e valores' } : undefined} />
+    {slug === 'aulas-de-grego-moderno' ? <GreekCourse /> : <div className="content-layout">
       <article><LegacyHtml html={lessonContentOverrides[slug] || page.content}/></article>
-      <PageNavigation slugs={lessonSlugs} basePath="/aulas" />
-    </div>
+      <PageNavigation slugs={lessonSlugs} basePath="/cursos" />
+    </div>}
   </main>
 }
 

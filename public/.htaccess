@@ -1,0 +1,12 @@
+# Apache: publicar junto ao index.html na raiz do site definitivo.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^aulas/?$ /cursos [R=301,L]
+RewriteRule ^(?:aulas/|cursos/)?aulas-de-grego-moderno/?$ /cursos/grego-moderno [R=301,L]
+RewriteRule ^aulas/(aulas-de-danca|aulas-de-bouzouki|oficinas-culturais)/?$ /cursos/$1 [R=301,L]
+
+# Rotas do React no modo BrowserRouter.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
+</IfModule>
