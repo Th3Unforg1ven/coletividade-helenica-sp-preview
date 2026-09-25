@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react'
 import { ArrowRight, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
-import siteContent from './content/site-content.json'
+import archivedContent from './content/site-content.json'
+import { calendarArticle } from './content/calendar-article.js'
 import GreekCourse, { GreekTeacherMosaic } from './GreekCourse.jsx'
+import HellenicCalendar from './HellenicCalendar.jsx'
 import mediaMap from './content/media-map.json'
 import archiveVariants from './content/archive-variants.json'
 import ResponsiveImage from './ResponsiveImage.jsx'
 import { assetUrl, routeUrl } from './paths.js'
+
+const siteContent = {
+  ...archivedContent,
+  posts: [calendarArticle, ...archivedContent.posts],
+  categories: archivedContent.categories.map(category => ({ ...category, count: category.count + (calendarArticle.categories.includes(category.id) ? 1 : 0) })),
+}
 
 const lessonSlugs = [
   'aulas-de-grego-moderno',
@@ -702,7 +710,7 @@ export function CultureIndex() {
   }
   return <main className="content-page content-page--themed content-page--cultura">
     <Breadcrumbs items={[{ label: 'Cultura e memória' }]} />
-    <ContentHero eyebrow="Cultura e memória" title="Grécia para ler, ouvir, provar e lembrar" introduction={`O arquivo reúne ${siteContent.posts.length} publicações preservadas do site anterior.`} image="/images/exposicao-cultural-original.webp" motifTheme="cultura" />
+    <ContentHero eyebrow="Cultura e memória" title="Grécia para ler, ouvir, provar e lembrar" introduction="Explore guias sobre a cultura grega e publicações que preservam a história da nossa comunidade." image="/images/exposicao-cultural-original.webp" motifTheme="cultura" />
     <section className="archive-tools" aria-label="Pesquisar o acervo cultural">
       <label><span>Buscar no acervo</span><input type="search" value={query} onChange={updateQuery} placeholder="Digite um tema, lugar ou título" /></label>
       <label><span>Categoria</span><select value={categoryId} onChange={updateCategory}><option value="all">Todas as categorias</option>{categories.map(category => <option value={category.id} key={category.id}>{decode(category.name)} ({category.count})</option>)}</select></label>
@@ -752,9 +760,10 @@ export function PostPage() {
   if (!post) return <NotFound />
   const category = categoryById[post.categories[0]]
   return <main className="content-page">
+    {post.editorial && <script type="application/ld+json">{JSON.stringify({ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description: post.excerpt, datePublished: post.date, dateModified: post.date, inLanguage: 'pt-BR' })}</script>}
     <Breadcrumbs items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(post.title) }]} />
     <ContentHero eyebrow={decode(category?.name || 'Cultura')} title={decode(post.title)} introduction={stripHtml(post.excerpt)} image={post.featuredMedia?.sourceUrl} />
-    <div className="content-layout"><article><LegacyHtml html={post.content}/></article><aside className="page-navigation"><p>Informações</p><span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>{post.categories.map(id => categoryById[id]).filter(Boolean).map(item => <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>{decode(item.name)}<ArrowRight size={15}/></Link>)}</aside></div>
+    <div className="content-layout"><article><LegacyHtml html={post.content}/>{post.editorial && <Link className="button" to="/agenda">Consultar o calendário na Agenda <ArrowRight size={16}/></Link>}</article><aside className="page-navigation"><p>Informações</p><span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>{post.categories.map(id => categoryById[id]).filter(Boolean).map(item => <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>{decode(item.name)}<ArrowRight size={15}/></Link>)}{post.editorial && <Link to="/agenda">Calendário de 2026 a 2030 <CalendarDays size={16}/></Link>}</aside></div>
   </main>
 }
 
@@ -763,6 +772,7 @@ export function AgendaPage() {
   return <main className="content-page content-page--themed content-page--agenda">
     <Breadcrumbs items={[{ label: 'Agenda' }]} />
     <ContentHero eyebrow="Agenda" title="Eventos, festas e celebrações" introduction="Acompanhe encontros culturais, festividades cívicas, celebrações religiosas e atividades da comunidade." image="/images/evento-comunidade-original.webp" motifTheme="agenda" />
+    <HellenicCalendar />
     <section className="agenda-status">
       <p className="content-kicker">Próxima programação</p>
       <h2>Novas datas serão divulgadas em breve.</h2>

@@ -1,0 +1,46 @@
+.hellenic-calendar { max-width:1280px; margin:0 auto 80px; color:var(--blue-900); }
+.hellenic-calendar__intro { display:grid; grid-template-columns:1fr auto; gap:40px; align-items:center; }
+.hellenic-calendar h2 { font-size:clamp(2.3rem,4vw,3.8rem); line-height:1.08; margin:0 0 20px; }
+.hellenic-calendar p { color:var(--muted); line-height:1.7; }
+.hellenic-calendar__pascha { background:var(--blue-900); padding:28px; color:white; min-width:235px; }
+.hellenic-calendar__pascha span,.hellenic-calendar__pascha strong { display:block; }
+.hellenic-calendar__pascha span { font-size:.8rem; }
+.hellenic-calendar__pascha strong { font-family:var(--serif); font-size:2.1rem; font-weight:400; margin:12px 0; }
+.hellenic-calendar__pascha button { background:none; color:white; border:0; padding:8px 0; text-decoration:underline; cursor:pointer; }
+.hellenic-calendar__notice { border-left:3px solid var(--blue-600); padding:8px 18px; margin:25px 0; font-size:.88rem; }
+.hellenic-calendar__tools { display:flex; align-items:end; flex-wrap:wrap; gap:18px; padding:25px 0; border-top:1px solid #ccd6dc; }
+.hellenic-calendar__tools label { display:grid; gap:8px; font-size:.8rem; }
+.hellenic-calendar__today { flex-basis:100%; text-align:left; border:0; padding:0 0 4px; background:none; color:var(--blue-900); font:inherit; font-size:.9rem; cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
+.hellenic-calendar select,.hellenic-calendar__view { background:white; color:var(--blue-900); border:1px solid #b4c4d2; padding:12px; font:inherit; border-radius:3px; }
+.hellenic-calendar__view { margin-left:auto; cursor:pointer; font-size:.85rem; }
+.hellenic-calendar__body { display:grid; grid-template-columns:1.15fr 1fr; gap:36px; align-items:start; }
+.hellenic-calendar__body.is-annual { display:block; }
+.hellenic-calendar__month { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+.hellenic-calendar h3 { font-family:var(--serif); font-size:1.65rem; margin:0; }
+.hellenic-calendar__month button { display:grid; place-items:center; border:1px solid #ccd6dc; background:white; color:var(--blue-900); width:42px; height:42px; cursor:pointer; }
+.hellenic-calendar button:disabled { opacity:.35; cursor:default; }
+.hellenic-calendar__week,.hellenic-calendar__grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
+.hellenic-calendar__week { text-align:center; font-size:.75rem; color:var(--muted); padding:10px 0; }
+.hellenic-calendar__grid button { min-height:64px; border:1px solid #e1e6e9; background:white; color:var(--blue-900); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; font:inherit; cursor:pointer; border-radius:3px; }
+.hellenic-calendar__grid .has-events { background:var(--blue-100); font-weight:600; }
+.hellenic-calendar__grid .is-pascha { background:var(--blue-900); color:white; }
+.hellenic-calendar__grid [aria-current="date"] { border:2px solid var(--blue-800); }
+.hellenic-calendar__grid [aria-pressed="true"] { outline:2px solid var(--blue-900); outline-offset:1px; }
+.hellenic-calendar button:focus-visible,.hellenic-calendar select:focus-visible { outline:3px solid #ad782e; outline-offset:3px; }
+.hellenic-calendar__dots,.hellenic-calendar__legend,.hellenic-calendar__legend span { display:flex; gap:6px; align-items:center; }
+.hellenic-calendar i { display:inline-block; width:7px; height:7px; border-radius:50%; }
+.hellenic-calendar .civil { background:#9c601b; }.hellenic-calendar .orthodox { background:var(--blue-800); }.hellenic-calendar .is-pascha .orthodox { background:white; }
+.hellenic-calendar__legend { flex-wrap:wrap; gap:18px; font-size:.72rem; }
+.hellenic-calendar__list { background:white; padding:24px; border-top:3px solid var(--blue-800); }
+.hellenic-calendar__list ul { list-style:none; margin:18px 0 0; padding:0; }
+.hellenic-calendar__list li { display:grid; grid-template-columns:95px 1fr; gap:16px; padding:19px 0; border-bottom:1px solid #e1e6e9; }
+.hellenic-calendar__list li:last-child { border:0; }
+.hellenic-calendar__list time { font-size:.8rem; line-height:1.5; font-weight:600; }
+.hellenic-calendar__category { font-size:.65rem; text-transform:uppercase; letter-spacing:.07em; color:var(--muted); }
+.hellenic-calendar__list h4 { font-size:1.05rem; line-height:1.45; margin:6px 0 0; font-weight:500; }
+.hellenic-calendar__list li p { font-size:.78rem; margin:8px 0 0; }
+.hellenic-calendar__list .is-pascha h4 { font-weight:700; }
+.hellenic-calendar__clear { border:0; padding:12px 0; background:none; color:var(--blue-800); text-decoration:underline; cursor:pointer; }
+.hellenic-calendar__sources { border-top:1px solid #ccd6dc; padding-top:20px; margin-top:32px; font-size:.85rem; line-height:1.8; }
+.hellenic-calendar__sources summary { cursor:pointer; font-weight:600; }.hellenic-calendar__sources a { text-decoration:underline; }
+@media(max-width:800px) { .hellenic-calendar__intro,.hellenic-calendar__body { grid-template-columns:1fr; gap:24px; }.hellenic-calendar__pascha { min-width:0; }.hellenic-calendar__view { margin-left:0; }.hellenic-calendar__grid button { min-height:48px; }.hellenic-calendar__list { padding:20px; }.hellenic-calendar__list li { grid-template-columns:75px 1fr; gap:12px; } }
