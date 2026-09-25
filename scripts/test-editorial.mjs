@@ -33,6 +33,8 @@ test('All articles have complete standalone HTML, matching schema and working lo
     assert.ok(html.includes(post.excerpt))
     assert.ok(html.includes('rel="canonical"'))
     assert.ok(!html.includes('type="module"'))
+    assert.ok(!html.includes('/publicacoes/'))
+    assert.ok(html.includes('>Cultura e memória</a>'))
     const schema=JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1])
     assert.equal(schema.headline,post.title)
     assert.equal(schema['@type'],'BlogPosting')
@@ -45,6 +47,11 @@ test('All articles have complete standalone HTML, matching schema and working lo
     }
   }
   const sitemap=fs.readFileSync('dist/sitemap.xml','utf8')
-  assert.equal((sitemap.match(/<loc>/g)||[]).length,18)
+  assert.equal((sitemap.match(/<loc>/g)||[]).length,17)
   assert.ok(!sitemap.includes('#'))
+  assert.ok(!sitemap.includes('/publicacoes/'))
+  const redirect = fs.readFileSync('dist/publicacoes/index.html','utf8')
+  assert.ok(redirect.includes('http-equiv="refresh"'))
+  assert.ok(redirect.includes('/cultura'))
+  assert.ok(redirect.includes('noindex'))
 })
