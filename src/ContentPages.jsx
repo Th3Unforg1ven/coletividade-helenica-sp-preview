@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import archivedContent from './content/site-content.json'
-import { calendarArticle } from './content/calendar-article.js'
+import { editorialArticles } from './content/editorial-articles.js'
 import GreekCourse, { GreekTeacherMosaic } from './GreekCourse.jsx'
 import HellenicCalendar from './HellenicCalendar.jsx'
 import mediaMap from './content/media-map.json'
@@ -12,8 +12,8 @@ import { assetUrl, routeUrl } from './paths.js'
 
 const siteContent = {
   ...archivedContent,
-  posts: [calendarArticle, ...archivedContent.posts],
-  categories: archivedContent.categories.map(category => ({ ...category, count: category.count + (calendarArticle.categories.includes(category.id) ? 1 : 0) })),
+  posts: [...editorialArticles, ...archivedContent.posts],
+  categories: archivedContent.categories.map(category => ({ ...category, count: category.count + editorialArticles.filter(post => post.categories.includes(category.id)).length })),
 }
 
 const lessonSlugs = [
@@ -683,10 +683,11 @@ export function InstitutionPage() {
 
 function PostCard({ post }) {
   const category = categoryById[post.categories[0]]
-  return <Link className="post-card" to={`/cultura/${post.slug}`}>
+  const CardLink = post.editorial ? 'a' : Link
+  return <CardLink className="post-card" {...(post.editorial ? { href: assetUrl(`/cultura/${post.slug}/`) } : { to: `/cultura/${post.slug}` })}>
     {post.featuredMedia?.sourceUrl && <ResponsiveImage src={mediaUrl(post.featuredMedia.sourceUrl)} variantWidths={archiveVariants[mediaUrl(post.featuredMedia.sourceUrl)]} alt="" loading="lazy" decoding="async" />}
     <div><span>{decode(category?.name || 'Cultura')}</span><h2>{decode(post.title)}</h2><p>{stripHtml(post.excerpt).slice(0, 180)}</p><b>Ler conteúdo completo <ArrowRight size={15}/></b></div>
-  </Link>
+  </CardLink>
 }
 
 export function CultureIndex() {
@@ -757,13 +758,21 @@ export function MemoryPage() {
 export function PostPage() {
   const { slug } = useParams()
   const post = postBySlug[slug]
+  useEffect(() => {
+    if (!post?.editorial) return
+    const canonical = document.createElement('link')
+    canonical.rel = 'canonical'
+    canonical.href = new URL(assetUrl(`/cultura/${post.slug}/`), window.location.origin).href
+    document.head.appendChild(canonical)
+    return () => canonical.remove()
+  }, [post])
   if (!post) return <NotFound />
   const category = categoryById[post.categories[0]]
   return <main className="content-page">
     {post.editorial && <script type="application/ld+json">{JSON.stringify({ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description: post.excerpt, datePublished: post.date, dateModified: post.date, inLanguage: 'pt-BR' })}</script>}
     <Breadcrumbs items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(post.title) }]} />
     <ContentHero eyebrow={decode(category?.name || 'Cultura')} title={decode(post.title)} introduction={stripHtml(post.excerpt)} image={post.featuredMedia?.sourceUrl} />
-    <div className="content-layout"><article><LegacyHtml html={post.content}/>{post.editorial && <Link className="button" to="/agenda">Consultar o calendário na Agenda <ArrowRight size={16}/></Link>}</article><aside className="page-navigation"><p>Informações</p><span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>{post.categories.map(id => categoryById[id]).filter(Boolean).map(item => <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>{decode(item.name)}<ArrowRight size={15}/></Link>)}{post.editorial && <Link to="/agenda">Calendário de 2026 a 2030 <CalendarDays size={16}/></Link>}</aside></div>
+    <div className="content-layout"><article><LegacyHtml html={post.content}/>{post.sources?.length > 0 && <div className="wp-content"><h2>Fontes e leituras</h2><ul>{post.sources.map(([href,label]) => <li key={href}><a href={href.startsWith('/') ? routeUrl(href) : href}>{label}</a></li>)}</ul></div>}{post.related?.length > 0 && <nav className="wp-content" aria-label="Publicações relacionadas"><h2>Continue a leitura</h2><ul>{post.related.map(slug => postBySlug[slug]).filter(Boolean).map(item => <li key={item.slug}><a href={item.editorial ? assetUrl(`/cultura/${item.slug}/`) : routeUrl(`/cultura/${item.slug}`)}>{decode(item.title)}</a></li>)}</ul></nav>}{post.cta && <Link className="button" to={post.cta.href}>{post.cta.label} <ArrowRight size={16}/></Link>}</article><aside className="page-navigation"><p>Informações</p><span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>{post.categories.map(id => categoryById[id]).filter(Boolean).map(item => <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>{decode(item.name)}<ArrowRight size={15}/></Link>)}{post.cta && <Link to={post.cta.href}>{post.cta.label}<ArrowRight size={16}/></Link>}</aside></div>
   </main>
 }
 
