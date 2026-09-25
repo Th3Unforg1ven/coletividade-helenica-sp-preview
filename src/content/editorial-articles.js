@@ -1,3 +1,4 @@
+import { editorialMedia } from './editorial-media.js'
 import { calendarArticle } from './calendar-article.js'
 import { YEARS, calendarEvents } from './hellenic-calendar.js'
 
@@ -26,17 +27,10 @@ const list = items => `<ul>${items.map(x => `<li>${x}</li>`).join('')}</ul>`
 const table = (caption, headings, rows) => `<table><caption>${caption}</caption><thead><tr>${headings.map(h => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((v,i) => i ? `<td>${v}</td>` : `<th scope="row">${v}</th>`).join('')}</tr>`).join('')}</tbody></table>`
 const courseCTA = { href: '/cursos/grego-moderno', label: 'Conheça o Curso de Grego Moderno' }
 const agendaCTA = { href: '/agenda', label: 'Consultar o calendário na Agenda' }
-const photo = {
-  calendar: '/images/exposicao-cultural-original.webp',
-  language: '/images/aulas-grego-original.webp',
-  dance: '/images/aulas-danca-original.webp',
-  music: '/images/aulas-bouzouki-original.webp',
-  history: '/images/primeira-diretoria-chsp.webp',
-}
 function article(slug, title, excerpt, topic, content, sources, related, cta = agendaCTA) {
   return { id: `editorial-${slug}`, slug, title, excerpt, topic, content, sources: sources.map(k => S[k]), related, cta,
     date: '2026-09-24T23:30:00-03:00', categories: [21], editorial: true,
-    featuredMedia: { sourceUrl: photo[topic] || photo.calendar },
+    featuredMedia: editorialMedia[slug],
   }
 }
 const cycleTitles = ['Segunda-feira Limpa — início da Grande Quaresma','Domingo de Ramos','Páscoa Ortodoxa (Pascha)','Ascensão de Cristo','Pentecostes']
@@ -203,6 +197,6 @@ export const newArticles = [
 ]
 
 export const editorialArticles = [
-  { ...calendarArticle, sources: [S.holidays, S.pascha, S.feasts, S.year], topic: 'calendar', related: newArticles.slice(0,4).map(a=>a.slug), cta: agendaCTA },
+  { ...calendarArticle, featuredMedia: editorialMedia[calendarArticle.slug], sources: [S.holidays, S.pascha, S.feasts, S.year], topic: 'calendar', related: newArticles.slice(0,4).map(a=>a.slug), cta: agendaCTA },
   ...newArticles,
 ]

@@ -4,6 +4,17 @@ import fs from 'node:fs'
 import { editorialArticles, newArticles } from '../src/content/editorial-articles.js'
 const archive = JSON.parse(fs.readFileSync('src/content/site-content.json','utf8'))
 const known = new Set([...archive.posts,...editorialArticles].map(p=>p.slug))
+
+test('Each editorial article has a distinct image and a meaningful description',()=>{
+  assert.equal(new Set(editorialArticles.map(p=>p.featuredMedia.sourceUrl)).size,editorialArticles.length)
+  for(const post of editorialArticles){
+    assert.ok(post.featuredMedia.alt.length>20,post.slug)
+    assert.ok(fs.existsSync(`public${post.featuredMedia.sourceUrl}`),post.slug)
+    if(post.featuredMedia.illustration){
+      for(const width of [640,960]) assert.ok(fs.existsSync(`public${post.featuredMedia.sourceUrl.replace('.webp',`-${width}.webp`)}`))
+    }
+  }
+})
 test('All 16 requested articles exist and the central guide links to the four calendar articles',()=>{
   assert.equal(newArticles.length,16)
   assert.equal(new Set(editorialArticles.map(p=>p.slug)).size,17)

@@ -501,7 +501,7 @@ function Breadcrumbs({ items = [] }) {
   </nav>
 }
 
-function ContentHero({ eyebrow, title, introduction, image, motifTheme, visual, action, seoTitle }) {
+function ContentHero({ eyebrow, title, introduction, image, imageAlt = '', imagePosition, imageIllustration, motifTheme, visual, action, seoTitle }) {
   useEffect(() => {
     const pageTitle = seoTitle || `${title} | Coletividade Helênica de São Paulo`
     const description = introduction || 'Conheça a Coletividade Helênica de São Paulo, sua história, aulas e atividades culturais.'
@@ -528,7 +528,8 @@ function ContentHero({ eyebrow, title, introduction, image, motifTheme, visual, 
       {action && <a className="button content-hero__action" href={action.href}><MessageCircle size={18} />{action.label}<ArrowRight size={18} /></a>}
     </div>
     {visual || <figure className={image ? '' : 'content-hero__art'}>
-      {image && <ResponsiveImage src={mediaUrl(image)} variantWidths={archiveVariants[mediaUrl(image)]} alt="" />}
+      {image && <ResponsiveImage src={mediaUrl(image)} variantWidths={archiveVariants[mediaUrl(image)]} alt={imageAlt} style={{ objectPosition: imagePosition }} />}
+      {imageIllustration && <figcaption className="editorial-image-caption">Ilustração editorial</figcaption>}
     </figure>}
   </header>
 }
@@ -685,7 +686,7 @@ function PostCard({ post }) {
   const category = categoryById[post.categories[0]]
   const CardLink = post.editorial ? 'a' : Link
   return <CardLink className="post-card" {...(post.editorial ? { href: assetUrl(`/cultura/${post.slug}/`) } : { to: `/cultura/${post.slug}` })}>
-    {post.featuredMedia?.sourceUrl && <ResponsiveImage src={mediaUrl(post.featuredMedia.sourceUrl)} variantWidths={archiveVariants[mediaUrl(post.featuredMedia.sourceUrl)]} alt="" loading="lazy" decoding="async" />}
+    {post.featuredMedia?.sourceUrl && <ResponsiveImage src={mediaUrl(post.featuredMedia.sourceUrl)} variantWidths={archiveVariants[mediaUrl(post.featuredMedia.sourceUrl)]} style={{ objectPosition: post.featuredMedia.position }} alt={post.featuredMedia.alt || ''} loading="lazy" decoding="async" />}
     <div><span>{decode(category?.name || 'Cultura')}</span><h2>{decode(post.title)}</h2><p>{stripHtml(post.excerpt).slice(0, 180)}</p><b>Ler conteúdo completo <ArrowRight size={15}/></b></div>
   </CardLink>
 }
@@ -771,7 +772,7 @@ export function PostPage() {
   return <main className="content-page">
     {post.editorial && <script type="application/ld+json">{JSON.stringify({ '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.title, description: post.excerpt, datePublished: post.date, dateModified: post.date, inLanguage: 'pt-BR' })}</script>}
     <Breadcrumbs items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(post.title) }]} />
-    <ContentHero eyebrow={decode(category?.name || 'Cultura')} title={decode(post.title)} introduction={stripHtml(post.excerpt)} image={post.featuredMedia?.sourceUrl} />
+    <ContentHero eyebrow={decode(category?.name || 'Cultura')} title={decode(post.title)} introduction={stripHtml(post.excerpt)} image={post.featuredMedia?.sourceUrl} imageAlt={post.featuredMedia?.alt} imagePosition={post.featuredMedia?.position} imageIllustration={post.featuredMedia?.illustration} />
     <div className="content-layout"><article><LegacyHtml html={post.content}/>{post.sources?.length > 0 && <details className="wp-content editorial-sources"><summary>Fontes e referências</summary><ul>{post.sources.map(([href,label]) => <li key={href}><a href={href.startsWith('/') ? routeUrl(href) : href} target={href.startsWith('/') ? undefined : '_blank'} rel={href.startsWith('/') ? undefined : 'noopener noreferrer'}>{label}</a></li>)}</ul></details>}{post.related?.length > 0 && <nav className="wp-content" aria-label="Publicações relacionadas"><h2>Continue a leitura</h2><ul>{post.related.map(slug => postBySlug[slug]).filter(Boolean).map(item => <li key={item.slug}><a href={item.editorial ? assetUrl(`/cultura/${item.slug}/`) : routeUrl(`/cultura/${item.slug}`)}>{decode(item.title)}</a></li>)}</ul></nav>}{post.cta && <Link className="button" to={post.cta.href}>{post.cta.label} <ArrowRight size={16}/></Link>}</article><aside className="page-navigation"><p>Informações</p><span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>{post.categories.map(id => categoryById[id]).filter(Boolean).map(item => <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>{decode(item.name)}<ArrowRight size={15}/></Link>)}{post.cta && <Link to={post.cta.href}>{post.cta.label}<ArrowRight size={16}/></Link>}</aside></div>
   </main>
 }

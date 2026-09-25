@@ -1,0 +1,47 @@
+{
+  "tool": "Built-in image_gen",
+  "date": "2026-09-25",
+  "processing": "WebP encoding and proportional downscaling only; originals preserved.",
+  "images": [
+    {
+      "output": "public/images/editorial/calendario-ortodoxo.webp",
+      "original": "exec-fa5a7e98-288d-4cbb-bc0a-c3da8ecc4dd1.png",
+      "prompt": "Create a refined editorial illustration for a Brazilian Greek cultural association website article about the Greek Orthodox annual calendar. Wide landscape 1536x1024. Hand-painted gouache and subtle paper grain, ivory background, Aegean blue, restrained antique gold. A circular sequence of twelve blank paper calendar leaves surrounding an olive branch and a small blue-domed church seen from outside. Sophisticated natural still life composition, broad shapes readable in a small card and a center crop. No lettering, no numerals, no logos, no watermarks, no people, no photographic claims. This is conceptual editorial artwork, not a factual calendar diagram."
+    },
+    {
+      "output": "public/images/editorial/grego-antigo-moderno.webp",
+      "original": "exec-ded8d672-0582-4d4f-b655-2bfbe7074e40.png",
+      "prompt": "Editorial illustration for article 'Modern Greek versus Ancient Greek'. Landscape 1536x1024, elegant gouache on ivory paper, Aegean blue and warm stone palette. A single coherent still life: on the left weathered ancient Greek stone inscription fragment, with a few indistinct engraved marks; on the right contemporary open notebook with just three clean handwritten Greek characters Α Β Γ, blue pencil and headphones. An olive twig subtly connects past and present. Not a split screen or collage. Centered balanced composition with essential objects inside middle 65% so it crops well on a website card. No other text, no people, no logos, no watermark. Clearly painterly conceptual illustration."
+    },
+    {
+      "output": "public/images/editorial/grandes-festas.webp",
+      "original": "exec-c73ac3f9-7e19-4f8b-a06e-6b39634877d3.png",
+      "prompt": "Create a wide 1536x1024 editorial gouache illustration on textured ivory paper for 'The twelve great Orthodox feasts'. Quiet dignified Byzantine-inspired church interior, one central brass candle stand with lit slender candles, deep Aegean blue arches and subtle antique gold mosaic tesserae, a small olive branch in foreground, soft daylight from a high window. No people, no invented depictions of saints, no pseudo-writing, no labels, no numerals, no logos. Composition distinct from any calendar still life: architectural depth, warm light in cool blue interior, key candle stand centered for square and wide website crops. Clearly an illustration, not a documentary photograph or an authentic religious icon."
+    },
+    {
+      "output": "public/images/editorial/alfabeto-grego.webp",
+      "original": "exec-5beb39cd-f4b8-40c4-ac9d-540f86c49f12.png",
+      "prompt": "Wide editorial gouache illustration on ivory textured paper, landscape 1536x1024, Greek language alphabet learning. Beautiful blue ceramic movable letter tiles arranged casually on a wooden desk, with clearly rendered individual uppercase Greek letters Α Β Γ Δ Ω, notebook and blue pencil. Center composition suitable for square crop, Aegean blue, terracotta accents and warm ivory, natural daylight. No extra words, no logos, no people. Conceptual editorial artwork."
+    },
+    {
+      "output": "public/images/editorial/dia-do-oxi.webp",
+      "original": "exec-bd86f0dd-334a-406f-9237-e43ffa242e46.png",
+      "prompt": "Editorial gouache illustration for Greek Oxi Day, 28 October, memory and civic courage. Landscape 1536x1024, sophisticated ivory textured paper and Aegean blue. A blue and white Greek flag with cross canton draped beside an olive wreath on warm stone, a distant rugged Greek mountain silhouette, quiet dignified composition. No people, no weapons, no invented historical scene, no writing, no numerals, no logos. Main objects centered to work in square and wide web crops. Clearly symbolic painted illustration, not archival photography."
+    },
+    {
+      "output": "public/images/editorial/bouzouki.webp",
+      "original": "exec-214c54a5-63f4-4882-a90a-b31f003a8e9e.png",
+      "prompt": "Editorial gouache illustration, 1536x1024 landscape, ivory paper texture and Aegean blue background accents. One authentic modern Greek tetrachordo bouzouki resting diagonally on a wooden chair: very long slim fretted neck, small pear-shaped rounded wooden bowl body, eight metal strings in four paired courses, ornate dark pickguard with delicate mother-of-pearl floral inlay surrounding one oval soundhole, small headstock with eight tuning pegs. Not an oud, not a lute, not a guitar. Main instrument centered, full instrument visible with breathing room and clear recognizable silhouette for web cards. Warm honey wood, understated sophisticated cultural magazine style. No words, people or logos."
+    },
+    {
+      "output": "public/images/editorial/grego-antigo-moderno-v2.webp",
+      "original": "exec-47bf95d5-c1d8-4da3-9c41-6b0af69403fc.png",
+      "prompt": "Create a genuinely painterly editorial artwork for a Greek cultural journal, landscape 1536x1024. Subject: Greek language across time. An intimate street in Athens, weathered ochre and chalk-white facades and a faded blue doorway, with an ancient marble column fragment integrated naturally into the street. Two small loosely painted adult figures conversing in the shade at the center; their faces are just economical paint marks. Composition resembles a compelling mid-century Mediterranean plein-air oil painting, NOT an illustration of art supplies. Big irregular flat brushstrokes, palette-knife impasto, scumbling, lost edges, uneven exposed warm ground, deliberate simplification, asymmetric composition and strong ultramarine shadows. Muted ochre, dusty rose, limestone white, deep blue; limited palette, no pristine surfaces, no synthetic smooth gradients. The architecture and conversation, rather than props, connect the living language and antiquity. No notebook, headphones, floating letters, olive-branch decoration, domed island church, text, logos or watermark. No photorealism, no 3D, no cartoon, no glossy AI fantasy. Keep the column and the two figures within the central 65% for square banner crops. Paint should look physically worked, not a grain texture overlay."
+    },
+    {
+      "output": "public/images/editorial/alfabeto-grego-v2.webp",
+      "original": "exec-9b8d078f-e389-46b5-8be2-841ca76bce38.png",
+      "prompt": "Landscape 1536x1024 artwork for an editorial banner about the Greek alphabet. Invent a bold restrained hand-painted modern Greek fresco, photographed straight-on filling the entire frame, NO setting or desk: large expressive Greek letterforms Α Ω Φ woven into abstract architectural shapes suggesting an ancient portico and sea. Just these three recognizable letters, no other writing. Hand-drawn letterforms with irregular dry-brush edges, partially worn pigment, NOT typeset, NOT alphabet tiles, NOT a school chart. Strong asymmetric fine-art composition, letters form part of the painting rather than floating over it. Chalky warm limestone ground, broad deep ultramarine painted fields, muted terracotta and a very small charcoal accent. Thick and thin paint, visible brush direction, scraping and patches of exposed plaster, quiet empty space balancing dense shapes. Sophisticated mid-century Mediterranean mural / artist's monotype sensibility. Entirely two dimensional and tactile; no lighting render, no gradients, no notebook, pencil, ceramic tiles, staged props, tourist motifs, olive branches, decorative border, signatures or logos. Main letterforms centered inside middle 65% with generous margins so image works as a square crop and horizontal banner. Make this feel like a particular human painter's economical marks rather than polished generative illustration."
+    }
+  ]
+}
