@@ -33,7 +33,7 @@ for (const post of editorialArticles) {
     headings.push({id,title})
     return `<h2 id="${id}">${title}</h2>`
   }).replace(/href="([^"]+)"/g, (_,target)=>`href="${esc(href(target))}"`)
-  if(post.sources?.length) content += `<h2>Fontes e leituras</h2><ul>${post.sources.map(([target,label])=>`<li><a href="${esc(href(target))}">${esc(label)}</a></li>`).join('')}</ul>`
+  if(post.sources?.length) content += `<details class="editorial-sources"><summary>Fontes e referências</summary><ul>${post.sources.map(([target,label])=>`<li><a href="${esc(href(target))}"${target.startsWith('/') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${esc(label)}</a></li>`).join('')}</ul></details>`
   const related = (post.related||[]).map(slug=>bySlug[slug]).filter(Boolean)
   if(related.length) content += `<nav aria-label="Publicações relacionadas"><h2>Continue a leitura</h2><ul>${related.map(p=>`<li><a href="${href(`/cultura/${p.slug}`)}">${esc(p.title)}</a></li>`).join('')}</ul></nav>`
   const minutes = Math.max(1,Math.ceil(post.content.replace(/<[^>]*>/g,' ').split(/\s+/).length/200))

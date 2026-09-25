@@ -203,6 +203,6 @@ export const newArticles = [
 ]
 
 export const editorialArticles = [
-  { ...calendarArticle, topic: 'calendar', related: newArticles.slice(0,4).map(a=>a.slug), cta: agendaCTA },
+  { ...calendarArticle, sources: [S.holidays, S.pascha, S.feasts, S.year], topic: 'calendar', related: newArticles.slice(0,4).map(a=>a.slug), cta: agendaCTA },
   ...newArticles,
 ]

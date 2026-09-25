@@ -399,3 +399,7 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
   .hero__controls button.active { background:radial-gradient(circle,white 0 4px,transparent 5px);transform:none; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } * { transition:none!important; animation:none!important; } }
+
+.editorial-sources { margin:36px 0; padding:18px 0; border-top:1px solid #dfe4e8; font-size:.85rem; }
+.editorial-sources summary { cursor:pointer; color:var(--blue-900); }
+.editorial-sources ul { margin-top:18px; }

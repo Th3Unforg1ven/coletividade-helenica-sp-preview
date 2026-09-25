@@ -14,11 +14,10 @@ export const calendarArticle = {
     <h2>Quando é a Páscoa grega?</h2>
     <p>A Páscoa ortodoxa, também chamada de <em>Pascha</em>, celebra a Ressurreição de Cristo. Veja as datas de 2026 a 2030:</p>
     <table><caption>Datas da Páscoa ortodoxa grega</caption><thead><tr><th scope="col">Ano</th><th scope="col">Domingo de Páscoa</th></tr></thead><tbody>${YEARS.map(year => `<tr><th scope="row">${year}</th><td>${new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(dateAtUTC(PASCHA[year]))}</td></tr>`).join('')}</tbody></table>
-    <p>Referência: <a href="https://www.oca.org/fs/paschal-cycle">tabela do ciclo pascal da Igreja Ortodoxa na América (OCA)</a>.</p>
     <h2>A Páscoa ortodoxa cai sempre no mesmo dia da ocidental?</h2>
     <p>Não. Os calendários pascais podem coincidir ou indicar domingos diferentes. Em 2028, ambos indicam 16 de abril; em 2027, a Páscoa ortodoxa será em 2 de maio. Por isso, ao planejar uma visita ou encontro, consulte a data ortodoxa do ano desejado.</p>
     <h2>Da Quaresma a Pentecostes</h2>
-    <p>A Segunda-feira Limpa marca o início da Grande Quaresma. O Domingo de Ramos antecede a Páscoa em uma semana. Depois vêm a Semana Santa e a celebração pascal. Ascensão e Pentecostes também acompanham esse ciclo, mudando de data a cada ano. A <a href="https://www.oca.org/fs/paschal-cycle">tabela pascal da OCA</a> permite conferir essas datas juntas.</p>
+    <p>A Segunda-feira Limpa marca o início da Grande Quaresma. O Domingo de Ramos antecede a Páscoa em uma semana. Depois vêm a Semana Santa e a celebração pascal. Ascensão e Pentecostes também acompanham esse ciclo, mudando de data a cada ano. A <a href="/cultura/pascoa-ortodoxa-2026-2030">tabela das festas móveis de 2026 a 2030</a> permite conferir essas datas juntas.</p>
     <h2>Quais são as doze grandes festas ortodoxas?</h2>
     <p>Nove têm data fixa no calendário aqui adotado:</p>
     <ul>
@@ -32,10 +31,10 @@ export const calendarArticle = {
       <li>21 de novembro — Entrada da Mãe de Deus no Templo.</li>
       <li>25 de dezembro — Natal de Cristo.</li>
     </ul>
-    <p>As três festas móveis são Domingo de Ramos, Ascensão e Pentecostes. A Páscoa tem destaque próprio neste guia. Consulte a <a href="https://www.oca.org/fs/icons-of-twelve-great-feasts">relação das doze grandes festas da OCA</a> para aprofundar a leitura.</p>
+    <p>As três festas móveis são Domingo de Ramos, Ascensão e Pentecostes. A Páscoa tem destaque próprio neste guia. Consulte a <a href="/cultura/doze-grandes-festas-ortodoxas">explicação das doze grandes festas</a> para aprofundar a leitura.</p>
     <h2>Feriados e datas cívicas da Grécia</h2>
     <p>Ano-Novo, em 1º de janeiro; Independência da Grécia, em 25 de março; Dia do Trabalho, em 1º de maio; e Dia do Oxi, em 28 de outubro, são referências cívicas. Em 25 de março, a Independência compartilha a data com a Anunciação.</p>
-    <p>O <a href="https://www.mfa.gr/uk/public-holidays/">calendário de 2026 da representação grega no Reino Unido</a> identifica datas gregas e britânicas. Serve como referência para este guia; expedientes e eventuais transferências de feriados devem ser confirmados nos anúncios oficiais do ano correspondente.</p>
+    <p>Conheça os <a href="/cultura/feriados-gregos-datas-civicas-religiosas">feriados gregos e suas diferenças</a>. Expedientes e eventuais transferências de feriados devem ser confirmados nos anúncios oficiais do ano correspondente.</p>
     <h2>Como acompanhar as datas em São Paulo</h2>
     <p>Na Agenda, escolha o ano e o mês ou abra a lista anual. O quadro da Páscoa acompanha o ano selecionado, e o botão Hoje retorna ao dia atual.</p>
     <p>Uma data religiosa ou um feriado grego não confirma uma festa, liturgia ou alteração de expediente da CHSP. A programação local deve ser consultada com a comunidade.</p>
