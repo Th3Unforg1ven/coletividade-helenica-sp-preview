@@ -17,6 +17,17 @@ const references = [
   [2029, '04-08', '02-19', '05-17', '05-27'],
   [2030, '04-28', '03-11', '06-06', '06-16'],
 ]
+test('Greek language and immigration observances recur once in every supported year', () => {
+  for (const year of YEARS) {
+    const events = calendarEvents(year)
+    for (const [title, day] of [['Dia Mundial da Língua Grega', '02-09'], ['Dia Nacional do Imigrante Grego', '09-21']]) {
+      const matches = events.filter(event => event.title === title)
+      assert.equal(matches.length, 1)
+      assert.equal(matches[0].date, `${year}-${day}`)
+      assert.equal(matches[0].category, 'cultural')
+    }
+  }
+})
 for (const [year, pascha, lent, ascension, pentecost] of references) {
   test(`Orthodox cycle matches reference table for ${year}`, () => {
     const events = calendarEvents(year)

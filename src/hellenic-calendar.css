@@ -44,3 +44,5 @@
 .hellenic-calendar__sources { border-top:1px solid #ccd6dc; padding-top:20px; margin-top:32px; font-size:.85rem; line-height:1.8; }
 .hellenic-calendar__sources summary { cursor:pointer; font-weight:600; }.hellenic-calendar__sources a { text-decoration:underline; }
 @media(max-width:800px) { .hellenic-calendar__intro,.hellenic-calendar__body { grid-template-columns:1fr; gap:24px; }.hellenic-calendar__pascha { min-width:0; }.hellenic-calendar__view { margin-left:0; }.hellenic-calendar__grid button { min-height:48px; }.hellenic-calendar__list { padding:20px; }.hellenic-calendar__list li { grid-template-columns:75px 1fr; gap:12px; } }
+
+.hellenic-calendar__dots .cultural, .hellenic-calendar__legend .cultural { background:#98723c; }

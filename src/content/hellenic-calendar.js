@@ -3,6 +3,8 @@
 // https://www.oca.org/fs/paschal-cycle
 // https://www.oca.org/fs/icons-of-twelve-great-feasts
 // https://www.oca.org/fs/icons-of-church-year
+// Datas comemorativas: https://www.unesco.org/fr/articles/journee-mondiale-de-la-langue-grecque
+// https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2024/lei/l14884.htm
 export const YEARS = [2026, 2027, 2028, 2029, 2030]
 export const PASCHA = { 2026: '2026-04-12', 2027: '2027-05-02', 2028: '2028-04-16', 2029: '2029-04-08', 2030: '2030-04-28' }
 export const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -15,6 +17,7 @@ const fixed = [
   ['01-01', 'Ano-Novo', 'civil'],
   ['01-06', 'Teofania (Epifania)', 'orthodox'],
   ['02-02', 'Apresentação de Cristo no Templo', 'orthodox'],
+  ['02-09', 'Dia Mundial da Língua Grega', 'cultural'],
   ['03-25', 'Independência da Grécia', 'civil'],
   ['03-25', 'Anunciação à Mãe de Deus', 'orthodox'],
   ['05-01', 'Dia do Trabalho', 'civil'],
@@ -22,6 +25,7 @@ const fixed = [
   ['08-15', 'Dormição da Mãe de Deus', 'orthodox'],
   ['09-08', 'Natividade da Mãe de Deus', 'orthodox'],
   ['09-14', 'Exaltação da Santa Cruz', 'orthodox'],
+  ['09-21', 'Dia Nacional do Imigrante Grego', 'cultural'],
   ['10-28', 'Dia do Oxi (Dia do Não)', 'civil'],
   ['11-21', 'Entrada da Mãe de Deus no Templo', 'orthodox'],
   ['12-25', 'Natal de Cristo', 'orthodox'],
