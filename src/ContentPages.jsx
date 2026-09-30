@@ -622,7 +622,15 @@ export function LessonsIndex() {
   ]
   return <main className="content-page content-page--themed content-page--aulas">
     <Breadcrumbs items={[{ label: 'Cursos e atividades' }]} />
-    <ContentHero eyebrow="Cursos e atividades" title="Aprenda e viva a cultura grega" introduction="Cursos de língua e música, grupos de dança e encontros culturais: descubra as formas de participar e confira a situação de cada atividade." image="/images/aulas-grego-turma-recorte-original.webp" motifTheme="aulas" seoTitle="Cursos e atividades | Coletividade Helênica de São Paulo" />
+    <ContentHero eyebrow="Cursos e atividades" title="Aprenda e viva a cultura grega" introduction="Cursos de língua e música, grupos de dança e encontros culturais: descubra as formas de participar e confira a situação de cada atividade." visual={<figure className="activities-mosaic" aria-label="Língua, dança, oficinas e música na Coletividade">
+      {[
+        ['neolea', '/images/grupos-danca/neolea-danca.jpeg', 'Apresentação de danças gregas da Neolea Asteri'],
+        ['grego', '/images/aulas-grego-turma-recorte-original.webp', 'Turma do curso de Grego Moderno em uma aula online'],
+        ['oficinas', '/images/oficinas-culturais-original.webp', 'Participantes de uma oficina cultural na Coletividade'],
+        ['pedilea', '/images/grupos-danca/pedilea-grupo.jpeg', 'Integrantes da Pedilea e seus instrutores'],
+        ['bouzouki', '/images/archive/28c0d6ffd7-kostakis2-1024x473.webp', 'Registro histórico de apresentação musical com bouzouki na Coletividade'],
+      ].map(([key, src, alt]) => <span key={key} className={`activities-mosaic__${key}`}><img src={assetUrl(src)} alt={alt} decoding="async" /></span>)}
+    </figure>} motifTheme="aulas" seoTitle="Cursos e atividades | Coletividade Helênica de São Paulo" />
     {groups.map(group => <section className="activity-directory" key={group.title}>
       <h2>{group.title}</h2>
       <div className="directory-grid">
