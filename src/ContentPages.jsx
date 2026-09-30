@@ -901,6 +901,7 @@ export function ContactPage() {
       <div className="contact-methods">
         <div><Phone/><span><small>Telefones</small><a href="tel:+551126951678">(11) 2695-1678</a><a href="tel:+5511940318080">(11) 94031-8080</a></span></div>
         <a href="mailto:coletividade@helenica.com.br"><Mail/><span><small>E-mail</small><strong>coletividade@helenica.com.br</strong></span></a>
+        <a href="https://www.instagram.com/coletividadehelenica.sp/" target="_blank" rel="noreferrer"><InstagramIcon/><span><small>Instagram oficial</small><strong>@coletividadehelenica.sp</strong></span></a>
         <a href="https://www.facebook.com/coletividadehelenicasp" target="_blank" rel="noreferrer"><FacebookIcon/><span><small>Facebook oficial</small><strong>Coletividade Helênica de São Paulo</strong></span></a>
         <div><MapPin/><span><small>Endereço</small><strong>Rua Bresser, 793</strong><em>Brás, São Paulo, SP</em></span></div>
       </div>
