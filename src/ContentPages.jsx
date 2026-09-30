@@ -1,3 +1,6 @@
+import FacebookIcon from './FacebookIcon.jsx'
+import InstagramIcon from './InstagramIcon.jsx'
+import DanceGroupBody, { danceGroups, DanceHero, DanceOverview } from './DanceGroups.jsx'
 import { useEffect, useState } from 'react'
 import { ArrowRight, CalendarDays, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
@@ -66,9 +69,9 @@ const culturalPageSlugs = [
 
 const courseIntroductions = {
   'aulas-de-grego-moderno': 'Curso de Grego Moderno da Coletividade Helênica de São Paulo para adultos e crianças, do iniciante ao avançado. Aulas presenciais no Brás e online, com duração de 1h30 cada.',
-  'aulas-de-danca': 'Conheça ritmos de diferentes regiões da Grécia e transforme movimento em memória, saúde e convivência.',
-  'aulas-de-bouzouki': 'Descubra o instrumento que acompanha gerações de música grega e desenvolva expressão por meio de seu repertório.',
-  'oficinas-culturais': 'Experimente diferentes expressões da cultura helênica por meio de encontros, práticas e oficinas abertas à comunidade.',
+  'aulas-de-danca': 'Pedilea e Neolea Asteri: grupos de danças gregas para crianças, jovens e adultos, unidos pela convivência e pela preservação da cultura helênica.',
+  'aulas-de-bouzouki': 'Conheça o bouzouki e sua presença na cultura grega. As aulas não estão acontecendo no momento.',
+  'oficinas-culturais': 'Encontros pontuais para compartilhar os saberes e as tradições da cultura helênica. A programação é divulgada no Instagram @coletividadehelenica.sp.',
 }
 
 const lessonImages = {
@@ -78,22 +81,55 @@ const lessonImages = {
   'oficinas-culturais': '/images/oficinas-culturais-original.webp',
 }
 
+const lessonStatus = {
+  'aulas-de-grego-moderno': ['Curso', 'Consultar turmas'],
+  'aulas-de-danca': ['Grupos de dança', 'Grupos ativos'],
+  'aulas-de-bouzouki': ['Curso', 'Sem aulas no momento'],
+  'oficinas-culturais': ['Oficinas culturais', 'Conforme programação'],
+}
+
 const lessonContentOverrides = {
+  'aulas-de-danca': `
+    <h2>Pedilea — grupo de dança infantil</h2>
+    <p><strong>Grupo ativo · Gratuito · Crianças de 5 a 11 anos</strong></p>
+    <p>A Pedilea reúne crianças que gostam de dançar e conhecer a cultura grega, descendentes de gregos ou não. Os encontros apresentam danças, suas origens e as tradições das diferentes regiões da Grécia.</p>
+    <h3>Horários dos ensaios</h3>
+    <p>Sábados, das <strong>12h30 às 13h30</strong>, na Coletividade Helênica de São Paulo: Rua Bresser, 793, Brás.</p>
+    <h3>Como participar</h3>
+    <p>A participação é gratuita. Aos responsáveis é sugerida a associação à Coletividade; ela não é uma exigência para participar do grupo. Consulte a equipe para combinar a participação e esclarecer dúvidas sobre a associação.</p>
+    <h3>A história da Pedilea</h3>
+    <p>Criada em 1982, a Pedilea nasceu para aproximar as novas gerações da língua e da cultura gregas por meio da dança, da música e de atividades culturais. Participou de celebrações como a Independência Grega, o Dia do Oxi e a Páscoa.</p>
+    <p>Após um período de inatividade, retornou em 2002 com o incentivo do pároco da Igreja Ortodoxa Grega São Pedro e de mães voluntárias. O então diretor da Neolea ensinou as primeiras danças às crianças e preparou uma apresentação no 31º Festival Internacional de Danças Folclóricas do Bunkyo.</p>
+    <p>O centro de atividades foi dissolvido em 2005, e o grupo fez uma pausa. A retomada aconteceu em julho de 2006, com a diretoria Nova Genia. Os encontros seguiram até a interrupção pela pandemia em 2020 e recomeçaram em agosto de 2025.</p>
+    <h2>Neolea Asteri — grupo de danças folclóricas gregas</h2>
+    <p><strong>Grupo ativo · A partir de 12 anos e adultos</strong></p>
+    <p>A Neolea Asteri reúne descendentes e filo-helenos para preservar e divulgar a cultura grega. Os ensaios e as apresentações conectam os passos de dança às histórias, aos costumes e aos significados de cada tradição.</p>
+    <h3>Horários dos ensaios</h3>
+    <p>Sábados, das <strong>14h às 16h30</strong>, na Coletividade Helênica de São Paulo: Rua Bresser, 793, Brás.</p>
+    <h3>Acompanhe o grupo</h3>
+    <p>Acompanhe a Neolea Asteri no Instagram <a href="https://www.instagram.com/neolea.asteri/">@neolea.asteri</a>.</p>
+    <h3>Da Neolea à Neolea Asteri</h3>
+    <p>A Neolea foi criada em 1967, originalmente para jovens a partir de 13 anos. Sua trajetória inclui atividades até 2004, uma retomada de 2011 a 2013 e um novo ciclo iniciado em 2022.</p>
+    <p>Em 2022, crianças que haviam participado da Pedilea antes da pandemia, agora mais velhas, formaram a Neolea Asteri. O grupo representa a Coletividade em festivais, shows, feiras, noites gregas e Festas das Nações, no Brasil e na América Latina.</p>
+    <p>Quando possível, as apresentações contam com a Elliniki Compania ou a Nea Elliniki Compania, que reúne também jovens dançarinos e outros artistas.</p>
+    <p><a href="/contato">Conversar com a Coletividade sobre os grupos</a></p>
+  `,
   'aulas-de-bouzouki': `
     <h2>Sobre o bouzouki</h2>
     <p>O bouzouki é um instrumento de cordas da família do alaúde e um dos símbolos mais reconhecidos da música grega. Seu nome deriva da palavra turca <em>buzuk</em>, e sua sonoridade atravessa repertórios tradicionais e populares.</p>
     <p>Tanto no continente quanto nas ilhas, a música acompanha celebrações religiosas, casamentos, encontros comunitários e diferentes danças. O bouzouki pode ser ouvido em formações tradicionais e em ritmos como o sirtaki e o hasapiko.</p>
     <p>Mikis Theodorakis, Vasilis Tsitsanis e Manolis Karantinis estão entre os artistas que ajudaram a projetar a força e a identidade desse instrumento.</p>
-    <h2>Aprender é participar dessa história</h2>
-    <p>As aulas aproximam técnica, repertório e cultura. Quem começa desenvolve coordenação e escuta musical, enquanto estudantes com experiência podem aprofundar interpretação e expressão.</p>
+    <h2>Sem aulas no momento</h2>
+    <p>As aulas de bouzouki não estão acontecendo atualmente. Não há uma data de retomada confirmada para divulgação.</p>
     <h2>Informações sobre as aulas</h2>
-    <p>Turmas, horários, formato e valores podem variar ao longo do ano. Entre em contato com a Coletividade para conhecer a programação disponível.</p>
+    <p>Para consultar eventuais novidades, entre em contato com a Coletividade.</p>
     <p><a href="/contato">Consultar a equipe da Coletividade</a></p>
-    <figure><img src="/images/aulas-bouzouki-original.webp" alt="Aula de bouzouki na Coletividade Helênica de São Paulo"/></figure>
+    <figure><img src="/images/aulas-bouzouki-original.webp" alt="Instrumentos musicais na Coletividade Helênica de São Paulo"/></figure>
   `,
   'oficinas-culturais': `
     <h2>Cultura grega para aprender fazendo</h2>
     <p>As oficinas culturais transformam tradições, histórias e saberes em encontros práticos. A programação varia ao longo do ano e aproxima diferentes gerações da comunidade.</p>
+    <p>As oficinas são pontuais, sem uma oferta permanente de turmas. As referências abaixo apresentam iniciativas culturais da comunidade; sua presença nesta página não indica inscrições abertas.</p>
     <h3>Cozinhando com Yiayiá</h3>
     <p>Encontros dedicados às receitas, aos ingredientes e às memórias afetivas da culinária grega, compartilhadas entre gerações.</p>
     <h3>Iconografia grega</h3>
@@ -102,9 +138,9 @@ const lessonContentOverrides = {
     <p>Uma atividade de convivência que reúne a comunidade e fortalece as iniciativas culturais e beneficentes da Coletividade.</p>
     <h3>Bazares</h3>
     <p>Programações especiais em datas como Dia das Mães, Páscoa e Natal, com produtos, gastronomia e trabalhos realizados pela comunidade.</p>
-    <h2>Participe das próximas oficinas</h2>
-    <p>Consulte a equipe para conhecer o calendário, as inscrições e as atividades disponíveis.</p>
-    <p><a href="/contato">Falar com a Coletividade</a></p>
+    <h2>Consulte a programação</h2>
+    <p>A programação das oficinas culturais é divulgada no Instagram oficial da Coletividade, @coletividadehelenica.sp. Acompanhe o perfil para conhecer os encontros anunciados e as informações de cada atividade.</p>
+    <p><a href="https://www.instagram.com/coletividadehelenica.sp/">Acompanhar @coletividadehelenica.sp no Instagram</a></p>
   `,
 }
 
@@ -525,7 +561,7 @@ function ContentHero({ eyebrow, title, introduction, image, imageAlt = '', image
       <p className="content-kicker">{eyebrow}</p>
       <h1>{title}</h1>
       {introduction && <p>{introduction}</p>}
-      {action && <a className="button content-hero__action" href={action.href}><MessageCircle size={18} />{action.label}<ArrowRight size={18} /></a>}
+      {action && <a className={`button content-hero__action${action.social ? ' button--instagram' : ''}`} href={action.href}>{action.social ? <InstagramIcon size={20} /> : <MessageCircle size={18} />}<span>{action.label}</span><ArrowRight size={18} /></a>}
     </div>
     {visual || <figure className={image ? '' : 'content-hero__art'}>
       {image && <ResponsiveImage src={mediaUrl(image)} variantWidths={archiveVariants[mediaUrl(image)]} alt={imageAlt} style={{ objectPosition: imagePosition }} />}
@@ -571,16 +607,31 @@ function FullPage({ page, eyebrow = 'Coletividade Helênica de São Paulo', navi
 }
 
 export function LessonsIndex() {
-  const overview = pageBySlug['atividades-culturais-da-chsp']
+  const groups = [
+    { title: 'Cursos', cards: [
+      { title: 'Curso de Grego Moderno', slug: 'aulas-de-grego-moderno', action: 'Conhecer o curso' },
+      { title: 'Bouzouki', slug: 'aulas-de-bouzouki', action: 'Conhecer a atividade' },
+    ] },
+    { title: 'Grupos de dança', cards: [
+      { title: 'Pedilea', href: '/cursos/pedilea', slug: 'aulas-de-danca', status: ['Grupo de dança infantil', 'Grupo ativo', 'Gratuito'], description: 'Crianças de 5 a 11 anos. Ensaios aos sábados, das 12h30 às 13h30, na sede da Coletividade.', action: 'Conhecer o grupo' },
+      { title: 'Neolea Asteri', href: '/cursos/neolea-asteri', slug: 'aulas-de-danca', status: ['Grupo de dança', 'Grupo ativo'], description: 'Conheça a trajetória do grupo de danças folclóricas gregas e acompanhe suas novidades no Instagram @neolea.asteri.', action: 'Conhecer o grupo' },
+    ] },
+    { title: 'Oficinas culturais', cards: [
+      { title: 'Encontros e oficinas culturais', slug: 'oficinas-culturais', action: 'Consultar informações' },
+    ] },
+  ]
   return <main className="content-page content-page--themed content-page--aulas">
-    <Breadcrumbs items={[{ label: 'Cursos' }]} />
-    <ContentHero eyebrow="Cursos e oficinas" title="Aprenda e viva a cultura grega" introduction="Língua, dança, música e oficinas para diferentes idades, níveis e formas de participação." image="/images/aulas-grego-turma-recorte-original.webp" motifTheme="aulas" seoTitle="Cursos e oficinas | Coletividade Helênica de São Paulo" />
-    <section className="directory-grid">
-      {lessonSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link className="directory-card" to={pathForPage(page)} key={page.id}>
-        <span>{page.slug === 'oficinas-culturais' ? 'Oficinas' : 'Cursos'}</span><h2>{decode(page.title).replace(/^Aulas de /i, '')}</h2><p>{courseIntroductions[page.slug] || stripHtml(page.excerpt)}</p><b>Ver informações completas <ArrowRight size={16}/></b>
-      </Link>)}
-    </section>
-    {overview && <section className="legacy-overview"><LegacyHtml html={overview.content}/></section>}
+    <Breadcrumbs items={[{ label: 'Cursos e atividades' }]} />
+    <ContentHero eyebrow="Cursos e atividades" title="Aprenda e viva a cultura grega" introduction="Cursos de língua e música, grupos de dança e encontros culturais: descubra as formas de participar e confira a situação de cada atividade." image="/images/aulas-grego-turma-recorte-original.webp" motifTheme="aulas" seoTitle="Cursos e atividades | Coletividade Helênica de São Paulo" />
+    {groups.map(group => <section className="activity-directory" key={group.title}>
+      <h2>{group.title}</h2>
+      <div className="directory-grid">
+        {group.cards.map(card => <Link className="directory-card" to={card.href || pathForPage(pageBySlug[card.slug])} key={card.title}>
+          <div className="activity-tags">{(card.status || lessonStatus[card.slug]).map(label => <span key={label}>{label}</span>)}</div>
+          <h3>{card.title}</h3><p>{card.description || courseIntroductions[card.slug]}</p><b>{card.action} <ArrowRight size={16}/></b>
+        </Link>)}
+      </div>
+    </section>)}
   </main>
 }
 
@@ -588,17 +639,33 @@ export function LessonPage() {
   const { slug: routeSlug } = useParams()
   const location = useLocation()
   const slug = routeSlug === 'grego-moderno' ? 'aulas-de-grego-moderno' : routeSlug
+  if (danceGroups[slug]) return <DanceGroupPage slug={slug} />
   const page = pageBySlug[slug]
   if (!page || !lessonSlugs.includes(slug)) return <NotFound />
   if (location.pathname !== pathForPage(page)) return <Navigate replace to={`${pathForPage(page)}${location.search}${location.hash}`} />
-  const title = slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno' : decode(page.title)
+  const title = slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno' : slug === 'aulas-de-danca' ? 'Grupos de Danças Gregas' : decode(page.title)
   return <main className={`content-page${slug === 'aulas-de-grego-moderno' ? ' content-page--greek' : ''}`}>
-    <Breadcrumbs items={[{ label: 'Cursos', to: '/cursos' }, { label: title }]} />
-    <ContentHero eyebrow="Cursos" title={title} seoTitle={slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno em São Paulo e online | CHSP' : undefined} introduction={courseIntroductions[slug]} image={lessonImages[slug]} visual={slug === 'aulas-de-grego-moderno' ? <GreekTeacherMosaic /> : undefined} action={slug === 'aulas-de-grego-moderno' ? { href: 'https://wa.link/ryey8t', label: 'Consultar vagas e valores' } : undefined} />
-    {slug === 'aulas-de-grego-moderno' ? <GreekCourse /> : <div className="content-layout">
+    <Breadcrumbs items={[{ label: 'Cursos e atividades', to: '/cursos' }, { label: title }]} />
+    <ContentHero eyebrow={lessonStatus[slug][0]} title={title} seoTitle={slug === 'aulas-de-grego-moderno' ? 'Curso de Grego Moderno em São Paulo e online | CHSP' : undefined} introduction={courseIntroductions[slug]} image={lessonImages[slug]} visual={slug === 'aulas-de-grego-moderno' ? <GreekTeacherMosaic /> : slug === 'aulas-de-danca' ? <DanceHero group={danceGroups['neolea-asteri']} /> : undefined} action={slug === 'aulas-de-grego-moderno' ? { href: 'https://wa.link/ryey8t', label: 'Consultar vagas e valores' } : slug === 'oficinas-culturais' ? { href: 'https://www.instagram.com/coletividadehelenica.sp/', label: 'Acompanhar no Instagram', social: true } : undefined} />
+    <div className="activity-tags activity-tags--detail">{lessonStatus[slug].slice(1).map(label => <span key={label}>{label}</span>)}</div>
+    {slug === 'aulas-de-grego-moderno' ? <GreekCourse /> : slug === 'aulas-de-danca' ? <DanceOverview /> : <div className="content-layout">
       <article><LegacyHtml html={lessonContentOverrides[slug] || page.content}/></article>
-      <PageNavigation slugs={lessonSlugs} basePath="/cursos" />
+      <PageNavigation slugs={lessonSlugs} basePath="/cursos" labels={{ 'aulas-de-danca': 'Grupos de Danças Gregas' }} />
     </div>}
+  </main>
+}
+
+function DanceGroupPage({ slug }) {
+  const group = danceGroups[slug]
+  const source = lessonContentOverrides['aulas-de-danca']
+  const history = slug === 'pedilea'
+    ? source.split('<h3>A história da Pedilea</h3>')[1].split('<h2>Neolea Asteri')[0]
+    : source.split('<h3>Da Neolea à Neolea Asteri</h3>')[1].split('<p><a href=')[0]
+  return <main className="content-page content-page--greek">
+    <Breadcrumbs items={[{ label: 'Cursos e atividades', to: '/cursos' }, { label: 'Grupos de dança', to: '/cursos/aulas-de-danca' }, { label: group.name }]} />
+    <ContentHero eyebrow={group.category} title={group.name} introduction={group.intro} visual={<DanceHero group={group}/>} seoTitle={`${group.name} — grupo de danças gregas em São Paulo | CHSP`} action={slug === 'pedilea' ? { href: 'https://wa.link/ryey8t', label: 'Como participar' } : { href: group.socialUrl, label: 'Acompanhar no Instagram', social: true }} />
+    <div className="activity-tags activity-tags--detail"><span>Grupo ativo</span>{slug === 'pedilea' && <span>Gratuito</span>}</div>
+    <DanceGroupBody slug={slug} history={<LegacyHtml html={history}/>} />
   </main>
 }
 
@@ -826,6 +893,7 @@ export function ContactPage() {
       <div className="contact-methods">
         <div><Phone/><span><small>Telefones</small><a href="tel:+551126951678">(11) 2695-1678</a><a href="tel:+5511940318080">(11) 94031-8080</a></span></div>
         <a href="mailto:coletividade@helenica.com.br"><Mail/><span><small>E-mail</small><strong>coletividade@helenica.com.br</strong></span></a>
+        <a href="https://www.facebook.com/coletividadehelenicasp" target="_blank" rel="noreferrer"><FacebookIcon/><span><small>Facebook oficial</small><strong>Coletividade Helênica de São Paulo</strong></span></a>
         <div><MapPin/><span><small>Endereço</small><strong>Rua Bresser, 793</strong><em>Brás, São Paulo, SP</em></span></div>
       </div>
       <aside className="contact-return"><MessageCircle/><p className="content-kicker">Prefere conversar pelo WhatsApp?</p><h2>Fale com nossa equipe.</h2><p>Envie uma mensagem e conte brevemente como podemos ajudar.</p><a className="button button--white" href="https://wa.link/ryey8t" target="_blank" rel="noreferrer">Conversar pelo WhatsApp <ArrowRight size={16}/></a></aside>

@@ -44,7 +44,7 @@ function shouldShowIntroCover() {
 
 const activities = [
   {
-    id: 'grego', greek: 'ΓΛΩΣΣΑ', eyebrow: 'Língua', title: 'Grego Moderno',
+    status: 'Consultar turmas', cta: 'Conheça o curso', id: 'grego', greek: 'ΓΛΩΣΣΑ', eyebrow: 'Língua', title: 'Grego Moderno',
     statement: 'Uma nova língua. Uma parte de você que ganha voz.',
     copy: 'Aprenda a conversar, viajar e acessar a cultura grega sem tradução. Turmas do elementar ao avançado, com professores nativos e metodologia alinhada à certificação oficial.',
     meta: ['Presencial ou online', 'Adultos e crianças', 'Do básico ao avançado'],
@@ -52,16 +52,16 @@ const activities = [
     href: '/cursos/grego-moderno',
   },
   {
-    id: 'danca', greek: 'ΧΟΡΟΣ', eyebrow: 'Dança', title: 'Danças Gregas',
+    status: 'Grupos ativos', cta: 'Conheça os grupos', id: 'danca', greek: 'ΧΟΡΟΣ', eyebrow: 'Dança', title: 'Danças Gregas',
     statement: 'O corpo aprende aquilo que a memória não esquece.',
-    copy: 'Entre ritmos, passos e histórias de cada região, a dança cria pertencimento, saúde e amizades. Aulas para quem começa agora e grupos de apresentação.',
-    meta: ['Aulas presenciais', 'Crianças, jovens e adultos', 'Grupo Hellas e Pedilea'],
+    copy: 'Entre ritmos, passos e histórias de cada região, a dança cria pertencimento, saúde e amizades. Conheça a Pedilea e acompanhe a trajetória da Neolea Asteri.',
+    meta: ['Ensaios presenciais', 'Crianças, jovens e adultos', 'Pedilea e Neolea Asteri'],
     icon: Users, visual: '/images/aulas-danca-original.webp', href: '/cursos/aulas-de-danca',
   },
   {
-    id: 'bouzouki', greek: 'ΜΟΥΣΙΚΗ', eyebrow: 'Música', title: 'Bouzouki',
+    status: 'Sem aulas no momento', cta: 'Saiba mais sobre o bouzouki', id: 'bouzouki', greek: 'ΜΟΥΣΙΚΗ', eyebrow: 'Música', title: 'Bouzouki',
     statement: 'Toque o som que atravessou gerações.',
-    copy: 'Conheça o instrumento-símbolo da música grega e desenvolva repertório, expressão e conexão cultural em uma vivência musical compartilhada.',
+    copy: 'Conheça um dos instrumentos mais marcantes da música grega. As aulas de bouzouki não estão acontecendo no momento.',
     meta: ['Aprendizado musical', 'Repertório tradicional', 'Cultura em cada acorde'],
     icon: Music2, visual: '/images/aulas-bouzouki-original.webp', href: '/cursos/aulas-de-bouzouki',
   },
@@ -79,7 +79,7 @@ const trustGallery = [
 const agenda = [
   { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades Cívicas e Religiosas', place: 'Datas divulgadas na agenda', href: '/cultura/paginas/festividades-civicas-e-religiosas' },
   { label: 'Ao longo do ano', type: 'Cultura e convivência', title: 'Eventos e encontros da comunidade', place: 'Sede da CHSP e outros espaços', href: '/agenda' },
-  { label: 'Novas turmas', type: 'Aprendizado e participação', title: 'Cursos e oficinas culturais', place: 'Atividades presenciais e online', href: '/cursos' },
+  { label: 'Como participar', type: 'Aprendizado e participação', title: 'Cursos e atividades culturais', place: 'Atividades presenciais e online', href: '/cursos' },
 ]
 
 const faqs = [
@@ -118,7 +118,7 @@ function Header() {
     <nav ref={navRef} id="main-navigation" className={open ? 'nav is-open' : 'nav'} onClick={() => setOpen(false)} aria-label="Navegação principal">
       <Link to="/coletividade" aria-current={current('/coletividade') ? 'page' : undefined}>A Coletividade</Link>
       <Link to="/cultura" aria-current={current('/cultura') ? 'page' : undefined}>Cultura e memória</Link>
-      <Link to="/cursos" aria-current={current('/cursos') ? 'page' : undefined}>Cursos</Link>
+      <Link to="/cursos" aria-current={current('/cursos') ? 'page' : undefined}>Cursos e atividades</Link>
       <Link to="/agenda" aria-current={current('/agenda') ? 'page' : undefined}>Agenda</Link>
       <Link className="button button--small" to="/contato" aria-current={current('/contato') ? 'page' : undefined}>Fale conosco <ArrowRight size={16}/></Link>
     </nav>
@@ -186,7 +186,7 @@ function Hero() {
 }
 
 function Footer() {
-  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/cursos">Cursos</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small></footer>
+  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/cursos">Cursos e atividades</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><a href="https://www.facebook.com/coletividadehelenicasp" target="_blank" rel="noreferrer">Facebook</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small></footer>
 }
 
 function HomePage() {
@@ -269,18 +269,19 @@ function HomePage() {
 
       <section className="experiences section" id="aulas">
         <div className="section-heading">
-          <div><p className="section-index light">Cursos</p><h2>Não é só aprender.<br/><em>É se transformar.</em></h2></div>
-          <p>Aulas para diferentes idades e níveis, conduzidas por quem vive e compartilha a cultura grega.</p>
+          <div><p className="section-index light">Cursos e atividades</p><h2>Não é só aprender.<br/><em>É se transformar.</em></h2></div>
+          <p>Cursos, grupos de dança e encontros para aprender e conviver com a comunidade.</p>
         </div>
-        <div className="experience-tabs" role="tablist" aria-label="Cursos disponíveis" onKeyDown={navigateActivityTabs}>
+        <div className="experience-tabs" role="tablist" aria-label="Cursos e atividades" onKeyDown={navigateActivityTabs}>
           {activities.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={activity === i} tabIndex={activity === i ? 0 : -1} key={item.id} className={activity === i ? 'active' : ''} onClick={() => setActivity(i)}>{item.title}</button>)}
         </div>
         <div className="experience-card" role="tabpanel" id={`panel-${current.id}`} aria-labelledby={`tab-${current.id}`} key={current.id}>
           <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span><b lang="el">{current.greek}</b> • {current.eyebrow}</span></div>
           <div className="experience-card__copy">
             <p className="eyebrow"><span lang="el">{current.greek}</span> • {current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
+            <div className="activity-tags"><span>{current.status}</span></div>
             <ul>{current.meta.map(item => <li key={item}><Sparkles size={15}/>{item}</li>)}</ul>
-            <Link className="button button--white" to={current.href}>Conheça este curso <ArrowRight size={17}/></Link>
+            <Link className="button button--white" to={current.href}>{current.cta} <ArrowRight size={17}/></Link>
           </div>
         </div>
       </section>

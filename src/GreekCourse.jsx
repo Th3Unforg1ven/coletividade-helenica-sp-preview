@@ -57,6 +57,6 @@ export default function GreekCourse() {
     </section>
 
     <section className="greek-course__contact" aria-labelledby="greek-contact"><div><p className="content-kicker">Seu próximo passo</p><h2 id="greek-contact">Vamos encontrar sua turma?</h2><p>Consulte vagas, horários e valores pelo WhatsApp da Coletividade. Conte à equipe se você já estudou grego e qual modalidade procura.</p></div><a className="button" href="https://wa.link/ryey8t"><MessageCircle size={18} /> Falar sobre as aulas <ArrowRight size={18} /></a></section>
-    <Link className="greek-course__text-link" to="/cursos">Conheça também nossos outros cursos <ArrowRight size={18} /></Link>
+    <Link className="greek-course__text-link" to="/cursos">Conheça também nossos cursos e atividades <ArrowRight size={18} /></Link>
   </div>
 }

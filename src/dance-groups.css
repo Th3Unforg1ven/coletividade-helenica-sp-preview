@@ -1,0 +1,18 @@
+.content-hero .dance-hero-photo { background:var(--blue-900); display:flex; align-items:center; min-height:0; }
+.content-hero .dance-hero-photo img { position:static; width:100%; height:auto; object-fit:contain; }
+.dance-section { margin:80px 0; }
+.dance-groups .greek-course__photo img { height:auto; }
+.dance-groups .greek-course__split > .greek-course__photo img { max-height:570px; object-fit:contain; }
+.dance-videos { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:32px; }
+.dance-videos figure { margin:0; }
+.dance-videos video { display:block; width:100%; aspect-ratio:9/16; object-fit:contain; background:var(--blue-900); border-radius:3px; }
+.dance-videos figcaption { color:var(--muted); font-size:.8rem; margin-top:12px; }
+.dance-gallery { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:32px; }
+.dance-gallery figure:last-child { grid-column:1/-1; max-width:900px; margin:0 auto; }
+.dance-history { padding:60px 0; border-block:1px solid #ccd6dc; align-items:start; }
+.dance-related { display:flex; flex-wrap:wrap; justify-content:space-between; gap:20px; }
+@media(max-width:800px) { .dance-section { margin:48px 0; } .dance-videos { grid-template-columns:1fr; max-width:380px; margin-inline:auto; } .dance-gallery { grid-template-columns:1fr; } .dance-history { padding:40px 0; } }
+
+.dance-video-toggle { display:block; width:100%; padding:0; border:0; background:transparent; border-radius:3px; cursor:pointer; }
+.dance-video-toggle:focus-visible { outline:3px solid var(--blue-800); outline-offset:5px; }
+.dance-video-toggle video { pointer-events:none; }
