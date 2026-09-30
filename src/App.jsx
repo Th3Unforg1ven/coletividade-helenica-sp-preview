@@ -1,3 +1,4 @@
+import HeroSlideshow from './HeroSlideshow.jsx'
 import { Component, lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import {
@@ -126,42 +127,7 @@ function Header() {
 }
 
 function Hero() {
-  const slideDuration = 4600
-  const slides = [
-    { src: '/images/evento-comunidade-original.webp', label: 'Dança • comunidade', position: 'center 44%' },
-    { src: '/images/sala-aulas-sede-original.webp', label: 'Nossa sede • Brás', position: 'center' },
-    { src: '/images/oficinas-culturais-original.webp', label: 'Oficinas • gerações', position: 'center 42%' },
-    { src: '/images/pascoa-comunidade-original.webp', label: 'Celebrações • encontros', position: 'center' },
-    { src: '/images/primeira-diretoria-chsp.webp', label: 'Memória • desde 1937', position: 'center 35%' },
-  ]
-  const [slide, setSlide] = useState(0)
-  useEffect(() => {
-    const shouldReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const shouldSaveData = navigator.connection?.saveData
-    let preloadId
-    const preloadSlides = () => slides.slice(1).forEach(({ src }) => { const image = new Image(); image.src = assetUrl(src) })
-    if (!shouldSaveData) {
-      preloadId = 'requestIdleCallback' in window
-        ? window.requestIdleCallback(preloadSlides, { timeout: 3500 })
-        : window.setTimeout(preloadSlides, 1800)
-    }
-    if (shouldReduceMotion) return () => {
-      if (preloadId != null && 'cancelIdleCallback' in window) window.cancelIdleCallback(preloadId)
-      else if (preloadId != null) window.clearTimeout(preloadId)
-    }
-    const timer = window.setInterval(() => {
-      if (!document.hidden && !document.body.classList.contains('intro-active')) {
-        setSlide(value => (value + 1) % slides.length)
-      }
-    }, slideDuration)
-    return () => {
-      window.clearInterval(timer)
-      if (preloadId != null && 'cancelIdleCallback' in window) window.cancelIdleCallback(preloadId)
-      else if (preloadId != null) window.clearTimeout(preloadId)
-    }
-  }, [])
-
-  return <section className="hero" id="inicio" style={{ '--hero-cycle': `${slideDuration}ms` }}>
+  return <section className="hero" id="inicio">
     <div className="hero__content">
       <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
@@ -170,18 +136,7 @@ function Hero() {
       <div className="hero__facts"><span>Online ou presencial</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
       <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça os cursos <ArrowDown size={17}/></Link><Link className="text-link" to="/coletividade">Conheça nossa história <ArrowRight size={16}/></Link></div>
     </div>
-    <div className="hero__gallery">
-      <div className="hero__frames">
-        {slides.map((item, i) => <figure className={slide === i ? 'active' : ''} style={{ '--hero-position': item.position }} key={item.src}>
-          <img src={assetUrl(item.src)} alt="" aria-hidden="true" decoding="async" />
-          <figcaption>{item.label}</figcaption>
-        </figure>)}
-      </div>
-      <div className="hero__controls" aria-label="Selecionar imagem">
-        {slides.map((item, i) => <button type="button" className={slide === i ? 'active' : ''} onClick={() => setSlide(i)} key={item.src} aria-label={`Exibir imagem ${i+1}: ${item.label}`} aria-current={slide === i ? 'true' : undefined}/>) }
-      </div>
-      <div className="hero__stamp"><span>São Paulo</span><strong>CHSP</strong><span>Brasil</span></div>
-    </div>
+    <HeroSlideshow />
   </section>
 }
 
