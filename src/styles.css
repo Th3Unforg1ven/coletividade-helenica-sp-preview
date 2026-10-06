@@ -427,3 +427,67 @@ h2 { font-size:clamp(3.4rem,5.2vw,6rem); margin:0; }
 .button--instagram { gap:12px; min-height:52px; line-height:1.3; padding:15px 22px; }
 .button--instagram > svg { display:block; flex-shrink:0; }
 .button--instagram > span { display:block; text-align:center; }
+
+/* Shared editorial rhythm for institutional pages, activities and the archive. */
+.breadcrumbs { flex-wrap:wrap; padding-block:16px; line-height:1.6; }
+.breadcrumbs span { min-width:0; }
+.content-hero--themed::before { opacity:.12; }
+.content-hero h1 { overflow-wrap:break-word; }
+.content-layout:not(:has(> aside)) { grid-template-columns:minmax(0,900px); justify-content:center; }
+.content-layout > article { padding:clamp(24px,4vw,54px); background:#fff; border-top:4px solid var(--blue-600); }
+.content-layout .wp-content > :first-child { margin-top:0; }
+.content-layout .wp-content h2 { padding-top:28px; border-top:1px solid var(--sand); }
+.content-layout .wp-content > h2:first-child { padding-top:0; border-top:0; }
+.content-layout .wp-content p { max-width:72ch; }
+.content-layout .wp-content figure { background:var(--ivory); padding:12px; }
+.content-layout .wp-content figure img { margin:0 auto; }
+.content-layout .wp-content th { background:var(--blue-100); color:var(--blue-900); }
+.page-navigation { border-top:4px solid var(--blue-600); box-shadow:none; }
+.page-navigation a:hover { color:var(--blue-600); }
+.post-card { border-bottom:4px solid var(--blue-600); }
+.post-card h2 { text-wrap:pretty; }
+.collection-heading { border-bottom:1px solid var(--sand); padding-bottom:22px; }
+.section-shortcuts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; max-width:1280px; margin:0 auto 56px; }
+.section-shortcuts button { display:grid; grid-template-columns:1fr auto; gap:16px; padding:28px; background:white; border:0; border-top:4px solid var(--blue-600); color:var(--blue-900); text-align:left; font:inherit; cursor:pointer; }
+.section-shortcuts span { grid-column:1/-1; font-size:.65rem; text-transform:uppercase; letter-spacing:.12em; }
+.section-shortcuts strong { font-family:var(--serif); font-size:1.8rem; font-weight:400; }
+.section-shortcuts svg { align-self:center; }
+.section-shortcuts button:hover { background:var(--blue-100); }
+.section-shortcuts button:focus-visible { outline:3px solid var(--blue-600); outline-offset:4px; }
+#programacao,#calendario,#eventos-anteriores { scroll-margin-top:24px; }
+.agenda-status { border-top:4px solid var(--blue-600); }
+.editorial-toc { border-left:3px solid var(--blue-600); }
+@media(max-width:900px) {
+  .content-layout > article { padding:28px; }
+  .section-shortcuts { gap:10px; }
+  .section-shortcuts button { padding:20px; }
+  .section-shortcuts strong { font-size:1.4rem; }
+}
+@media(max-width:560px) {
+  .content-layout > article { padding:24px 18px; }
+  .section-shortcuts { grid-template-columns:1fr; }
+  .section-shortcuts button { gap:8px; }
+  .content-hero { margin-inline:-24px; padding-left:24px; }
+  .content-hero > div { padding-right:24px; }
+  .content-hero figure { margin-left:-24px; }
+}
+/* Institutional pages share the course layout, with their own editorial sections. */
+.content-hero .institution-mosaic { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:6px; min-height:500px; background:var(--ivory); }
+.content-hero .institution-mosaic img { position:static; height:100%; min-height:0; object-fit:cover; }
+.content-hero .institution-mosaic img:first-child { grid-column:1/-1; }
+.institution-card { padding:0; display:grid; grid-template-columns:38% 1fr; min-height:310px; }
+.institution-card > img { width:100%; height:100%; object-fit:cover; min-height:310px; }
+.institution-card > div { padding:30px; display:flex; flex-direction:column; align-items:flex-start; }
+.institution-card h2 { margin:18px 0; font-size:2rem; }
+.institution-card p { font-size:.9rem; margin:0 0 24px; }
+.institution-detail .content-layout > article { background:transparent; border:0; padding:0; }
+.institution-chapter { position:relative; padding:36px; margin-bottom:30px; background:white; border-top:3px solid var(--blue-600); }
+.institution-chapter .wp-content > h2:first-child { padding:0; border:0; margin-top:0; }
+.institution-explore { max-width:1280px; margin:80px auto 0; padding:clamp(28px,5vw,64px); display:grid; grid-template-columns:1fr 1fr; gap:50px; background:var(--blue-900); color:white; }
+.institution-explore .content-kicker,.institution-explore h2,.institution-explore .text-link { color:white; }
+.institution-explore h2 { font-size:clamp(2.2rem,3vw,3.5rem); margin:0; }
+.institution-explore p:not(.content-kicker) { line-height:1.8; margin:0 0 25px; }
+.institution-explore .text-link { display:flex; width:max-content; margin-top:22px; }
+@media(max-width:1100px) { .institution-card { grid-template-columns:1fr; }.institution-card > img { height:210px; min-height:0; } }
+@media(max-width:700px) { .institution-explore { grid-template-columns:1fr; gap:28px; }.institution-chapter { padding:26px 22px; }.content-hero .institution-mosaic { min-height:360px; } }
+.institution-summary--intro { margin-bottom:70px; }.institution-summary--intro > div > div { display:block; }.institution-summary--intro > div > div p { margin-bottom:22px; }

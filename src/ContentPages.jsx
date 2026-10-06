@@ -37,7 +37,6 @@ const institutionSlugs = [
 ]
 
 const institutionNavSlugs = [
-  'sobre-a-chsp',
   'nossa-historia',
   'missao-visao-valores',
   'conselho-deliberativo-e-diretoria-executiva',
@@ -317,6 +316,7 @@ function stripHtml(value = '') {
 }
 
 function pathForPage(page) {
+  if (page.slug === 'sobre-a-chsp') return '/coletividade'
   if (lessonSlugs.includes(page.slug)) return `/cursos/${page.slug === 'aulas-de-grego-moderno' ? 'grego-moderno' : page.slug}`
   if (institutionSlugs.includes(page.slug)) return `/coletividade/${page.slug}`
   if (page.slug === 'agenda-de-eventos-e-festas') return '/agenda'
@@ -538,6 +538,8 @@ function Breadcrumbs({ items = [] }) {
 }
 
 function ContentHero({ eyebrow, title, introduction, image, imageAlt = '', imagePosition, imageIllustration, motifTheme, visual, action, seoTitle }) {
+  const location = useLocation()
+  const theme = motifTheme || (location.pathname.startsWith('/cursos') ? 'aulas' : location.pathname.startsWith('/agenda') ? 'agenda' : location.pathname.startsWith('/cultura') ? 'cultura' : 'coletividade')
   useEffect(() => {
     const pageTitle = seoTitle || `${title} | Coletividade Helênica de São Paulo`
     const description = introduction || 'Conheça a Coletividade Helênica de São Paulo, sua história, aulas e atividades culturais.'
@@ -556,7 +558,7 @@ function ContentHero({ eyebrow, title, introduction, image, imageAlt = '', image
     setMeta('meta[property="og:title"]', 'property=og:title', pageTitle)
     setMeta('meta[property="og:description"]', 'property=og:description', description)
   }, [title, introduction, seoTitle])
-  return <header className={`content-hero${motifTheme ? ` content-hero--themed content-hero--${motifTheme}` : ''}`}>
+  return <header className={`content-hero content-hero--themed content-hero--${theme}`}>
     <div>
       <p className="content-kicker">{eyebrow}</p>
       <h1>{title}</h1>
@@ -677,31 +679,60 @@ function DanceGroupPage({ slug }) {
   </main>
 }
 
+const institutionVisuals = {
+  'sobre-a-chsp': ['/images/contato-sede-original.webp', 'Sede da Coletividade Helênica de São Paulo'],
+  'nossa-historia': ['/images/primeira-diretoria-chsp.webp', 'Primeira diretoria da Coletividade, em 1937'],
+  'missao-visao-valores': ['/images/grupos-danca/pedilea-grupo.jpeg', 'Integrantes e instrutores da Pedilea'],
+  'conselho-deliberativo-e-diretoria-executiva': ['/images/contato-sede-original.webp', 'Sede da Coletividade'],
+  'lista-de-conselheiros': ['/images/primeira-diretoria-chsp.webp', 'Registro histórico da primeira diretoria'],
+  'um-pouco-mais-sobre-a-grecia': ['/images/archive/e3282cda77-grecia.webp', 'Paisagem da Grécia'],
+}
+const institutionDescriptions = {
+  'sobre-a-chsp': 'A casa da comunidade helênica: conheça nossa origem e atuação em São Paulo.',
+  'nossa-historia': 'Da primeira diretoria às gerações que mantêm a cultura viva.',
+  'missao-visao-valores': 'Os princípios que orientam a vida e o trabalho da nossa comunidade.',
+  'conselho-deliberativo-e-diretoria-executiva': 'Conheça a estrutura administrativa e os registros publicados pela instituição.',
+  'lista-de-conselheiros': 'Pessoas que participaram da construção e da continuidade da Coletividade.',
+  'um-pouco-mais-sobre-a-grecia': 'Território, história e símbolos que nos conectam às nossas raízes.',
+}
+function InstitutionChapters({ html }) {
+  const chapters = html.split(/(?=<h2(?:\s|>))/i).filter(part => stripHtml(part).trim() || /<img/i.test(part))
+  return <div className="institution-chapters">{chapters.map((chapter, index) => <section className="institution-chapter" key={index}><LegacyHtml html={chapter}/></section>)}</div>
+}
+function InstitutionExplore() {
+  return <section className="institution-explore"><div><p className="content-kicker">A cultura continua</p><h2>Conheça a comunidade em movimento.</h2></div><div><p>Encontre cursos, grupos de dança, encontros culturais e as histórias que compartilhamos.</p><Link className="button" to="/cursos">Cursos e atividades <ArrowRight size={18}/></Link><Link className="text-link" to="/agenda">Agenda e eventos <ArrowRight size={16}/></Link></div></section>
+}
+
 export function InstitutionIndex() {
   return <main className="content-page content-page--themed content-page--coletividade">
     <Breadcrumbs items={[{ label: 'A Coletividade' }]} />
-    <ContentHero eyebrow="A Coletividade" title="Uma história grega em São Paulo" introduction="Conheça a origem, a missão, as pessoas e os valores que sustentam a Coletividade Helênica de São Paulo." image="/images/primeira-diretoria-chsp.webp" motifTheme="coletividade" />
-    <section className="directory-grid directory-grid--compact">
-      {institutionNavSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link className="directory-card" to={`/coletividade/${page.slug}`} key={page.id}><span>A Coletividade</span><h2>{institutionLabels[page.slug]}</h2><b>Ler página completa <ArrowRight size={16}/></b></Link>)}
+    <ContentHero eyebrow="A Coletividade" title="Uma história grega em São Paulo" introduction="Conheça a origem, a missão, as pessoas e os valores que sustentam a Coletividade Helênica de São Paulo." visual={<figure className="institution-mosaic"><img src={assetUrl('/images/primeira-diretoria-chsp.webp')} alt="Primeira diretoria da Coletividade"/><img src={assetUrl('/images/grupos-danca/neolea-danca.jpeg')} alt="Apresentação da Neolea Asteri"/><img src={assetUrl('/images/grupos-danca/pedilea-grupo.jpeg')} alt="Integrantes e instrutores da Pedilea"/></figure>} motifTheme="coletividade" />
+    <section className="institution-summary institution-summary--intro">
+      <p className="content-kicker">Quem somos</p>
+      <div><h2>A casa da comunidade helênica em São Paulo.</h2><div><p>Desde 1937, a Coletividade Helênica de São Paulo reúne gregos, descendentes, filo-helenos e todas as pessoas interessadas na preservação e na promoção da cultura grega.</p><p>Na sede da Rua Bresser, no Brás, língua, dança, música, fé, gastronomia e memória fazem parte da vida da comunidade. Cursos, grupos de dança, encontros e celebrações aproximam gerações e mantêm essa cultura viva.</p><Link className="text-link" to="/cursos">Conheça nossos cursos e atividades <ArrowRight size={16}/></Link></div></div>
     </section>
-    <section className="institution-summary">
-      <p className="content-kicker">Desde 1937</p>
-      <div><h2>Uma instituição feita por pessoas, memória e participação.</h2><p>A Coletividade Helênica de São Paulo reúne gregos, descendentes, filo-helenos e todas as pessoas interessadas na preservação e na promoção da cultura grega. Nesta seção, a história, os princípios e os registros de sua administração estão organizados em páginas próprias.</p></div>
+    <section className="institution-directory" aria-label="Conheça a Coletividade">
+      <div className="collection-heading"><h2>Nossa casa, nossas histórias</h2><span>Explore a Coletividade</span></div>
+      <div className="directory-grid">{institutionNavSlugs.map(slug => <Link className="directory-card institution-card" to={`/coletividade/${slug}`} key={slug}><img src={assetUrl(institutionVisuals[slug][0])} alt={institutionVisuals[slug][1]} loading="lazy"/><div><span className="content-kicker">A Coletividade</span><h2>{institutionLabels[slug]}</h2><p>{institutionDescriptions[slug]}</p><b>Conhecer <ArrowRight size={16}/></b></div></Link>)}</div>
     </section>
+
   </main>
 }
 
 function InstitutionSectionPage({ title, introduction, image, html, children }) {
-  return <main className="content-page">
+  const { slug } = useParams()
+  const [sectionImage, sectionAlt] = institutionVisuals[slug] || institutionVisuals['sobre-a-chsp']
+  return <main className="content-page content-page--themed content-page--coletividade institution-detail">
     <Breadcrumbs items={[{ label: 'A Coletividade', to: '/coletividade' }, { label: title }]} />
-    <ContentHero eyebrow="A Coletividade Helênica de São Paulo" title={title} introduction={introduction} image={image} />
+    <ContentHero eyebrow="A Coletividade Helênica de São Paulo" title={title} introduction={introduction} image={image || sectionImage} imageAlt={sectionAlt} motifTheme="coletividade" />
     <div className="content-layout">
       <article>
         {children}
-        {html && <LegacyHtml html={html} />}
+        {html && <InstitutionChapters html={html} />}
       </article>
       <PageNavigation slugs={institutionNavSlugs} basePath="/coletividade" labels={institutionLabels} />
     </div>
+    <InstitutionExplore />
   </main>
 }
 
@@ -722,6 +753,7 @@ function GovernanceLinks() {
 export function InstitutionPage() {
   const { slug } = useParams()
   if (!institutionSlugs.includes(slug)) return <NotFound />
+  if (slug === 'sobre-a-chsp') return <Navigate replace to="/coletividade" />
   if (slug === 'conselheiros') return <Navigate replace to="/coletividade/lista-de-conselheiros" />
   const source = pageBySlug['sobre-a-chsp']
   if (slug === 'nossa-historia') return <InstitutionSectionPage
@@ -733,7 +765,7 @@ export function InstitutionPage() {
   if (slug === 'missao-visao-valores') return <InstitutionSectionPage
     title="Missão, visão e valores"
     introduction="Os princípios que orientam a atuação cívica, religiosa, filantrópica, beneficente, cultural e recreativa da Coletividade."
-    html={extractLegacySection(source.content, /^Nossa Missão, visão e valores$/i, /^diretoria executiva$/i)}
+    html={extractLegacySection(source.content, /^No que acreditamos$/i, /^diretoria executiva$/i).replace(/<h3>/g, '<h2>').replace(/<\/h3>/g, '</h2>')}
   />
   if (slug === 'conselho-deliberativo-e-diretoria-executiva') return <InstitutionSectionPage
     title="Diretoria e conselhos"
@@ -754,7 +786,7 @@ export function InstitutionPage() {
     introduction="Informações essenciais para conhecer o território, a história e alguns dos símbolos da cultura grega."
     html={extractLegacySection(source.content, /^Um pouco mais sobre$/i, null, true)}
   />
-  return <FullPage page={pageBySlug[slug]} eyebrow="A Coletividade" navigation={<PageNavigation slugs={institutionNavSlugs} basePath="/coletividade" labels={institutionLabels} />} />
+  return <InstitutionSectionPage title="Sobre a Coletividade" introduction={institutionDescriptions[slug]} html={pageBySlug[slug].content.replace(/^<h3>[\s\S]*?<\/h1>/, '')} />
 }
 
 function PostCard({ post }) {
@@ -855,16 +887,21 @@ export function PostPage() {
 export function AgendaPage() {
   const events = siteContent.posts.filter(post => post.categories.includes(13))
   return <main className="content-page content-page--themed content-page--agenda">
-    <Breadcrumbs items={[{ label: 'Agenda' }]} />
-    <ContentHero eyebrow="Agenda" title="Eventos, festas e celebrações" introduction="Acompanhe encontros culturais, festividades cívicas, celebrações religiosas e atividades da comunidade." image="/images/evento-comunidade-original.webp" motifTheme="agenda" />
-    <HellenicCalendar />
-    <section className="agenda-status">
+    <Breadcrumbs items={[{ label: 'Agenda e eventos' }]} />
+    <ContentHero eyebrow="Agenda e eventos" title="Encontros que celebram nossa cultura" seoTitle="Agenda e eventos | Coletividade Helênica de São Paulo" introduction="Acompanhe a programação da comunidade, explore as datas do calendário grego e ortodoxo e relembre nossos encontros." image="/images/evento-comunidade-original.webp" motifTheme="agenda" />
+    <nav className="section-shortcuts" aria-label="Explore a agenda">
+      <button type="button" onClick={() => document.getElementById('programacao')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}><span>01 · Comunidade</span><strong>Próximos eventos</strong><ArrowRight size={18}/></button>
+      <button type="button" onClick={() => document.getElementById('calendario')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}><span>02 · Tradições</span><strong>Calendário grego</strong><ArrowRight size={18}/></button>
+      <button type="button" onClick={() => document.getElementById('eventos-anteriores')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })}><span>03 · Memória</span><strong>Eventos anteriores</strong><ArrowRight size={18}/></button>
+    </nav>
+    <section className="agenda-status" id="programacao">
       <p className="content-kicker">Próxima programação</p>
       <h2>Novas datas serão divulgadas em breve.</h2>
       <p>Para confirmar festas, encontros e atividades, fale com a equipe da Coletividade. Enquanto isso, você pode conhecer os eventos que marcaram nossa história.</p>
       <Link className="button" to="/contato">Consultar a Coletividade <ArrowRight size={16}/></Link>
     </section>
-    <div className="collection-heading"><h2>Eventos anteriores</h2><span>{events.length} registros preservados</span></div>
+    <div id="calendario"><HellenicCalendar /></div>
+    <div className="collection-heading" id="eventos-anteriores"><h2>Eventos anteriores</h2><span>{events.length} registros preservados</span></div>
     <section className="posts-grid">{events.map(post => <PostCard post={post} key={post.id}/>)}</section>
   </main>
 }

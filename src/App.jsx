@@ -120,7 +120,7 @@ function Header() {
       <Link to="/coletividade" aria-current={current('/coletividade') ? 'page' : undefined}>A Coletividade</Link>
       <Link to="/cultura" aria-current={current('/cultura') ? 'page' : undefined}>Cultura e memória</Link>
       <Link to="/cursos" aria-current={current('/cursos') ? 'page' : undefined}>Cursos e atividades</Link>
-      <Link to="/agenda" aria-current={current('/agenda') ? 'page' : undefined}>Agenda</Link>
+      <Link to="/agenda" aria-current={current('/agenda') ? 'page' : undefined}>Agenda e eventos</Link>
       <Link className="button button--small" to="/contato" aria-current={current('/contato') ? 'page' : undefined}>Fale conosco <ArrowRight size={16}/></Link>
     </nav>
   </header>
@@ -141,7 +141,7 @@ function Hero() {
 }
 
 function Footer() {
-  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/cursos">Cursos e atividades</Link><Link to="/agenda">Agenda</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><a href="https://www.instagram.com/coletividadehelenica.sp/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.facebook.com/coletividadehelenicasp" target="_blank" rel="noreferrer">Facebook</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small></footer>
+  return <footer className="footer"><div><Brand footer/><p>Rua Bresser, 793, Brás<br/>São Paulo, SP</p><div className="footer__greece"><img src={assetUrl('/images/bandeira-grecia.svg')} alt="Bandeira da Grécia"/><span>Brasil e Grécia unidos pela cultura</span></div></div><div><span>Explore</span><Link to="/coletividade">A Coletividade</Link><Link to="/cursos">Cursos e atividades</Link><Link to="/agenda">Agenda e eventos</Link><Link to="/cultura">Cultura e memória</Link><Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link></div><div><span>Converse</span><a href={WA} target="_blank" rel="noreferrer">WhatsApp</a><a href="https://www.instagram.com/coletividadehelenica.sp/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.facebook.com/coletividadehelenicasp" target="_blank" rel="noreferrer">Facebook</a><Link to="/contato">Contato</Link><Link to="/privacidade">Política de Privacidade</Link></div><small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small></footer>
 }
 
 function HomePage() {
