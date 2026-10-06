@@ -45,25 +45,39 @@ function shouldShowIntroCover() {
 
 const activities = [
   {
-    status: 'Consultar turmas', cta: 'Conheça o curso', id: 'grego', greek: 'ΓΛΩΣΣΑ', eyebrow: 'Língua', title: 'Grego Moderno',
+    status: 'Consultar turmas', cta: 'Consultar turmas de Grego', id: 'grego', greek: 'ΓΛΩΣΣΑ', eyebrow: 'Língua', title: 'Grego Moderno',
     statement: 'Uma nova língua. Uma parte de você que ganha voz.',
-    copy: 'Aprenda a conversar, viajar e acessar a cultura grega sem tradução. Turmas do elementar ao avançado, com professores nativos e metodologia alinhada à certificação oficial.',
+    copy: 'Aprenda a conversar, viajar e acessar a cultura grega sem tradução. Aulas de 1h30, presenciais ou online, do básico ao avançado. Consulte a equipe sobre vagas, horários e valores.',
     meta: ['Presencial ou online', 'Adultos e crianças', 'Do básico ao avançado'],
     icon: Languages, visual: '/images/aulas-grego-turma-recorte-original.webp', visualSize: 'auto 116%', visualPosition: 'center',
     href: '/cursos/grego-moderno',
   },
   {
-    status: 'Grupos ativos', cta: 'Conheça os grupos', id: 'danca', greek: 'ΧΟΡΟΣ', eyebrow: 'Dança', title: 'Danças Gregas',
-    statement: 'O corpo aprende aquilo que a memória não esquece.',
-    copy: 'Entre ritmos, passos e histórias de cada região, a dança cria pertencimento, saúde e amizades. Conheça a Pedilea e acompanhe a trajetória da Neolea Asteri.',
-    meta: ['Ensaios presenciais', 'Crianças, jovens e adultos', 'Pedilea e Neolea Asteri'],
-    icon: Users, visual: '/images/aulas-danca-original.webp', href: '/cursos/aulas-de-danca',
+    status: 'Grupo ativo · Gratuito', cta: 'Conhecer a Pedilea', id: 'pedilea', greek: 'ΧΟΡΟΣ', eyebrow: 'Grupo infantil', title: 'Pedilea',
+    statement: 'Os primeiros passos de uma tradição viva.',
+    copy: 'Grupo de dança grega para crianças de 5 a 11 anos, descendentes de gregos ou não. A participação é gratuita; consulte a equipe para combinar a participação.',
+    meta: ['Encontros presenciais', 'Sábados, das 12h30 às 13h30', 'Crianças de 5 a 11 anos'],
+    icon: Users, visual: '/images/grupos-danca/pedilea-grupo.jpeg', href: '/cursos/pedilea',
+  },
+  {
+    status: 'Acompanhe o grupo', cta: 'Acompanhar a Neolea no Instagram', external: true, id: 'neolea', greek: 'ΧΟΡΟΣ', eyebrow: 'Grupo de dança', title: 'Neolea Asteri',
+    statement: 'A cultura grega em movimento.',
+    copy: 'Conheça as apresentações e a trajetória da Neolea Asteri. As novidades do grupo são compartilhadas no perfil @neolea.asteri.',
+    meta: ['Danças folclóricas gregas', 'Apresentações e encontros culturais'],
+    icon: Users, visual: '/images/grupos-danca/neolea-danca.jpeg', href: 'https://www.instagram.com/neolea.asteri/',
+  },
+  {
+    status: 'Conforme programação', cta: 'Ver oficinas no Instagram', external: true, id: 'oficinas', greek: 'ΠΟΛΙΤΙΣΜΟΣ', eyebrow: 'Encontros culturais', title: 'Oficinas culturais',
+    statement: 'Saberes que aproximam gerações.',
+    copy: 'As oficinas acontecem pontualmente. Acompanhe o Instagram oficial da Coletividade para conhecer as atividades anunciadas e as orientações para participar.',
+    meta: ['Encontros pontuais', 'Programação no @coletividadehelenica.sp'],
+    icon: Sparkles, visual: '/images/oficinas-culturais-original.webp', href: 'https://www.instagram.com/coletividadehelenica.sp/',
   },
   {
     status: 'Sem aulas no momento', cta: 'Saiba mais sobre o bouzouki', id: 'bouzouki', greek: 'ΜΟΥΣΙΚΗ', eyebrow: 'Música', title: 'Bouzouki',
-    statement: 'Toque o som que atravessou gerações.',
+    statement: 'Um som que atravessa gerações.',
     copy: 'Conheça um dos instrumentos mais marcantes da música grega. As aulas de bouzouki não estão acontecendo no momento.',
-    meta: ['Aprendizado musical', 'Repertório tradicional', 'Cultura em cada acorde'],
+    meta: ['Instrumento da música grega', 'Sem previsão de retomada confirmada'],
     icon: Music2, visual: '/images/aulas-bouzouki-original.webp', href: '/cursos/aulas-de-bouzouki',
   },
 ]
@@ -78,14 +92,16 @@ const trustGallery = [
 ]
 
 const agenda = [
-  { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades Cívicas e Religiosas', place: 'Datas divulgadas na agenda', href: '/cultura/paginas/festividades-civicas-e-religiosas' },
+  { label: 'Calendário anual', type: 'Tradição e comunidade', title: 'Festividades Cívicas e Religiosas', place: 'Calendário grego e ortodoxo', href: '/agenda' },
   { label: 'Ao longo do ano', type: 'Cultura e convivência', title: 'Eventos e encontros da comunidade', place: 'Sede da CHSP e outros espaços', href: '/agenda' },
   { label: 'Como participar', type: 'Aprendizado e participação', title: 'Cursos e atividades culturais', place: 'Atividades presenciais e online', href: '/cursos' },
 ]
 
 const faqs = [
   ['Preciso ter ascendência grega para participar?', 'Não. A Coletividade recebe gregos, descendentes, filo-helenos e todas as pessoas interessadas em conhecer e viver a cultura helênica.'],
-  ['Nunca estudei grego. Posso começar agora?', 'Sim. Há turmas específicas para iniciantes, além de níveis intermediários e avançados. As aulas duram 1h30 e podem ser presenciais ou online.'],
+  ['Nunca estudei grego. Posso começar agora?', 'O curso atende do básico ao avançado, com aulas de 1h30 presenciais ou online. Consulte pelo WhatsApp quais turmas para iniciantes estão disponíveis.'],
+  ['Posso participar dos grupos de dança?', 'A Pedilea é um grupo infantil gratuito para crianças de 5 a 11 anos; consulte a equipe sobre como participar. A Neolea Asteri é apresentada para acompanhamento de suas atividades pelo Instagram @neolea.asteri.'],
+  ['As oficinas e as aulas de bouzouki estão disponíveis?', 'As oficinas são pontuais e divulgadas no Instagram @coletividadehelenica.sp. As aulas de bouzouki não estão acontecendo no momento.'],
   ['Como descubro a turma ideal?', 'Fale com a equipe pelo WhatsApp. Vamos entender seus conhecimentos, sua disponibilidade e seus objetivos para indicar o melhor ponto de partida.'],
 ]
 
@@ -126,15 +142,20 @@ function Header() {
   </header>
 }
 
+function ActivityAction({ activity }) {
+  const content = <>{activity.cta} <ArrowRight size={17}/></>
+  return activity.external ? <a className="button button--white" href={activity.href} target="_blank" rel="noopener noreferrer">{content}</a> : <Link className="button button--white" to={activity.href}>{content}</Link>
+}
+
 function Hero() {
   return <section className="hero" id="inicio">
     <div className="hero__content">
       <img className="hero__map" src={assetUrl('/images/mapa-grecia-linhas.webp')} alt="" aria-hidden="true" />
       <h1 className="hero__headline">A casa da Grécia<br/><em>em São Paulo.</em></h1>
       <p className="hero__statement">A Grécia vive<br/><i>onde nós estamos.</i></p>
-      <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Vivemos e disseminamos essa cultura por meio de encontros da comunidade e aulas de Grego Contemporâneo, Danças Gregas e Bouzouki.</p>
-      <div className="hero__facts"><span>Online ou presencial</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
-      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Conheça os cursos <ArrowDown size={17}/></Link><Link className="text-link" to="/coletividade">Conheça nossa história <ArrowRight size={16}/></Link></div>
+      <p className="hero__lead">Língua, arte, música, fé, dança e memórias compartilhadas por gregos, descendentes e todos que escolhem viver a cultura helênica. Conheça o curso de Grego Moderno, os grupos de dança e os encontros culturais da nossa comunidade.</p>
+      <div className="hero__facts"><span>Desde 1937 em São Paulo</span><Link to="/contato"><MapPin size={14}/> Rua Bresser, 793</Link></div>
+      <div className="hero__actions"><Link className="button" to={sectionTarget('aulas')}>Cursos e atividades <ArrowDown size={17}/></Link><Link className="text-link" to="/coletividade/nossa-historia">Conheça nossa história <ArrowRight size={16}/></Link></div>
     </div>
     <HeroSlideshow />
   </section>
@@ -236,7 +257,7 @@ function HomePage() {
             <p className="eyebrow"><span lang="el">{current.greek}</span> • {current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
             <div className="activity-tags"><span>{current.status}</span></div>
             <ul>{current.meta.map(item => <li key={item}><Sparkles size={15}/>{item}</li>)}</ul>
-            <Link className="button button--white" to={current.href}>{current.cta} <ArrowRight size={17}/></Link>
+            <ActivityAction activity={current} />
           </div>
         </div>
       </section>
@@ -280,7 +301,7 @@ function HomePage() {
       </section>
 
       <section className="join">
-        <p className="greek-label" lang="el">Η κοινότητά μας</p><h2>Essa história também<br/>pode ser <em>sua.</em></h2><p>Associe-se, participe das atividades ou venha tomar um café conosco. A Coletividade está de portas abertas.</p><div><Link className="button button--white" to="/participe">Quero participar <ArrowRight size={17}/></Link><Link className="text-link text-link--white" to="/agenda">Conheça os próximos encontros</Link></div>
+        <p className="greek-label" lang="el">Η κοινότητά μας</p><h2>Essa história também<br/>pode ser <em>sua.</em></h2><p>Conheça nossas atividades e acompanhe a programação. Para informações sobre associação ou visitas à sede, converse com a equipe da Coletividade.</p><div><Link className="button button--white" to="/contato">Falar com a Coletividade <ArrowRight size={17}/></Link><Link className="text-link text-link--white" to="/agenda">Ver agenda e eventos</Link></div>
       </section>
     </main>
     <Footer />
