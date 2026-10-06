@@ -149,8 +149,8 @@ const pageContentOverrides = {
     <p>A Coletividade Helênica de São Paulo respeita a privacidade de visitantes, associados, estudantes e demais pessoas que entram em contato com a instituição. Não comercializamos dados pessoais.</p>
     <h2>Dados e canais de contato</h2>
     <p>Este site não possui cadastro próprio nem formulário de coleta. Quando você utiliza telefone, e-mail ou WhatsApp, os dados fornecidos são tratados para responder solicitações sobre aulas, eventos, associação e atividades da Coletividade.</p>
-    <h2>Serviços de terceiros</h2>
-    <p>O site pode incorporar recursos de serviços externos, como Google Maps, YouTube, Google Fonts e WhatsApp. Esses serviços podem processar informações técnicas, como endereço IP, características do dispositivo e dados necessários ao funcionamento de seus recursos, conforme suas próprias políticas de privacidade.</p>
+    <h2>Cookies e preferências</h2><p>As escolhas de privacidade são armazenadas neste navegador por até 180 dias. Estatísticas de acesso pelo Google Analytics, quando configurado, só são ativadas após sua autorização. Mapas e vídeos externos também dependem da categoria de conteúdos externos. Você pode recusar os opcionais ou rever suas escolhas no botão “Privacidade e cookies”.</p><h2>Serviços de terceiros</h2>
+    <p>O site pode incorporar recursos de serviços externos, como Google Maps, YouTube e WhatsApp. Esses serviços podem processar informações técnicas, como endereço IP, características do dispositivo e dados necessários ao funcionamento de seus recursos, conforme suas próprias políticas de privacidade.</p>
     <h2>Compartilhamento e conservação</h2>
     <p>Dados pessoais não são divulgados a outras instituições, exceto quando necessário para atender uma solicitação, cumprir uma obrigação legal ou responder a uma ordem de autoridade competente. As informações são conservadas apenas pelo período necessário às finalidades informadas e às obrigações aplicáveis.</p>
     <h2>Seus direitos</h2>
@@ -386,6 +386,7 @@ function rewriteLegacyLinks(html = '') {
   element.querySelectorAll('iframe').forEach(frame => {
     if (!frame.hasAttribute('title')) frame.setAttribute('title', 'Conteúdo incorporado')
     frame.setAttribute('loading', 'lazy')
+    if (frame.hasAttribute('src')) { frame.setAttribute('data-consent-src', frame.getAttribute('src')); frame.removeAttribute('src'); }
   })
   element.querySelectorAll('video').forEach(video => {
     const preservedMedia = mediaUrl(video.getAttribute('src'))
@@ -944,7 +945,7 @@ export function ContactPage() {
       </div>
       <aside className="contact-return"><MessageCircle/><p className="content-kicker">Prefere conversar pelo WhatsApp?</p><h2>Fale com nossa equipe.</h2><p>Envie uma mensagem e conte brevemente como podemos ajudar.</p><a className="button button--white" href="https://wa.link/ryey8t" target="_blank" rel="noreferrer">Conversar pelo WhatsApp <ArrowRight size={16}/></a></aside>
     </section>
-    <div className="contact-map"><iframe title="Mapa da sede da Coletividade Helênica de São Paulo" src="https://maps.google.com/maps?q=Rua%20Bresser%2C%20793&amp;t=m&amp;z=17&amp;output=embed&amp;iwloc=near" loading="lazy"/></div>
+    <div className="contact-map"><iframe title="Mapa da sede da Coletividade Helênica de São Paulo" data-consent-src="https://maps.google.com/maps?q=Rua%20Bresser%2C%20793&amp;t=m&amp;z=17&amp;output=embed&amp;iwloc=near" loading="lazy"/></div>
   </main>
 }
 
