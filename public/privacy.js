@@ -1,6 +1,7 @@
 /* Public GA4 measurement ID. Loaded only after analytics consent. */
 (() => {
-  const GA_ID = 'G-S3G9EFPZRN';
+  const officialDomain = ['helenica.com.br', 'www.helenica.com.br'].includes(location.hostname);
+  const GA_ID = officialDomain ? 'G-VL6E48HX1L' : 'G-S3G9EFPZRN';
   const KEY = 'chsp-privacy-v1';
   const MAX_AGE = 180 * 86400000;
   const scriptUrl = document.currentScript.src;

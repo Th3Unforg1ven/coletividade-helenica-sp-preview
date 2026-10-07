@@ -1,4 +1,5 @@
 import FacebookIcon from './FacebookIcon.jsx'
+import CommunityMemories from './CommunityMedia.jsx'
 import InstagramIcon from './InstagramIcon.jsx'
 import DanceGroupBody, { danceGroups, DanceHero, DanceOverview } from './DanceGroups.jsx'
 import { useEffect, useState } from 'react'
@@ -832,6 +833,7 @@ export function CultureIndex() {
     <nav className="category-links" aria-label="Abrir páginas das categorias">
       {categories.map(category => <Link to={`/cultura/categoria/${category.slug}`} key={category.id}>{decode(category.name)} <span>{category.count}</span></Link>)}
     </nav>
+    <CommunityMemories />
     <section className="cultural-pages"><h2>Páginas culturais do acervo</h2>{culturalPageSlugs.map(slug => pageBySlug[slug]).filter(Boolean).map(page => <Link to={`/cultura/paginas/${page.slug}`} key={page.id}>{decode(page.title)}<ArrowRight size={15}/></Link>)}</section>
   </main>
 }

@@ -1,5 +1,6 @@
 .content-hero .dance-hero-photo { background:var(--blue-900); display:flex; align-items:center; min-height:0; }
 .content-hero .dance-hero-photo img { position:static; width:100%; height:auto; object-fit:contain; }
+.content-hero .dance-hero-photo--pedilea { background:transparent; align-self:center; }
 .dance-section { margin:80px 0; }
 .dance-groups .greek-course__photo img { height:auto; }
 .dance-groups .greek-course__split > .greek-course__photo img { max-height:570px; object-fit:contain; }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { assetUrl } from './paths.js'
 
-export default function DanceVideo({ number, caption }) {
+export default function DanceVideo({ number, caption, sourceBase }) {
   const container = useRef(null)
   const video = useRef(null)
   const [visible, setVisible] = useState(false)
@@ -10,7 +10,7 @@ export default function DanceVideo({ number, caption }) {
   const [manualPlay, setManualPlay] = useState(null)
   const [reduceMotion, setReduceMotion] = useState(true)
   const [pageVisible, setPageVisible] = useState(true)
-  const base = `/videos/grupos-danca/registro-${number}`
+  const base = sourceBase || `/videos/grupos-danca/registro-${number}`
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -50,7 +50,7 @@ export default function DanceVideo({ number, caption }) {
 
   return <figure ref={container}>
     <button type="button" className="dance-video-toggle" onClick={togglePlayback}
-      aria-label={`${playing ? 'Pausar' : 'Reproduzir'} vídeo ${number}: ${caption}`}>
+      aria-label={`${playing ? 'Pausar' : 'Reproduzir'} vídeo: ${caption}`}>
       <video ref={video} muted loop playsInline preload="none" aria-hidden="true"
         poster={assetUrl(`${base}-poster-hq.jpg`)}
         src={loaded ? assetUrl(`${base}-loop-hq.mp4`) : undefined}
