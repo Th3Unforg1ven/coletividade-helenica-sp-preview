@@ -11,6 +11,8 @@
   let loaded = false, lastPath = '', timer;
   function tag() { window.dataLayer = window.dataLayer || []; window.dataLayer.push(arguments); }
   function sync() {
+    const footer = document.querySelector('footer');
+    if (footer && reopen.parentElement !== footer) footer.append(reopen);
     document.querySelectorAll('iframe[data-consent-src]').forEach(frame => {
       if (choice?.external && !frame.src) frame.src = frame.dataset.consentSrc;
       if (!choice?.external) frame.removeAttribute('src');
@@ -36,15 +38,18 @@
     if (path !== lastPath) { lastPath = path; tag('event', 'page_view', { page_location: location.origin + path, page_title: document.title }); }
   }
   const panel = document.createElement('section'); panel.className = 'privacy-panel'; panel.setAttribute('aria-label', 'Preferências de privacidade');
-  panel.innerHTML = `<h2>Suas preferências de privacidade</h2><p>Usamos armazenamento necessário para lembrar suas escolhas. Estatísticas de acesso e conteúdos externos são opcionais.</p><label><input type="checkbox" name="analytics"> Estatísticas de acesso (Google Analytics)</label><label><input type="checkbox" name="external"> Conteúdos externos (mapas e vídeos)</label><p><a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a></p><div><button type="button" data-action="reject">Somente necessários</button><button type="button" data-action="save">Salvar escolhas</button><button type="button" data-action="all">Aceitar opcionais</button></div><small>Você pode alterar sua escolha a qualquer momento.</small>`;
+  panel.innerHTML = `<h2>Suas preferências de privacidade</h2><p>Usamos armazenamento necessário para lembrar suas escolhas. Estatísticas de acesso e conteúdos externos são opcionais.</p><label><input type="checkbox" checked disabled> Necessários (sempre ativos)</label><label><input type="checkbox" name="analytics"> Estatísticas de acesso (Google Analytics)</label><label><input type="checkbox" name="external"> Conteúdos externos (mapas e vídeos)</label><p><a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a></p><div><button type="button" data-action="reject">Somente necessários</button><button type="button" data-action="save">Confirmar seleção</button><button type="button" data-action="all">Aceitar todos</button></div><small>Confirmar seleção permite apenas as opções marcadas. Você pode rever sua decisão em “Privacidade e cookies”, no rodapé.</small>`;
   const reopen = document.createElement('button'); reopen.type = 'button'; reopen.className = 'privacy-reopen'; reopen.textContent = 'Privacidade e cookies'; reopen.onclick = open;
+  const banner = document.createElement('section'); banner.className = 'privacy-banner'; banner.setAttribute('aria-label', 'Aviso de cookies');
+  banner.innerHTML = `<p><strong>Usamos cookies para o funcionamento do site.</strong> Estatísticas de acesso e conteúdos externos só são ativados se você autorizar nas preferências do rodapé. Saiba mais na <a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a>.</p><button type="button">Continuar e fechar</button>`;
+  banner.querySelector('button').onclick = () => save('reject');
   let returnFocus;
-  function open() { returnFocus = document.activeElement; panel.hidden = false; panel.querySelector('[name=analytics]').checked = !!choice?.analytics; panel.querySelector('[name=external]').checked = !!choice?.external; panel.querySelector('input').focus(); }
+  function open() { returnFocus = document.activeElement; banner.hidden = true; panel.hidden = false; panel.querySelector('[name=analytics]').checked = !!choice?.analytics; panel.querySelector('[name=external]').checked = !!choice?.external; panel.querySelector('[name=analytics]').focus(); }
   function save(action) {
     const revoke = choice?.analytics && (action === 'reject' || (action === 'save' && !panel.querySelector('[name=analytics]').checked));
     choice = { version: 1, savedAt: Date.now(), analytics: action === 'all' || (action === 'save' && panel.querySelector('[name=analytics]').checked), external: action === 'all' || (action === 'save' && panel.querySelector('[name=external]').checked) };
     try { localStorage.setItem(KEY, JSON.stringify(choice)); } catch {}
-    panel.hidden = true;
+    panel.hidden = true; banner.hidden = true;
     if (revoke) {
       window['ga-disable-' + GA_ID] = true;
       for (const cookie of document.cookie.split(';')) {
@@ -54,10 +59,10 @@
       }
       if (loaded) { location.reload(); return; }
     }
-    sync(); (returnFocus?.isConnected ? returnFocus : reopen).focus();
+    sync(); (returnFocus?.isConnected ? returnFocus : reopen).focus({ preventScroll: true });
   }
   panel.querySelectorAll('[data-action]').forEach(button => button.onclick = () => save(button.dataset.action));
-  document.body.append(panel, reopen); panel.hidden = !!choice;
+  document.body.append(panel, banner, reopen); panel.hidden = true; banner.hidden = !!choice;
   new MutationObserver(() => { clearTimeout(timer); timer = setTimeout(sync, 100); }).observe(document.getElementById('root') || document.querySelector('main'), { childList: true, subtree: true });
   window.addEventListener('hashchange', sync); window.addEventListener('popstate', sync);
   window.addEventListener('storage', event => { if (event.key === KEY) location.reload(); });

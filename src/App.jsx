@@ -1,3 +1,4 @@
+import GreekLearningMosaic from './GreekLearningMosaic.jsx'
 import HeroSlideshow from './HeroSlideshow.jsx'
 import { Component, lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
@@ -49,7 +50,7 @@ const activities = [
     statement: 'Uma nova língua. Uma parte de você que ganha voz.',
     copy: 'Aprenda a conversar, viajar e acessar a cultura grega sem tradução. Aulas de 1h30, presenciais ou online, do básico ao avançado. Consulte a equipe sobre vagas, horários e valores.',
     meta: ['Presencial ou online', 'Adultos e crianças', 'Do básico ao avançado'],
-    icon: Languages, visual: '/images/aulas-grego-turma-recorte-original.webp', visualSize: 'auto 116%', visualPosition: 'center',
+    icon: Languages, visual: '/images/aulas/turma-grego-encontro-1.svg', visualSize: 'auto 116%', visualPosition: 'center',
     href: '/cursos/grego-moderno',
   },
   {
@@ -252,7 +253,7 @@ function HomePage() {
           {activities.map((item, i) => <button type="button" role="tab" id={`tab-${item.id}`} aria-controls={`panel-${item.id}`} aria-selected={activity === i} tabIndex={activity === i ? 0 : -1} key={item.id} className={activity === i ? 'active' : ''} onClick={() => setActivity(i)}>{item.title}</button>)}
         </div>
         <div className="experience-card" role="tabpanel" id={`panel-${current.id}`} aria-labelledby={`tab-${current.id}`} key={current.id}>
-          <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span><b lang="el">{current.greek}</b> • {current.eyebrow}</span></div>
+          {current.id === 'grego' ? <GreekLearningMosaic /> : <div className="experience-card__symbol" style={{'--experience-image': `url(${assetUrl(current.visual)})`, '--experience-size': current.visualSize || 'cover', '--experience-position': current.visualPosition || 'center'}}><Icon strokeWidth={1}/><span><b lang="el">{current.greek}</b> • {current.eyebrow}</span></div>}
           <div className="experience-card__copy">
             <p className="eyebrow"><span lang="el">{current.greek}</span> • {current.eyebrow}</p><h3>{current.statement}</h3><p>{current.copy}</p>
             <div className="activity-tags"><span>{current.status}</span></div>

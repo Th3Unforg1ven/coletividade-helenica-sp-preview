@@ -9,7 +9,7 @@ export const editorialMedia = {
   'doze-grandes-festas-ortodoxas': illustration('grandes-festas', 'velas acesas em interior de inspiração bizantina'),
   'ano-liturgico-ortodoxo': photo('/images/archive/7958d8e0c7-igreja-de-panaghia-kapnikarea.webp', 'Igreja de Panaghia Kapnikarea, em Atenas'),
   'onde-aprender-grego-moderno-sao-paulo': photo('/images/sala-aulas-sede-original.webp', 'Sala de aulas e biblioteca da sede da Coletividade Helênica'),
-  'grego-moderno-para-iniciantes': photo('/images/aulas-grego-turma-recorte-original.webp', 'Participantes de uma aula on-line de grego da Coletividade'),
+  'grego-moderno-para-iniciantes': photo('/images/aulas/turma-grego-encontro-1.svg', 'Participantes de uma aula on-line de grego da Coletividade'),
   'grego-moderno-e-antigo-diferencas': illustration('grego-antigo-moderno-v2', 'pintura de uma conversa em rua grega com uma coluna antiga e portas azuis'),
   'alfabeto-grego-letras-sons': illustration('alfabeto-grego-v2', 'mural com letras alfa, ômega e fi em azul e terracota sobre reboco'),
   'dancas-gregas-sirtaki-kalamatianos': photo('/images/aulas-danca-original.webp', 'Apresentação de danças gregas com trajes tradicionais'),

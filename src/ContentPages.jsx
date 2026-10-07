@@ -75,7 +75,7 @@ const courseIntroductions = {
 }
 
 const lessonImages = {
-  'aulas-de-grego-moderno': '/images/aulas-grego-original.webp',
+  'aulas-de-grego-moderno': '/images/aulas/turma-grego-encontro-3.svg',
   'aulas-de-danca': '/images/aulas-danca-original.webp',
   'aulas-de-bouzouki': '/images/aulas-bouzouki-original.webp',
   'oficinas-culturais': '/images/oficinas-culturais-original.webp',
@@ -629,7 +629,7 @@ export function LessonsIndex() {
     <ContentHero eyebrow="Cursos e atividades" title="Aprenda e viva a cultura grega" introduction="Cursos de língua e música, grupos de dança e encontros culturais: descubra as formas de participar e confira a situação de cada atividade." visual={<figure className="activities-mosaic" aria-label="Língua, dança, oficinas e música na Coletividade">
       {[
         ['neolea', '/images/grupos-danca/neolea-danca.jpeg', 'Apresentação de danças gregas da Neolea Asteri'],
-        ['grego', '/images/aulas-grego-turma-recorte-original.webp', 'Turma do curso de Grego Moderno em uma aula online'],
+        ['grego', '/images/aulas/turma-grego-encontro-1.svg', 'Turma do curso de Grego Moderno em uma aula online'],
         ['oficinas', '/images/oficinas-culturais-original.webp', 'Participantes de uma oficina cultural na Coletividade'],
         ['pedilea', '/images/grupos-danca/pedilea-grupo.jpeg', 'Integrantes da Pedilea e seus instrutores'],
         ['bouzouki', '/images/archive/28c0d6ffd7-kostakis2-1024x473.webp', 'Registro histórico de apresentação musical com bouzouki na Coletividade'],

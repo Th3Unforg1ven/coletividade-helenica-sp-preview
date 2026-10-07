@@ -12,11 +12,11 @@ const teachers = [
   ['olympia-dimitrakopoulou', 'Olympia Dimitrakopoulou'],
 ]
 
-function teacherPortrait(slug) { return assetUrl(`/images/professores-grego/${slug}${slug === 'panaghiota-kartali' ? '-tratada.png' : '-retrato.jpg'}`) }
+function teacherPortrait(slug) { return assetUrl(`/images/professores-grego/${slug}-retrato.jpg`) }
 
 export function GreekTeacherMosaic() {
   return <figure className="greek-teacher-mosaic" aria-label="Equipe de professores de Grego Moderno">
-    {teachers.map(([slug, name]) => <img key={slug} src={teacherPortrait(slug)} alt={name} width="550" height="550" />)}
+    {teachers.map(([slug, name]) => <div className="greek-teacher-mosaic__portrait" key={slug}><img src={teacherPortrait(slug)} alt={name} width="550" height="550" /></div>)}
   </figure>
 }
 
@@ -42,7 +42,7 @@ export default function GreekCourse() {
     </dl>
 
     <section className="greek-course__split" aria-labelledby="greek-method">
-      <ClassPhoto src="/images/archive/fe0620d728-whatsapp-image-2021-05-14-at-09-23-51-1024x547.webp" caption="Encontro de uma turma de grego por videochamada." />
+      <ClassPhoto src="/images/aulas/turma-grego-encontro-1.svg" caption="Encontro de uma turma de grego por videochamada." />
       <div><p className="content-kicker">O aprendizado</p><h2 id="greek-method">Do primeiro contato<br />a novos horizontes.</h2><p>Você não precisa ter estudado grego para começar. Há cursos específicos para iniciantes e turmas em diferentes níveis para continuar o aprendizado.</p><p>A metodologia adotada pelo governo grego oferece condições para a preparação para a certificação de proficiência no idioma.</p><a className="greek-course__text-link" href="https://wa.link/ryey8t">Converse sobre o seu nível <ArrowRight size={18} /></a></div>
     </section>
 
@@ -53,7 +53,7 @@ export default function GreekCourse() {
 
     <section className="greek-course__split greek-course__split--reverse" aria-labelledby="greek-formats">
       <div><p className="content-kicker">Como participar</p><h2 id="greek-formats">Na nossa sede.<br />Ou de onde você estiver.</h2><p>As aulas têm duração de 1h30 nas modalidades presencial e online. Consulte a equipe para conhecer as turmas disponíveis para o seu nível.</p><div className="greek-course__format"><h3>Presencial</h3><p>Na sede da CHSP, na Rua Bresser, 793, Brás, São Paulo. As salas comportam de 6 a 10 alunos.</p></div><div className="greek-course__format"><h3>Online</h3><p>Aulas por videochamada, em turmas de até 12 alunos.</p></div></div>
-      <ClassPhoto src="/images/archive/fdd133abe4-whatsapp-image-2021-05-14-at-09-10-56-1024x514.webp" caption="A língua grega aproxima a comunidade também nas aulas online." />
+      <ClassPhoto src="/images/aulas/turma-grego-encontro-2.svg" caption="A língua grega aproxima a comunidade também nas aulas online." />
     </section>
 
     <section className="greek-course__contact" aria-labelledby="greek-contact"><div><p className="content-kicker">Seu próximo passo</p><h2 id="greek-contact">Vamos encontrar sua turma?</h2><p>Consulte vagas, horários e valores pelo WhatsApp da Coletividade. Conte à equipe se você já estudou grego e qual modalidade procura.</p></div><a className="button" href="https://wa.link/ryey8t"><MessageCircle size={18} /> Falar sobre as aulas <ArrowRight size={18} /></a></section>
