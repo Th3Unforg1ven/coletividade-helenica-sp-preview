@@ -7,12 +7,15 @@ import '@fontsource/gfs-didot/latin-400.css'
 import '@fontsource/gfs-didot/greek-400.css'
 import '@fontsource/gfs-didot/greek-ext-400.css'
 import App from './App.jsx'
+import { PhotoGalleryProvider } from './components/PhotoGallery.jsx'
 import './styles.css'
 
 const Router = import.meta.env.VITE_ROUTER_MODE === 'hash' ? HashRouter : BrowserRouter
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
-    <App />
+    <PhotoGalleryProvider>
+      <App />
+    </PhotoGalleryProvider>
   </Router>,
 )

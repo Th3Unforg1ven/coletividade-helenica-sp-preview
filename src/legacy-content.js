@@ -394,6 +394,32 @@ export function rewriteLegacyLinks(html = '') {
       if (image && !image.getAttribute('alt')) image.setAttribute('alt', label)
     }
   })
+  element.querySelectorAll('img').forEach((image) => {
+    const src = image.getAttribute('src')
+    if (!src || !src.includes('/images/')) return
+    const anchor = image.closest('a')
+    // Preserve links to articles, documents and other destinations.
+    if (anchor && !/\.(?:webp|jpe?g|png|svg)(?:[?#].*)?$/i.test(anchor.getAttribute('href'))) return
+    const caption =
+      image.closest('figure')?.querySelector('figcaption')?.textContent.trim() ||
+      image.alt ||
+      'Foto do acervo da Coletividade'
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'gallery-photo'
+    button.dataset.gallerySrc = anchor?.getAttribute('href') || src
+    button.dataset.galleryCaption = caption
+    button.setAttribute('aria-label', `Ampliar foto: ${caption}`)
+    button.setAttribute('aria-haspopup', 'dialog')
+    const visual = image.closest('picture') || image
+    if (anchor) {
+      anchor.replaceWith(button)
+      button.append(visual)
+    } else {
+      visual.replaceWith(button)
+      button.append(visual)
+    }
+  })
   return element.innerHTML
 }
 

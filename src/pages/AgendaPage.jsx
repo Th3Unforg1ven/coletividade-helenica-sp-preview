@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 
 import { siteContent } from '../content/site-data.js'
+import '../components/section-hero-photos.css'
 
 export default function AgendaPage() {
   const events = siteContent.posts.filter((post) => post.categories.includes(13))
@@ -16,7 +17,8 @@ export default function AgendaPage() {
         title="Encontros que celebram nossa cultura"
         seoTitle="Agenda e eventos | Coletividade Helênica de São Paulo"
         introduction="Acompanhe a programação da comunidade, explore as datas do calendário grego e ortodoxo e relembre nossos encontros."
-        image="/images/evento-comunidade-original.webp"
+        image="/images/comunidade/neolea-festa-imigrante.webp"
+        imageAlt="Neolea Asteri reunida com trajes tradicionais na Festa do Imigrante."
         motifTheme="agenda"
       />
       <nav className="section-shortcuts" aria-label="Explore a agenda">

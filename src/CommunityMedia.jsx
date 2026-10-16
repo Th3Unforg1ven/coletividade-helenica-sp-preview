@@ -1,26 +1,17 @@
-import { assetUrl } from './paths.js'
+import GalleryPhoto from './components/PhotoGallery.jsx'
 import DanceVideo from './DanceVideo.jsx'
 import './community-media.css'
 
 export function CommunityPhoto({ name, caption, width = 1200, height = 1600 }) {
   return (
-    <figure className="community-photo">
-      <a
-        href={assetUrl(`/images/comunidade/${name}.jpeg`)}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Ampliar foto: ${caption}`}
-      >
-        <img
-          src={assetUrl(`/images/comunidade/${name}.jpeg`)}
-          alt={caption}
-          width={width}
-          height={height}
-          loading="lazy"
-        />
-      </a>
-      <figcaption>{caption}</figcaption>
-    </figure>
+    <GalleryPhoto
+      className="community-photo"
+      src={`/images/comunidade/${name}.jpeg`}
+      displaySrc={`/images/comunidade/${name}.webp`}
+      caption={caption}
+      width={width}
+      height={height}
+    />
   )
 }
 

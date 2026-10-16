@@ -3,10 +3,21 @@ import { ArrowRight } from 'lucide-react'
 import { pageBySlug } from '../content/site-data.js'
 import { lessonSlugs, pathForPage } from '../content/navigation.js'
 import { decode, rewriteLegacyLinks } from '../legacy-content.js'
+import { useMemo } from 'react'
+import { usePhotoGallery } from './PhotoGallery.jsx'
 
 export function LegacyHtml({ html }) {
+  const openFrom = usePhotoGallery()
+  const content = useMemo(() => rewriteLegacyLinks(html), [html])
   return (
-    <div className="wp-content" dangerouslySetInnerHTML={{ __html: rewriteLegacyLinks(html) }} />
+    <div
+      className="wp-content"
+      onClick={(event) => {
+        const trigger = event.target.closest('button[data-gallery-src]')
+        if (trigger) openFrom(trigger)
+      }}
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
   )
 }
 

@@ -1,6 +1,7 @@
 import './dance-video.css'
 import { useEffect, useRef, useState } from 'react'
 import { assetUrl } from './paths.js'
+import { Pause, Play } from 'lucide-react'
 
 export default function DanceVideo({ number, caption, sourceBase }) {
   const container = useRef(null)
@@ -72,6 +73,10 @@ export default function DanceVideo({ number, caption, sourceBase }) {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         />
+        <span className="dance-video-toggle__control" aria-hidden="true">
+          {playing ? <Pause size={15} /> : <Play size={15} />}
+          {playing ? 'Pausar' : 'Reproduzir'}
+        </span>
       </button>
       <figcaption>{caption}</figcaption>
     </figure>

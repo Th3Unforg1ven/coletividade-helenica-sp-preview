@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
+import ResponsiveImage from '../ResponsiveImage.jsx'
+import { culturalTopics, matchesTopic, normalizeSearch } from '../content/cultural-topics.js'
 import CommunityMemories from '../CommunityMedia.jsx'
 import { CinemaFeature } from '../ActivityStories.jsx'
 import PostCard from '../components/PostCard.jsx'
@@ -11,22 +13,58 @@ import { decode, stripHtml } from '../legacy-content.js'
 import { siteContent, pageBySlug, postBySlug, categoryById } from '../content/site-data.js'
 import { assetUrl, routeUrl } from '../paths.js'
 import NotFound from './NotFound.jsx'
+import '../cultural-topics.css'
+import CultureHeroPhotos from '../components/CultureHeroPhotos.jsx'
 export function CultureIndex() {
   const [query, setQuery] = useState('')
   const [categoryId, setCategoryId] = useState('all')
   const [visibleCount, setVisibleCount] = useState(12)
+  const [topicId, setTopicId] = useState('all')
+  const resultsHeading = useRef(null)
   const categories = siteContent.categories.filter(
     (category) => category.count > 0 && category.slug !== 'uncategorized',
   )
-  const normalizedQuery = query.trim().toLocaleLowerCase('pt-BR')
+  const searchIndex = useMemo(
+    () =>
+      new Map(
+        siteContent.posts.map((post) => [
+          post.id,
+          normalizeSearch(
+            `${decode(post.title)} ${stripHtml(post.excerpt)} ${stripHtml(post.content)}`,
+          ),
+        ]),
+      ),
+    [],
+  )
+  const normalizedQuery = normalizeSearch(query)
   const filteredPosts = siteContent.posts.filter((post) => {
     const matchesCategory = categoryId === 'all' || post.categories.includes(Number(categoryId))
-    const searchable =
-      `${decode(post.title)} ${stripHtml(post.excerpt)} ${stripHtml(post.content)}`.toLocaleLowerCase(
-        'pt-BR',
-      )
-    return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery))
+    return (
+      matchesCategory &&
+      matchesTopic(post, topicId) &&
+      (!normalizedQuery || searchIndex.get(post.id).includes(normalizedQuery))
+    )
   })
+  const activeTopic = culturalTopics.find((topic) => topic.id === topicId)
+  function clearFilters() {
+    setQuery('')
+    setCategoryId('all')
+    setTopicId('all')
+    setVisibleCount(12)
+  }
+  function selectTopic(id) {
+    clearFilters()
+    setTopicId(id)
+    requestAnimationFrame(() => {
+      document.getElementById('acervo').scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'instant'
+          : 'smooth',
+        block: 'start',
+      })
+      resultsHeading.current?.focus({ preventScroll: true })
+    })
+  }
   const updateQuery = (event) => {
     setQuery(event.target.value)
     setVisibleCount(12)
@@ -42,11 +80,32 @@ export function CultureIndex() {
         eyebrow="Cultura e memória"
         title="Grécia para ler, ouvir, provar e lembrar"
         introduction="Explore guias sobre a cultura grega e publicações que preservam a história da nossa comunidade."
-        image="/images/exposicao-cultural-original.webp"
+        visual={<CultureHeroPhotos />}
         motifTheme="cultura"
       />
+      <section className="cultural-topics" aria-labelledby="cultural-topics-title">
+        <p className="content-kicker">Escolha por onde começar</p>
+        <h2 id="cultural-topics-title">Encontre o seu tema.</h2>
+        <div className="cultural-topics__grid">
+          {culturalTopics.map((topic) => (
+            <button
+              type="button"
+              key={topic.id}
+              aria-pressed={topicId === topic.id}
+              onClick={() => selectTopic(topic.id)}
+            >
+              <ResponsiveImage src={topic.image} alt="" loading="lazy" width={640} height={360} />
+              <span>
+                <strong>{topic.title}</strong>
+                <small>{topic.description}</small>
+              </span>
+              <ArrowRight size={18} aria-hidden="true" />
+            </button>
+          ))}
+        </div>
+      </section>
       <CinemaFeature />
-      <section className="archive-tools" aria-label="Pesquisar o acervo cultural">
+      <section className="archive-tools" id="acervo" aria-label="Pesquisar o acervo cultural">
         <label>
           <span>Buscar no acervo</span>
           <input
@@ -69,8 +128,17 @@ export function CultureIndex() {
         </label>
       </section>
       <div className="collection-heading">
-        <h2>Publicações</h2>
-        <span>{filteredPosts.length} resultados</span>
+        <h2 ref={resultsHeading} tabIndex={-1}>
+          {activeTopic?.title || 'Publicações'}
+        </h2>
+        <span role="status" aria-live="polite">
+          {filteredPosts.length} {filteredPosts.length === 1 ? 'resultado' : 'resultados'}
+        </span>
+        {(query || categoryId !== 'all' || topicId !== 'all') && (
+          <button className="archive-clear" type="button" onClick={clearFilters}>
+            Limpar filtros
+          </button>
+        )}
       </div>
       {filteredPosts.length ? (
         <>

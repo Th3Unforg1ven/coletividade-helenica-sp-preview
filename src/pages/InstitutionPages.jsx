@@ -5,8 +5,8 @@ import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { LegacyHtml, PageNavigation } from '../components/ArchiveLayout.jsx'
 import { stripHtml, extractLegacySection } from '../legacy-content.js'
 import { pageBySlug } from '../content/site-data.js'
-import { assetUrl } from '../paths.js'
 import NotFound from './NotFound.jsx'
+import ResponsiveImage from '../ResponsiveImage.jsx'
 const institutionVisuals = {
   'sobre-a-chsp': [
     '/images/contato-sede-original.webp',
@@ -17,7 +17,7 @@ const institutionVisuals = {
     'Primeira diretoria da Coletividade, em 1937',
   ],
   'missao-visao-valores': [
-    '/images/grupos-danca/pedilea-grupo.jpeg',
+    '/images/grupos-danca/pedilea-grupo.webp',
     'Integrantes e instrutores da Pedilea',
   ],
   'conselho-deliberativo-e-diretoria-executiva': [
@@ -87,16 +87,16 @@ export function InstitutionIndex() {
         introduction="Conheça a origem, a missão, as pessoas e os valores que sustentam a Coletividade Helênica de São Paulo."
         visual={
           <figure className="institution-mosaic">
-            <img
-              src={assetUrl('/images/primeira-diretoria-chsp.webp')}
+            <ResponsiveImage
+              src="/images/primeira-diretoria-chsp.webp"
               alt="Primeira diretoria da Coletividade"
             />
-            <img
-              src={assetUrl('/images/grupos-danca/neolea-danca.jpeg')}
+            <ResponsiveImage
+              src="/images/grupos-danca/neolea-danca.webp"
               alt="Apresentação da Neolea Asteri"
             />
-            <img
-              src={assetUrl('/images/grupos-danca/pedilea-grupo.jpeg')}
+            <ResponsiveImage
+              src="/images/grupos-danca/pedilea-grupo.webp"
               alt="Integrantes e instrutores da Pedilea"
             />
           </figure>
@@ -136,8 +136,8 @@ export function InstitutionIndex() {
               to={`/coletividade/${slug}`}
               key={slug}
             >
-              <img
-                src={assetUrl(institutionVisuals[slug][0])}
+              <ResponsiveImage
+                src={institutionVisuals[slug][0]}
                 alt={institutionVisuals[slug][1]}
                 loading="lazy"
               />

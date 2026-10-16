@@ -34,7 +34,7 @@ export const activities = [
       'Crianças de 5 a 11 anos',
     ],
     icon: Users,
-    visual: '/images/grupos-danca/pedilea-grupo.jpeg',
+    visual: '/images/grupos-danca/pedilea-grupo.webp',
     href: '/cursos/pedilea',
   },
   {
@@ -49,7 +49,7 @@ export const activities = [
     copy: 'Conheça as apresentações e a trajetória da Neolea Asteri. As novidades do grupo são compartilhadas no perfil @neolea.asteri.',
     meta: ['Danças folclóricas gregas', 'Apresentações e encontros culturais'],
     icon: Users,
-    visual: '/images/grupos-danca/neolea-danca.jpeg',
+    visual: '/images/grupos-danca/neolea-danca.webp',
     href: danceGroups['neolea-asteri'].socialUrl,
   },
   {

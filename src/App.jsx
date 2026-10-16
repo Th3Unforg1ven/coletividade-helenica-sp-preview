@@ -18,6 +18,7 @@ import {
   X,
 } from 'lucide-react'
 import ResponsiveImage from './ResponsiveImage.jsx'
+import responsiveVariants from './content/responsive-variants.json'
 import IntroCover from './IntroCover.jsx'
 import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
@@ -208,6 +209,13 @@ function Header() {
         id="main-navigation"
         className={open ? 'nav is-open' : 'nav'}
         onClick={() => setOpen(false)}
+        onBlur={(event) => {
+          if (
+            !event.currentTarget.contains(event.relatedTarget) &&
+            event.relatedTarget !== toggleRef.current
+          )
+            setOpen(false)
+        }}
         aria-label="Navegação principal"
       >
         <Link to="/coletividade" aria-current={current('/coletividade') ? 'page' : undefined}>
@@ -401,7 +409,7 @@ function HomePage() {
       </a>
       {showIntro && <IntroCover />}
       <Header />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <Hero />
 
         <section className="manifesto section" id="sobre">
@@ -544,6 +552,7 @@ function HomePage() {
                 className="experience-card__symbol"
                 style={{
                   '--experience-image': `url(${assetUrl(current.visual)})`,
+                  '--experience-image-mobile': `url(${assetUrl(responsiveVariants[current.visual]?.includes(640) ? current.visual.replace(/\.webp$/, '-640.webp') : current.visual)})`,
                   '--experience-size': current.visualSize || 'cover',
                   '--experience-position': current.visualPosition || 'center',
                 }}

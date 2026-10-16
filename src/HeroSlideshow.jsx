@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-import { assetUrl } from './paths.js'
+import ResponsiveImage from './ResponsiveImage.jsx'
 
 const slides = [
   {
-    src: '/images/grupos-danca/neolea-danca.jpeg',
+    src: '/images/grupos-danca/neolea-danca.webp',
     label: 'Neolea Asteri • tradição em movimento',
     position: 'center',
   },
   {
-    src: '/images/grupos-danca/pedilea-grupo.jpeg',
+    src: '/images/grupos-danca/pedilea-grupo.webp',
     label: 'Pedilea • novas gerações',
     position: 'center 55%',
   },
@@ -41,6 +41,8 @@ export default function HeroSlideshow() {
   const retireTimers = useRef(new Map())
   const [active, setActive] = useState(0)
   const [ready, setReady] = useState({})
+  const [requested, setRequested] = useState([0])
+  const [pending, setPending] = useState(null)
   const [paused, setPaused] = useState(false)
   const [visible, setVisible] = useState(false)
   const [pageVisible, setPageVisible] = useState(true)
@@ -48,6 +50,23 @@ export default function HeroSlideshow() {
   const [introVisible, setIntroVisible] = useState(true)
   const activeReady = Boolean(ready[active])
   const motionPaused = paused || reduceMotion || !visible || !pageVisible || introVisible
+
+  useEffect(() => {
+    if (pending !== null && ready[pending]) {
+      setActive(pending)
+      setPending(null)
+    }
+  }, [pending, ready])
+
+  // Only prepare the next slide while the presentation can actually advance.
+  useEffect(() => {
+    if (motionPaused || !activeReady) return
+    const next = (active + 1) % slides.length
+    const timer = window.setTimeout(() => {
+      setRequested((current) => (current.includes(next) ? current : [...current, next]))
+    }, 2000)
+    return () => window.clearTimeout(timer)
+  }, [active, activeReady, motionPaused])
 
   useEffect(() => {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -149,15 +168,18 @@ export default function HeroSlideshow() {
             aria-hidden={active !== index}
             style={{ '--hero-position': item.position }}
           >
-            <img
-              ref={(element) => {
-                images.current[index] = element
-              }}
-              src={assetUrl(item.src)}
-              alt={item.label}
-              decoding="async"
-              onLoad={() => imageReady(index)}
-            />
+            {requested.includes(index) && (
+              <ResponsiveImage
+                ref={(element) => {
+                  images.current[index] = element
+                }}
+                src={item.src}
+                alt={item.label}
+                fetchPriority={index === 0 ? 'high' : 'low'}
+                decoding="async"
+                onLoad={() => imageReady(index)}
+              />
+            )}
             <figcaption>{item.label}</figcaption>
           </figure>
         ))}
@@ -167,9 +189,12 @@ export default function HeroSlideshow() {
           <button
             type="button"
             key={item.src}
-            disabled={!ready[index]}
             className={active === index ? 'active' : ''}
-            onClick={() => setActive(index)}
+            onClick={() => {
+              setRequested((current) => (current.includes(index) ? current : [...current, index]))
+              setPending(index)
+            }}
+            aria-busy={pending === index || undefined}
             aria-label={`Exibir imagem ${index + 1}: ${item.label}`}
             aria-current={active === index ? 'true' : undefined}
           />

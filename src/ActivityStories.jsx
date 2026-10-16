@@ -2,14 +2,22 @@ import { siteContact } from './content/site-config.js'
 import { Link } from 'react-router-dom'
 import { assetUrl } from './paths.js'
 import DanceVideo from './DanceVideo.jsx'
+import GalleryPhoto from './components/PhotoGallery.jsx'
 import './activity-stories.css'
 
 function Photo({ name, caption }) {
+  const [width, height] = {
+    'cinema-cartaz': [900, 1350],
+    'neolea-tv': [1200, 540],
+    velas: [1200, 676],
+  }[name] || [1200, 1600]
   return (
-    <figure>
-      <img src={assetUrl(`/images/atividades/${name}.webp`)} alt={caption} loading="lazy" />
-      <figcaption>{caption}</figcaption>
-    </figure>
+    <GalleryPhoto
+      src={`/images/atividades/${name}.webp`}
+      caption={caption}
+      width={width}
+      height={height}
+    />
   )
 }
 

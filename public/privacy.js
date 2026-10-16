@@ -76,10 +76,20 @@
       })
     }
   }
-  const panel = document.createElement('section')
+  const panel = document.createElement('dialog')
   panel.className = 'privacy-panel'
   panel.setAttribute('aria-label', 'Preferências de privacidade')
   panel.innerHTML = `<h2>Suas preferências de privacidade</h2><p>Usamos armazenamento necessário para lembrar suas escolhas. Estatísticas de acesso e conteúdos externos são opcionais.</p><label><input type="checkbox" checked disabled> Necessários (sempre ativos)</label><label><input type="checkbox" name="analytics"> Estatísticas de acesso (Google Analytics)</label><label><input type="checkbox" name="external"> Conteúdos externos (mapas e vídeos)</label><p><a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a></p><div><button type="button" data-action="reject">Somente necessários</button><button type="button" data-action="save">Confirmar seleção</button><button type="button" data-action="all">Aceitar todos</button></div><small>Confirmar seleção permite apenas as opções marcadas. Você pode rever sua decisão em “Privacidade e cookies”, no rodapé.</small>`
+  const closeButton = document.createElement('button')
+  closeButton.type = 'button'
+  closeButton.textContent = 'Fechar sem alterar'
+  closeButton.onclick = closePanel
+  panel.append(closeButton)
+  panel.addEventListener('cancel', (event) => {
+    event.preventDefault()
+    closePanel()
+  })
+  panel.querySelector('a').addEventListener('click', closePanel)
   const reopen = document.createElement('button')
   reopen.type = 'button'
   reopen.className = 'privacy-reopen'
@@ -91,10 +101,17 @@
   banner.innerHTML = `<p><strong>Usamos cookies para o funcionamento do site.</strong> Estatísticas de acesso e conteúdos externos só são ativados se você autorizar nas preferências do rodapé. Saiba mais na <a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a>.</p><button type="button">Continuar e fechar</button>`
   banner.querySelector('button').onclick = () => save('reject')
   let returnFocus
+  function closePanel() {
+    panel.close()
+    panel.hidden = true
+    banner.hidden = !!choice
+    ;(returnFocus?.isConnected ? returnFocus : reopen).focus({ preventScroll: true })
+  }
   function open() {
     returnFocus = document.activeElement
     banner.hidden = true
     panel.hidden = false
+    panel.showModal()
     panel.querySelector('[name=analytics]').checked = !!choice?.analytics
     panel.querySelector('[name=external]').checked = !!choice?.external
     panel.querySelector('[name=analytics]').focus()
@@ -115,6 +132,7 @@
     try {
       localStorage.setItem(KEY, JSON.stringify(choice))
     } catch {}
+    if (panel.open) panel.close()
     panel.hidden = true
     banner.hidden = true
     if (revoke) {

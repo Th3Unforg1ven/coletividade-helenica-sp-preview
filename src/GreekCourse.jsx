@@ -3,6 +3,7 @@ import { siteContact } from './content/site-config.js'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { assetUrl } from './paths.js'
+import GalleryPhoto from './components/PhotoGallery.jsx'
 import './greek-course.css'
 
 function teacherPortrait(slug) {
@@ -22,12 +23,7 @@ export function GreekTeacherMosaic() {
 }
 
 function ClassPhoto({ src, caption }) {
-  return (
-    <figure className="greek-course__photo">
-      <img src={assetUrl(src)} alt={caption} loading="lazy" />
-      <figcaption>{caption}</figcaption>
-    </figure>
-  )
+  return <GalleryPhoto className="greek-course__photo" src={src} caption={caption} />
 }
 
 export default function GreekCourse() {

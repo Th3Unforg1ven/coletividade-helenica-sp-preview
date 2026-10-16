@@ -1,0 +1,40 @@
+.content-hero .culture-hero-photos {
+  display: grid;
+  grid-template-rows: 3fr 2fr;
+  gap: 6px;
+  height: 100%;
+  min-height: 480px;
+  background: var(--ivory);
+}
+.culture-hero-photos > span {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+.culture-hero-photos__memory img {
+  object-position: 50% 62%;
+}
+.culture-hero-photos__tradition img {
+  object-position: 50% 58%;
+}
+.content-page--agenda > .content-hero > figure img {
+  object-position: 50% 76%;
+}
+@media (max-width: 900px) {
+  .content-page--agenda > .content-hero > figure {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+  .content-page--agenda > .content-hero > figure img {
+    object-position: 50% 84%;
+  }
+}
+@media (max-width: 560px) {
+  .content-hero .culture-hero-photos {
+    height: 420px;
+    min-height: 0;
+  }
+  .culture-hero-photos__tradition img {
+    object-position: 50% 54%;
+  }
+}

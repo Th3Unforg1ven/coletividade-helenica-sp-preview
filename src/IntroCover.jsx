@@ -12,13 +12,27 @@ export default function IntroCover() {
   const sealRef = useRef(null)
   const startExitRef = useRef(() => {})
   const disposeMarbleRef = useRef(() => {})
+  const exitTimer = useRef(null)
+  const exitFrame = useRef(null)
   const markCanvasReady = useCallback(() => setCanvasReady(true), [])
   const ready = canvasReady && assetsReady
 
   useEffect(() => {
+    if (!visible) return
+    const cover = coverRef.current
+    cover.showModal()
     document.body.classList.add('intro-active')
-    return () => document.body.classList.remove('intro-active')
-  }, [])
+    return () => {
+      window.clearTimeout(exitTimer.current)
+      window.cancelAnimationFrame(exitFrame.current)
+      cover.close()
+      document.body.classList.remove('intro-active')
+    }
+  }, [visible])
+
+  useEffect(() => {
+    if (visible && ready) coverRef.current?.querySelector('button')?.focus()
+  }, [visible, ready])
 
   useEffect(() => {
     let cancelled = false
@@ -46,6 +60,7 @@ export default function IntroCover() {
   }, [])
 
   useEffect(() => {
+    if (!visible) return
     let wheelIntent = 0
     let wheelResetTimer
     let touchStartY = null
@@ -59,12 +74,14 @@ export default function IntroCover() {
       } catch {
         /* A abertura continua funcionando mesmo sem armazenamento disponível. */
       }
-      window.setTimeout(
+      exitTimer.current = window.setTimeout(
         () => {
           disposeMarbleRef.current()
-          requestAnimationFrame(() => {
+          exitFrame.current = requestAnimationFrame(() => {
             document.body.classList.remove('intro-active')
+            coverRef.current?.close()
             setVisible(false)
+            document.getElementById('main-content')?.focus({ preventScroll: true })
           })
         },
         window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 80 : 1040,
@@ -113,15 +130,19 @@ export default function IntroCover() {
       coverRef.current?.removeEventListener('touchmove', touchMove)
       coverRef.current?.removeEventListener('touchend', touchEnd)
     }
-  }, [exiting, ready])
+  }, [exiting, ready, visible])
 
   if (!visible) return null
   return (
-    <section
+    <dialog
       ref={coverRef}
       className={`intro-cover${ready ? ' is-ready' : ''}${exiting ? ' is-exiting' : ''}`}
       aria-labelledby="intro-cover-title"
       aria-busy={!ready}
+      onCancel={(event) => {
+        event.preventDefault()
+        coverRef.current?.querySelector('button')?.click()
+      }}
     >
       <Suspense
         fallback={
@@ -160,6 +181,6 @@ export default function IntroCover() {
       <span className="intro-cover__inscription" lang="el" aria-hidden="true">
         ΜΝΗΜΗ · ΠΑΙΔΕΙΑ · ΦΙΛΙΑ
       </span>
-    </section>
+    </dialog>
   )
 }

@@ -10,6 +10,10 @@
   height: auto;
   object-fit: contain;
 }
+.dance-hero-photo > picture {
+  display: block;
+  width: 100%;
+}
 .content-hero .dance-hero-photo--pedilea {
   background: transparent;
   align-self: center;

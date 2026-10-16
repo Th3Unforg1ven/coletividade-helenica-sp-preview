@@ -5,24 +5,24 @@ import { CommunityPhoto } from './CommunityMedia.jsx'
 import InstagramIcon from './InstagramIcon.jsx'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { assetUrl } from './paths.js'
+import GalleryPhoto from './components/PhotoGallery.jsx'
+import ResponsiveImage from './ResponsiveImage.jsx'
 import './greek-course.css'
 import './dance-groups.css'
 
 import { danceGroups } from './content/dance-groups.js'
-const photo = (name) => assetUrl(`/images/grupos-danca/${name}.jpeg`)
+const photo = (name) => `/images/grupos-danca/${name}.webp`
 export function DancePhoto({ name, caption, eager = false }) {
   return (
-    <figure className="greek-course__photo">
-      <img
-        src={photo(name)}
-        alt={caption}
-        loading={eager ? 'eager' : 'lazy'}
-        width={name === 'pedilea-encontro' ? 960 : 1280}
-        height={name === 'pedilea-encontro' ? 1280 : 960}
-      />
-      <figcaption>{caption}</figcaption>
-    </figure>
+    <GalleryPhoto
+      className="greek-course__photo"
+      src={`/images/grupos-danca/${name}.jpeg`}
+      displaySrc={photo(name)}
+      caption={caption}
+      loading={eager ? 'eager' : 'lazy'}
+      width={name === 'pedilea-encontro' ? 960 : 1280}
+      height={name === 'pedilea-encontro' ? 1280 : 960}
+    />
   )
 }
 export function DanceHero({ group }) {
@@ -30,7 +30,7 @@ export function DanceHero({ group }) {
     <figure
       className={`dance-hero-photo${group.name === 'Pedilea' ? ' dance-hero-photo--pedilea' : ''}`}
     >
-      <img
+      <ResponsiveImage
         src={photo(group.photo)}
         alt={`Integrantes ${group.name === 'Pedilea' ? 'da Pedilea e instrutores' : 'da Neolea Asteri com trajes tradicionais e bandeira grega'}`}
         width="1280"

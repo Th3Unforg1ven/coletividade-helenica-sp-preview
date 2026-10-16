@@ -28,6 +28,10 @@ body {
 img {
   max-width: 100%;
 }
+/* Sources must not become grid or flex items when picture uses display: contents. */
+picture > source {
+  display: none;
+}
 section[id] {
   scroll-margin-top: 94px;
 }
@@ -38,8 +42,8 @@ a {
 button {
   font: inherit;
 }
-:where(a, button, [tabindex]):focus-visible {
-  outline: 3px solid var(--blue-600);
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--blue-900);
   outline-offset: 4px;
 }
 .skip-link {
@@ -132,6 +136,8 @@ body.intro-active .skip-link {
   border: 0;
   background: none;
   color: var(--blue-900);
+  min-width: 44px;
+  min-height: 44px;
 }
 .button {
   display: inline-flex;
@@ -421,20 +427,34 @@ h2 em {
   z-index: 4;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
 }
 .hero__controls button {
-  width: 8px;
-  height: 8px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   padding: 0;
-  border: 1px solid white;
+  border: 0;
   background: transparent;
-  border-radius: 50%;
   cursor: pointer;
 }
-.hero__controls button.active {
+.hero__controls button::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border: 1px solid white;
+  background: #101b3166;
+  border-radius: 50%;
+}
+.hero__controls button.active::before {
   background: white;
   transform: scale(1.4);
+}
+.hero__controls button:focus-visible,
+.hero__playback:focus-visible {
+  outline-color: white;
+  outline-offset: -3px;
 }
 .hero__stamp {
   position: absolute;
@@ -1905,7 +1925,7 @@ h2 {
   font-size: 0.75rem;
 }
 .category-links span {
-  color: var(--blue-600);
+  color: var(--blue-800);
   margin-left: 7px;
 }
 .posts-grid {
@@ -1948,7 +1968,8 @@ h2 {
 }
 .archive-tools input:focus,
 .archive-tools select:focus {
-  outline: 3px solid var(--blue-100);
+  outline: 3px solid var(--blue-900);
+  outline-offset: 3px;
   border-color: var(--blue-600);
 }
 .load-more {
@@ -2900,7 +2921,7 @@ h2 {
   box-shadow: none;
 }
 .page-navigation a:hover {
-  color: var(--blue-600);
+  color: var(--blue-800);
 }
 .post-card {
   border-bottom: 4px solid var(--blue-600);
@@ -3014,8 +3035,13 @@ h2 {
   min-height: 0;
   object-fit: cover;
 }
-.content-hero .institution-mosaic img:first-child {
+.content-hero .institution-mosaic > img:first-child,
+.content-hero .institution-mosaic > picture:first-child img {
   grid-column: 1/-1;
+}
+.institution-mosaic picture,
+.institution-card > picture {
+  display: contents;
 }
 .institution-card {
   padding: 0;
@@ -3023,7 +3049,8 @@ h2 {
   grid-template-columns: 38% 1fr;
   min-height: 310px;
 }
-.institution-card > img {
+.institution-card > img,
+.institution-card > picture img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3092,7 +3119,8 @@ h2 {
   .institution-card {
     grid-template-columns: 1fr;
   }
-  .institution-card > img {
+  .institution-card > img,
+  .institution-card > picture img {
     height: 210px;
     min-height: 0;
   }
@@ -3123,6 +3151,9 @@ h2 {
   z-index: 10000;
   bottom: 20px;
   right: 20px;
+  top: auto;
+  left: auto;
+  margin: 0;
   max-width: 480px;
   width: calc(100% - 40px);
   max-height: 85vh;
@@ -3133,6 +3164,9 @@ h2 {
   border: 1px solid var(--blue-600);
   box-shadow: 0 8px 45px #0003;
   font-size: 0.9rem;
+}
+.privacy-panel::backdrop {
+  background: #101b3170;
 }
 .privacy-panel[hidden],
 .embed-permission[hidden],
@@ -3230,6 +3264,11 @@ iframe[hidden] {
   cursor: pointer;
 }
 @media (max-width: 600px) {
+  .experience-card__symbol {
+    background-image:
+      linear-gradient(rgba(9, 38, 95, 0.18), rgba(9, 38, 95, 0.2)),
+      var(--experience-image-mobile, var(--experience-image));
+  }
   .privacy-banner {
     inset: auto 12px 12px;
     padding: 20px;

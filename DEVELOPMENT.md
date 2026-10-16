@@ -16,8 +16,8 @@
 npm ci
 npm run lint
 npm run format:check
-npm test
 npm run build
+npm test
 ```
 
 `npm run format` aplica a formatação. Os JSONs do acervo e dos mapas de mídia são
@@ -38,6 +38,21 @@ Antes de iniciar o servidor ou compilar, `generate-responsive-manifest.mjs`
 atualiza a lista das versões menores de imagens que realmente existem. O
 componente de imagens usa essa lista e mantém a imagem original quando não há
 uma versão menor disponível.
+
+`node scripts/optimize-gallery-photos.mjs [caminho-do-ffmpeg]` cria cópias WebP
+de 640, 960 e até 1600 pixels das fotos JPEG de `grupos-danca/` e `comunidade/`.
+Os JPEGs originais continuam sendo usados na ampliação. Depois de gerar fotos,
+execute `node scripts/generate-responsive-manifest.mjs` ou o build.
+
+`GalleryPhoto` conecta imagens à galeria acessível, com navegação por setas e
+fechamento por Escape. Fotos no mesmo `main` compartilham uma galeria; use
+`data-gallery-group` para delimitar um álbum. O visualizador só é carregado ao
+abrir uma foto. O HTML antigo recebe o mesmo comportamento sem alterar links
+para artigos ou documentos.
+
+Os temas de Cultura e memória ficam em `src/content/cultural-topics.js`.
+Uma publicação pode pertencer a mais de um tema. Os testes verificam se todas
+as publicações têm um tema e se as imagens usadas existem.
 
 ## Experimentos e arquivos de trabalho
 

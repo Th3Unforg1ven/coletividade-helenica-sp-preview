@@ -13,7 +13,6 @@ import {
   lessonStatus,
 } from '../content/courses.js'
 import { lessonSlugs, pathForPage } from '../content/navigation.js'
-import { assetUrl } from '../paths.js'
 import NotFound from './NotFound.jsx'
 import ResponsiveImage from '../ResponsiveImage.jsx'
 
@@ -95,7 +94,7 @@ export function LessonsIndex() {
             {[
               [
                 'neolea',
-                '/images/grupos-danca/neolea-danca.jpeg',
+                '/images/grupos-danca/neolea-danca.webp',
                 'Apresentação de danças gregas da Neolea Asteri',
               ],
               [
@@ -110,7 +109,7 @@ export function LessonsIndex() {
               ],
               [
                 'pedilea',
-                '/images/grupos-danca/pedilea-grupo.jpeg',
+                '/images/grupos-danca/pedilea-grupo.webp',
                 'Integrantes da Pedilea e seus instrutores',
               ],
               [
@@ -120,7 +119,7 @@ export function LessonsIndex() {
               ],
             ].map(([key, src, alt]) => (
               <span key={key} className={`activities-mosaic__${key}`}>
-                <img src={assetUrl(src)} alt={alt} decoding="async" />
+                <ResponsiveImage src={src} alt={alt} decoding="async" />
               </span>
             ))}
           </figure>

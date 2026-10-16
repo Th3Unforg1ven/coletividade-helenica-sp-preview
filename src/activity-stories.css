@@ -22,14 +22,14 @@
   height: auto;
   background: transparent;
 }
-.activity-story > figure > img {
+.activity-story > figure img {
   max-height: 650px;
   object-fit: contain;
 }
-.activity-story div > figure {
+.activity-story > div > figure {
   margin-top: 24px;
 }
-.activity-story div > figure img {
+.activity-story > div > figure img {
   max-height: 340px;
   object-fit: cover;
   object-position: center 58%;
