@@ -65,4 +65,23 @@ documentos comerciais e apresentações existentes na raiz são independentes do
 site e não devem entrar em um commit de código por meio de `git add .`.
 
 A publicação é uma etapa separada e usa a configuração de destino em
-`BASE_PATH`, `VITE_ROUTER_MODE` e `SITE_ORIGIN`.
+`BASE_PATH` e `SITE_ORIGIN`.
+
+## Páginas e metadados
+
+O build gera o cliente Vite e uma versão temporária para pré-renderização em
+`tmp/prerender/`. `scripts/build-pages.mjs` renderiza as rotas de
+`scripts/prerender-routes.mjs` com os mesmos componentes React usados no navegador.
+O `linkedom` é usado apenas no build para adaptar o HTML legado e gerar os documentos.
+
+As páginas completas ficam em `dist/<rota>/index.html`, com título, descrição,
+imagem de compartilhamento, canonical e dados estruturados. As imagens específicas
+ficam em `src/content/sharing-images.js`. O sitemap inclui as páginas e os artigos;
+os endereços antigos de aulas recebem redirecionamentos.
+
+A navegação usa URLs comuns, inclusive no GitHub Pages. Links antigos com `#/`
+são convertidos pelo cliente, preservando parâmetros e âncoras. Em hospedagem própria,
+publique as pastas de `dist/` mantendo sua estrutura; não é necessário um servidor Node.
+
+Busca, tema, categoria e quantidade de resultados do acervo ficam na URL. A posição
+da leitura fica no armazenamento da sessão para restaurar o retorno ao acervo.

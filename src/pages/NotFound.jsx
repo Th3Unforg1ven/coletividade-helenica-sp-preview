@@ -8,6 +8,7 @@ export default function NotFound() {
       <ContentHero
         eyebrow="Conteúdo"
         title="Página não encontrada"
+        noIndex
         introduction="O endereço pode ter mudado durante a reorganização do site."
       />
       <Link className="button" to="/arquivo">

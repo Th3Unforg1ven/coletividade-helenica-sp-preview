@@ -5,7 +5,7 @@ import {
   pageTitles,
   pageIntroductions,
 } from '../content/page-config.js'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams, useLocation } from 'react-router-dom'
 
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { LegacyHtml } from '../components/ArchiveLayout.jsx'
@@ -98,12 +98,14 @@ export function ArchivePage() {
 
 export function GenericPage({ fixedSlug, eyebrow = 'Arquivo do site anterior' }) {
   const params = useParams()
+  const location = useLocation()
   const slug = fixedSlug || params.slug
   const page = pageBySlug[slug]
   if (!page || (!fixedSlug && hiddenArchiveSlugs.has(slug))) return <NotFound />
   if (!fixedSlug) {
     const canonicalPath = pathForPage(page)
-    if (canonicalPath !== `/paginas/${slug}`) return <Navigate replace to={canonicalPath} />
+    if (canonicalPath !== location.pathname.replace(/\/$/, ''))
+      return <Navigate replace to={canonicalPath} />
   }
   return <FullPage page={page} eyebrow={eyebrow} />
 }

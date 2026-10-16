@@ -39,13 +39,11 @@ jobs:
         run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-          VITE_ROUTER_MODE: hash
 
       - name: Testar o pacote final
         run: npm test
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-          VITE_ROUTER_MODE: hash
 
       - name: Configurar o GitHub Pages
         uses: actions/configure-pages@v5

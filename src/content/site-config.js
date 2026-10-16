@@ -9,4 +9,7 @@ export const siteContact = {
   phone: '(11) 2695-1678',
   mobile: '(11) 94031-8080',
   address: 'Rua Bresser, 793',
+  fullAddress: 'Rua Bresser, 793, Brás, São Paulo, SP',
+  directions:
+    'https://www.google.com/maps/dir/?api=1&destination=Rua%20Bresser%2C%20793%2C%20Br%C3%A1s%2C%20S%C3%A3o%20Paulo%2C%20SP',
 }

@@ -6,6 +6,7 @@ import ResponsiveImage from '../ResponsiveImage.jsx'
 
 import { mediaUrl } from '../content/media.js'
 import archiveVariants from '../content/archive-variants.json'
+import { updatePageSeo } from '../content/page-seo.js'
 
 export function Breadcrumbs({ items = [] }) {
   return (
@@ -34,6 +35,8 @@ export function ContentHero({
   visual,
   action,
   seoTitle,
+  seoType = 'website',
+  noIndex = false,
 }) {
   const location = useLocation()
   const theme =
@@ -50,21 +53,16 @@ export function ContentHero({
     const description =
       introduction ||
       'Conheça a Coletividade Helênica de São Paulo, sua história, aulas e atividades culturais.'
-    document.title = pageTitle
-    const setMeta = (selector, attribute, value) => {
-      let element = document.head.querySelector(selector)
-      if (!element) {
-        element = document.createElement('meta')
-        const [name, key] = attribute.split('=')
-        element.setAttribute(name, key)
-        document.head.appendChild(element)
-      }
-      element.setAttribute('content', value)
-    }
-    setMeta('meta[name="description"]', 'name=description', description)
-    setMeta('meta[property="og:title"]', 'property=og:title', pageTitle)
-    setMeta('meta[property="og:description"]', 'property=og:description', description)
-  }, [title, introduction, seoTitle])
+    updatePageSeo({
+      pathname: location.pathname,
+      title: pageTitle,
+      description,
+      image: mediaUrl(image),
+      imageAlt,
+      type: seoType,
+      noIndex,
+    })
+  }, [title, introduction, seoTitle, image, imageAlt, location.pathname, seoType, noIndex])
   return (
     <header className={`content-hero content-hero--themed content-hero--${theme}`}>
       <div>

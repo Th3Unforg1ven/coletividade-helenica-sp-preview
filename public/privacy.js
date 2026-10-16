@@ -79,7 +79,7 @@
   const panel = document.createElement('dialog')
   panel.className = 'privacy-panel'
   panel.setAttribute('aria-label', 'Preferências de privacidade')
-  panel.innerHTML = `<h2>Suas preferências de privacidade</h2><p>Usamos armazenamento necessário para lembrar suas escolhas. Estatísticas de acesso e conteúdos externos são opcionais.</p><label><input type="checkbox" checked disabled> Necessários (sempre ativos)</label><label><input type="checkbox" name="analytics"> Estatísticas de acesso (Google Analytics)</label><label><input type="checkbox" name="external"> Conteúdos externos (mapas e vídeos)</label><p><a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a></p><div><button type="button" data-action="reject">Somente necessários</button><button type="button" data-action="save">Confirmar seleção</button><button type="button" data-action="all">Aceitar todos</button></div><small>Confirmar seleção permite apenas as opções marcadas. Você pode rever sua decisão em “Privacidade e cookies”, no rodapé.</small>`
+  panel.innerHTML = `<h2>Suas preferências de privacidade</h2><p>Usamos armazenamento necessário para lembrar suas escolhas. Estatísticas de acesso e conteúdos externos são opcionais.</p><label><input type="checkbox" checked disabled> Necessários (sempre ativos)</label><label><input type="checkbox" name="analytics"> Estatísticas de acesso (Google Analytics)</label><label><input type="checkbox" name="external"> Conteúdos externos (mapas e vídeos)</label><p><a href="${base}privacidade/">Política de privacidade</a></p><div><button type="button" data-action="reject">Somente necessários</button><button type="button" data-action="save">Confirmar seleção</button><button type="button" data-action="all">Aceitar todos</button></div><small>Confirmar seleção permite apenas as opções marcadas. Você pode rever sua decisão em “Privacidade e cookies”, no rodapé.</small>`
   const closeButton = document.createElement('button')
   closeButton.type = 'button'
   closeButton.textContent = 'Fechar sem alterar'
@@ -98,7 +98,7 @@
   const banner = document.createElement('section')
   banner.className = 'privacy-banner'
   banner.setAttribute('aria-label', 'Aviso de cookies')
-  banner.innerHTML = `<p><strong>Usamos cookies para o funcionamento do site.</strong> Estatísticas de acesso e conteúdos externos só são ativados se você autorizar nas preferências do rodapé. Saiba mais na <a href="${base}${location.hash.startsWith('#/') || base !== '/' ? '#/' : ''}privacidade">Política de privacidade</a>.</p><button type="button">Continuar e fechar</button>`
+  banner.innerHTML = `<p><strong>Usamos cookies para o funcionamento do site.</strong> Estatísticas de acesso e conteúdos externos só são ativados se você autorizar nas preferências do rodapé. Saiba mais na <a href="${base}privacidade/">Política de privacidade</a>.</p><button type="button">Continuar e fechar</button>`
   banner.querySelector('button').onclick = () => save('reject')
   let returnFocus
   function closePanel() {

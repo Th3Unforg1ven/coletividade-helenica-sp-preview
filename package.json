@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/build-editorial.mjs",
+    "build": "node scripts/build-site.mjs",
     "media:variants": "node scripts/generate-archive-variants.mjs",
     "preview": "vite preview",
     "lint": "eslint src scripts experiments public/privacy.js eslint.config.js vite.config.js",
@@ -29,6 +29,7 @@
     "eslint": "9.39.5",
     "eslint-plugin-react": "7.37.5",
     "globals": "16.5.0",
+    "linkedom": "0.18.13",
     "prettier": "3.9.10"
   }
 }

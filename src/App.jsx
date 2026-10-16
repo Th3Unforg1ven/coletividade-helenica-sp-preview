@@ -22,6 +22,7 @@ import responsiveVariants from './content/responsive-variants.json'
 import IntroCover from './IntroCover.jsx'
 import './intro-cover.css'
 import { assetUrl, sectionTarget } from './paths.js'
+import { updatePageSeo } from './content/page-seo.js'
 
 const WA = siteContact.whatsapp
 const LessonPage = lazy(() =>
@@ -59,11 +60,10 @@ const ContactPage = lazy(() => import('./pages/ContactPage.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
 function shouldShowIntroCover() {
-  const usesHashRouter = import.meta.env.VITE_ROUTER_MODE === 'hash'
   const hash = window.location.hash
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
   const relativePath = window.location.pathname.slice(basePath.length) || '/'
-  const isHome = usesHashRouter ? !hash || hash === '#' || hash === '#/' : relativePath === '/'
+  const isHome = relativePath === '/'
   const search = new URLSearchParams(window.location.search)
   const forceIntro = search.get('intro') === '1'
 
@@ -373,16 +373,9 @@ function HomePage() {
   }
 
   useEffect(() => {
-    document.title = 'Coletividade Helênica de São Paulo'
     const description =
       'Língua, arte, música, fé, dança e memória compartilhadas pela Coletividade Helênica de São Paulo desde 1937.'
-    document.head.querySelector('meta[name="description"]')?.setAttribute('content', description)
-    document.head
-      .querySelector('meta[property="og:title"]')
-      ?.setAttribute('content', document.title)
-    document.head
-      .querySelector('meta[property="og:description"]')
-      ?.setAttribute('content', description)
+    updatePageSeo({ pathname: '/', title: 'Coletividade Helênica de São Paulo', description })
     const scrollToHash = () => {
       const id =
         new URLSearchParams(location.search).get('section') || window.location.hash.replace('#', '')
@@ -781,7 +774,7 @@ function InteriorPage({ children }) {
   const location = useLocation()
   useEffect(() => {
     if (!location.hash) {
-      window.scrollTo(0, 0)
+      window.scrollTo({ top: 0, behavior: 'instant' })
       return
     }
     const targetId = decodeURIComponent(location.hash.slice(1))

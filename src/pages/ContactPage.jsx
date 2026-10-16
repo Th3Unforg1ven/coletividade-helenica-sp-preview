@@ -1,10 +1,23 @@
 import { siteContact } from '../content/site-config.js'
+import { useState } from 'react'
 import { Phone, Mail, MapPin, MessageCircle, ArrowRight } from 'lucide-react'
 import FacebookIcon from '../FacebookIcon.jsx'
 import InstagramIcon from '../InstagramIcon.jsx'
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 
 export default function ContactPage() {
+  const [copyStatus, setCopyStatus] = useState('')
+  const [showAddress, setShowAddress] = useState(false)
+  async function copyAddress() {
+    try {
+      await navigator.clipboard.writeText(siteContact.fullAddress)
+      setCopyStatus('Endereço copiado.')
+      setShowAddress(false)
+    } catch {
+      setShowAddress(true)
+      setCopyStatus('Selecione o endereço abaixo para copiar.')
+    }
+  }
   return (
     <main className="content-page">
       <Breadcrumbs items={[{ label: 'Contato' }]} />
@@ -72,6 +85,25 @@ export default function ContactPage() {
               <small>Endereço</small>
               <strong>{siteContact.address}</strong>
               <em>Brás, São Paulo, SP</em>
+              <span className="address-actions">
+                <a href={siteContact.directions} target="_blank" rel="noopener noreferrer">
+                  Abrir rota ↗
+                </a>
+                <button type="button" onClick={copyAddress}>
+                  Copiar endereço
+                </button>
+              </span>
+              <span role="status" aria-live="polite">
+                {copyStatus}
+              </span>
+              {showAddress && (
+                <input
+                  aria-label="Endereço completo para copiar"
+                  readOnly
+                  value={siteContact.fullAddress}
+                  onFocus={(event) => event.target.select()}
+                />
+              )}
             </span>
           </div>
         </div>

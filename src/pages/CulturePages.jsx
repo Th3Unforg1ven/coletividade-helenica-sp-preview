@@ -1,11 +1,13 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
+import { readArchiveFilters, updateArchiveFilters } from '../content/archive-navigation.js'
+import useArchiveScroll from '../components/useArchiveScroll.js'
 import ResponsiveImage from '../ResponsiveImage.jsx'
 import { culturalTopics, matchesTopic, normalizeSearch } from '../content/cultural-topics.js'
 import CommunityMemories from '../CommunityMedia.jsx'
 import { CinemaFeature } from '../ActivityStories.jsx'
 import PostCard from '../components/PostCard.jsx'
 import { culturalPageSlugs } from '../content/navigation.js'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams, useLocation } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { LegacyHtml } from '../components/ArchiveLayout.jsx'
@@ -15,11 +17,17 @@ import { assetUrl, routeUrl } from '../paths.js'
 import NotFound from './NotFound.jsx'
 import '../cultural-topics.css'
 import CultureHeroPhotos from '../components/CultureHeroPhotos.jsx'
+import { prepareArticle, publicationDate } from '../content/article-presentation.js'
+import { mediaUrl } from '../content/media.js'
 export function CultureIndex() {
-  const [query, setQuery] = useState('')
-  const [categoryId, setCategoryId] = useState('all')
-  const [visibleCount, setVisibleCount] = useState(12)
-  const [topicId, setTopicId] = useState('all')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { query, categoryId, visibleCount, topicId } = readArchiveFilters(
+    searchParams,
+    siteContent.posts.length,
+  )
+  useArchiveScroll()
+  const updateFilters = (updates) =>
+    setSearchParams(updateArchiveFilters(searchParams, updates), { replace: true })
   const resultsHeading = useRef(null)
   const categories = siteContent.categories.filter(
     (category) => category.count > 0 && category.slug !== 'uncategorized',
@@ -47,14 +55,10 @@ export function CultureIndex() {
   })
   const activeTopic = culturalTopics.find((topic) => topic.id === topicId)
   function clearFilters() {
-    setQuery('')
-    setCategoryId('all')
-    setTopicId('all')
-    setVisibleCount(12)
+    updateFilters({ q: '', categoria: 'all', tema: 'all', limite: 12 })
   }
   function selectTopic(id) {
-    clearFilters()
-    setTopicId(id)
+    updateFilters({ q: '', categoria: 'all', tema: id, limite: 12 })
     requestAnimationFrame(() => {
       document.getElementById('acervo').scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -66,12 +70,10 @@ export function CultureIndex() {
     })
   }
   const updateQuery = (event) => {
-    setQuery(event.target.value)
-    setVisibleCount(12)
+    updateFilters({ q: event.target.value, limite: 12 })
   }
   const updateCategory = (event) => {
-    setCategoryId(event.target.value)
-    setVisibleCount(12)
+    updateFilters({ categoria: event.target.value, limite: 12 })
   }
   return (
     <main className="content-page content-page--themed content-page--cultura">
@@ -152,7 +154,7 @@ export function CultureIndex() {
               <button
                 type="button"
                 className="button"
-                onClick={() => setVisibleCount((count) => count + 12)}
+                onClick={() => updateFilters({ limite: visibleCount + 12 })}
               >
                 Carregar mais publicações
               </button>
@@ -187,6 +189,7 @@ export function CultureIndex() {
 }
 
 export function CategoryPage() {
+  useArchiveScroll()
   const { slug } = useParams()
   const category = siteContent.categories.find((item) => item.slug === slug)
   if (!category) return <NotFound />
@@ -211,6 +214,7 @@ export function CategoryPage() {
 }
 
 export function MemoryPage() {
+  useArchiveScroll()
   const category = siteContent.categories.find((item) => item.slug === 'memorias')
   const posts = category
     ? siteContent.posts.filter((post) => post.categories.includes(category.id))
@@ -256,37 +260,62 @@ export function MemoryPage() {
 
 export function PostPage() {
   const { slug } = useParams()
-  const post = postBySlug[slug]
-  useEffect(() => {
-    if (!post?.editorial) return
-    const canonical = document.createElement('link')
-    canonical.rel = 'canonical'
-    canonical.href = new URL(assetUrl(`/cultura/${post.slug}/`), window.location.origin).href
-    document.head.appendChild(canonical)
-    return () => canonical.remove()
-  }, [post])
+  const location = useLocation()
+  const post = postBySlug[slug] || postBySlug[encodeURIComponent(slug).toLowerCase()]
+  const article = useMemo(() => prepareArticle(post?.content), [post])
   if (!post) return <NotFound />
   const category = categoryById[post.categories[0]]
   return (
     <main className="content-page">
-      {post.editorial && (
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'BlogPosting',
-            headline: post.title,
-            description: post.excerpt,
-            datePublished: post.date,
-            dateModified: post.date,
-            inLanguage: 'pt-BR',
-          })}
-        </script>
-      )}
+      <script type="application/ld+json">
+        {JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: decode(post.title),
+          description: stripHtml(post.excerpt),
+          datePublished: post.date,
+          dateModified: post.date,
+          inLanguage: 'pt-BR',
+          image: post.featuredMedia?.sourceUrl
+            ? [
+                new URL(
+                  assetUrl(mediaUrl(post.featuredMedia.sourceUrl)),
+                  import.meta.env.VITE_SITE_ORIGIN,
+                ).href,
+              ]
+            : undefined,
+          mainEntityOfPage: new URL(
+            assetUrl(`/cultura/${post.slug}/`),
+            import.meta.env.VITE_SITE_ORIGIN,
+          ).href,
+          publisher: {
+            '@type': 'Organization',
+            name: 'Coletividade Helênica de São Paulo',
+            url: new URL(import.meta.env.BASE_URL, import.meta.env.VITE_SITE_ORIGIN).href,
+          },
+        })}
+      </script>
       <Breadcrumbs
         items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(post.title) }]}
       />
+      <div className={`article-context${post.editorial ? '' : ' article-context--historical'}`}>
+        <Link to={location.state?.archiveReturn || '/cultura'} state={{ restoreArchive: true }}>
+          ← Voltar ao acervo
+        </Link>
+        <p>
+          <time dateTime={post.date}>Publicado em {publicationDate(post.date)}</time> · Leitura de{' '}
+          {article.minutes} min
+        </p>
+        {!post.editorial && (
+          <p>
+            <strong>Registro histórico do acervo.</strong> Datas, serviços e condições mencionados
+            se referem à época da publicação.
+          </p>
+        )}
+      </div>
       <ContentHero
         eyebrow={decode(category?.name || 'Cultura')}
+        seoType="article"
         title={decode(post.title)}
         introduction={stripHtml(post.excerpt)}
         image={post.featuredMedia?.sourceUrl}
@@ -296,7 +325,19 @@ export function PostPage() {
       />
       <div className="content-layout">
         <article>
-          <LegacyHtml html={post.content} />
+          {article.headings.length > 1 && (
+            <nav className="article-toc" aria-label="Neste artigo">
+              <strong>Neste artigo</strong>
+              <ol>
+                {article.headings.map((heading) => (
+                  <li key={heading.id}>
+                    <a href={`#${heading.id}`}>{heading.title}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+          <LegacyHtml html={article.html} />
           {post.sources?.length > 0 && (
             <details className="wp-content editorial-sources">
               <summary>Fontes e referências</summary>
@@ -346,7 +387,7 @@ export function PostPage() {
         </article>
         <aside className="page-navigation">
           <p>Informações</p>
-          <span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>
+          <span>Publicado em {publicationDate(post.date)}</span>
           {post.categories
             .map((id) => categoryById[id])
             .filter(Boolean)

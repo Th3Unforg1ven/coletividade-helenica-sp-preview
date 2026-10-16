@@ -148,9 +148,9 @@ export function normalizePunctuation(value = '') {
 }
 
 export function decode(value = '') {
-  const element = document.createElement('textarea')
-  element.innerHTML = normalizePunctuation(value)
-  return correctEditorialText(element.value)
+  const element = document.createElement('div')
+  element.innerHTML = normalizePunctuation(value).replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+  return correctEditorialText(element.textContent || '')
 }
 
 export function stripHtml(value = '') {
