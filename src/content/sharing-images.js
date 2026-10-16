@@ -1,6 +1,6 @@
 export const sharingImages = {
   '/cursos': '/images/grupos-danca/neolea-danca.jpeg',
-  '/cursos/grego-moderno': '/images/sala-aulas-sede-original.webp',
+  '/cursos/grego-moderno': '/images/aulas/presencial/professora-em-aula.webp',
   '/cursos/pedilea': '/images/grupos-danca/pedilea-grupo.jpeg',
   '/cursos/neolea-asteri': '/images/comunidade/neolea-festa-imigrante.jpeg',
   '/cursos/aulas-de-danca': '/images/grupos-danca/neolea-danca.jpeg',

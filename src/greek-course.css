@@ -104,6 +104,80 @@
   line-height: 1.6;
   margin-top: 12px;
 }
+.greek-course__photo--classroom img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 58%;
+}
+.greek-course__classroom {
+  margin-block: 72px;
+  padding-top: 42px;
+  border-top: 1px solid var(--sand);
+}
+.greek-course__classroom > header {
+  max-width: 760px;
+  margin-bottom: 32px;
+}
+.greek-course__classroom-videos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.greek-course__classroom-videos figure {
+  margin: 0 0 24px;
+}
+.greek-course__classroom-videos video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 464 / 832;
+}
+.greek-course__classroom-videos .dance-video-toggle {
+  max-width: 312px;
+  margin-inline: auto;
+}
+.greek-course__classroom-videos h3 {
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+.greek-course__classroom-videos figcaption {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.greek-course__classroom-photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.greek-course__classroom-photos img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 50% 65%;
+}
+@media (max-width: 800px) {
+  .greek-course__classroom {
+    margin-block: 48px;
+    padding-top: 32px;
+  }
+  .greek-course__classroom-photos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+}
+@media (max-width: 560px) {
+  .greek-course__classroom-videos {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .greek-course__classroom-videos .dance-video-toggle {
+    max-width: min(312px, calc(72svh * 0.5577));
+  }
+}
 .greek-course__text-link {
   display: inline-flex;
   align-items: center;

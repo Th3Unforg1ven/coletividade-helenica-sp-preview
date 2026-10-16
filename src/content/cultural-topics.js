@@ -3,7 +3,7 @@ export const culturalTopics = [
     id: 'language',
     title: 'Língua grega',
     description: 'Palavras, escrita e aprendizado.',
-    image: '/images/sala-aulas-sede-original.webp',
+    image: '/images/aulas/presencial/professora-em-aula.webp',
     topics: ['language'],
     slugs: ['falando-grego', 'lingua-grega'],
   },

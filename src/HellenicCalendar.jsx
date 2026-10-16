@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import {
@@ -22,6 +22,15 @@ const categoryName = (category) =>
       ? 'Data cívica grega'
       : 'Celebração ortodoxa'
 
+const compactQuery = '(max-width: 560px)'
+const compactSnapshot = () => window.matchMedia(compactQuery).matches
+const desktopSnapshot = () => false
+function subscribeCompact(listener) {
+  const query = window.matchMedia(compactQuery)
+  query.addEventListener('change', listener)
+  return () => query.removeEventListener('change', listener)
+}
+
 export default function HellenicCalendar() {
   const [today, setToday] = useState(saoPauloDate)
   const currentYear = Number(today.slice(0, 4))
@@ -32,6 +41,9 @@ export default function HellenicCalendar() {
   const [category, setCategory] = useState('all')
   const [annual, setAnnual] = useState(false)
   const [selected, setSelected] = useState(null)
+  const [layout, setLayout] = useState('auto')
+  const compact = useSyncExternalStore(subscribeCompact, compactSnapshot, desktopSnapshot)
+  const showGrid = !annual && (layout === 'grid' || (layout === 'auto' && !compact))
   useEffect(() => {
     const sync = () => {
       const next = saoPauloDate()
@@ -91,6 +103,7 @@ export default function HellenicCalendar() {
               setMonth(Number(PASCHA[year].slice(5, 7)) - 1)
               setCategory('all')
               setAnnual(false)
+              setLayout('grid')
               setSelected(PASCHA[year])
             }}
           >
@@ -179,8 +192,25 @@ export default function HellenicCalendar() {
           {annual ? 'Ver calendário mensal' : 'Ver lista do ano'}
         </button>
       </div>
-      <div className={`hellenic-calendar__body${annual ? ' is-annual' : ''}`}>
-        {!annual && (
+      {!annual && (
+        <div className="hellenic-calendar__views" role="group" aria-label="Visualização do mês">
+          <button
+            type="button"
+            aria-pressed={!showGrid}
+            onClick={() => {
+              setLayout('list')
+              setSelected(null)
+            }}
+          >
+            Lista
+          </button>
+          <button type="button" aria-pressed={showGrid} onClick={() => setLayout('grid')}>
+            Calendário
+          </button>
+        </div>
+      )}
+      <div className={`hellenic-calendar__body${!showGrid ? ' is-list' : ''}`}>
+        {showGrid && (
           <div>
             <div className="hellenic-calendar__month">
               <button

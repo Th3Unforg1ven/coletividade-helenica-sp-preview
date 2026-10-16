@@ -28,8 +28,9 @@ export const editorialMedia = {
     'Igreja de Panaghia Kapnikarea, em Atenas',
   ),
   'onde-aprender-grego-moderno-sao-paulo': photo(
-    '/images/sala-aulas-sede-original.webp',
-    'Sala de aulas e biblioteca da sede da Coletividade Helênica',
+    '/images/aulas/presencial/professora-em-aula.webp',
+    'Explicação no quadro durante uma aula presencial de grego na Coletividade',
+    '50% 64%',
   ),
   'grego-moderno-para-iniciantes': photo(
     '/images/aulas/turma-grego-encontro-1.svg',

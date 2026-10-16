@@ -31,7 +31,9 @@
 }
 @media (max-width: 560px) {
   .content-hero .culture-hero-photos {
-    height: 420px;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: minmax(0, 1fr);
+    height: clamp(190px, 58vw, 260px);
     min-height: 0;
   }
   .culture-hero-photos__tradition img {

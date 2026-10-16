@@ -4,6 +4,8 @@ import { ArrowRight, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { assetUrl } from './paths.js'
 import GalleryPhoto from './components/PhotoGallery.jsx'
+import DanceVideo from './DanceVideo.jsx'
+import { classroomPhotos, classroomFeature } from './content/greek-course-media.js'
 import './greek-course.css'
 
 function teacherPortrait(slug) {
@@ -71,9 +73,9 @@ export default function GreekCourse() {
       </dl>
 
       <section className="greek-course__split" aria-labelledby="greek-method">
-        <ClassPhoto
-          src="/images/aulas/turma-grego-encontro-1.svg"
-          caption="Encontro de uma turma de grego por videochamada."
+        <GalleryPhoto
+          className="greek-course__photo greek-course__photo--classroom"
+          {...classroomFeature}
         />
         <div>
           <p className="content-kicker">O aprendizado</p>
@@ -92,6 +94,46 @@ export default function GreekCourse() {
           <a className="greek-course__text-link" href={siteContact.whatsapp}>
             Converse sobre o seu nível <ArrowRight size={18} />
           </a>
+        </div>
+      </section>
+
+      <section className="greek-course__classroom" aria-labelledby="greek-classroom">
+        <header>
+          <p className="content-kicker">Uma aula por dentro</p>
+          <h2 id="greek-classroom">O grego ganha vida na sala de aula.</h2>
+          <p>
+            Entre leituras, anotações e explicações no quadro, o aprendizado acontece em grupo.
+            Estes registros mostram um pouco das aulas presenciais na sede da Coletividade.
+          </p>
+        </header>
+        <div className="greek-course__classroom-videos">
+          <div>
+            <DanceVideo
+              sourceBase="/videos/aulas/escrita-em-grego"
+              caption="A escrita e as explicações no quadro durante a aula."
+            />
+            <h3>Escrever para aprender.</h3>
+            <p>
+              O idioma toma forma no quadro, nas palavras e nas explicações compartilhadas com a
+              turma.
+            </p>
+          </div>
+          <div>
+            <DanceVideo
+              sourceBase="/videos/aulas/leitura-em-grego"
+              caption="Um registro dos materiais e da rotina de estudo da turma."
+            />
+            <h3>Do livro à conversa.</h3>
+            <p>
+              Livros e anotações acompanham o contato com a língua e com referências da cultura
+              grega.
+            </p>
+          </div>
+        </div>
+        <div className="greek-course__classroom-photos" data-gallery-group="aula-presencial">
+          {classroomPhotos.map(({ name, ...photo }) => (
+            <GalleryPhoto key={name} className="greek-course__photo" {...photo} />
+          ))}
         </div>
       </section>
 

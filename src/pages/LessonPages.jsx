@@ -99,8 +99,8 @@ export function LessonsIndex() {
               ],
               [
                 'grego',
-                '/images/aulas/turma-grego-encontro-1.svg',
-                'Turma do curso de Grego Moderno em uma aula online',
+                '/images/aulas/presencial/professora-em-aula.webp',
+                'Professora e quadro de uma aula presencial de Grego Moderno',
               ],
               [
                 'oficinas',

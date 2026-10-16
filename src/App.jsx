@@ -78,9 +78,9 @@ function shouldShowIntroCover() {
 
 const trustGallery = [
   {
-    src: '/images/sala-aulas-sede-original.webp',
-    label: 'Nossa sede',
-    copy: 'Espaços preparados para aprender e conviver.',
+    src: '/images/aulas/presencial/biblioteca-em-aula.webp',
+    label: 'Grego na nossa sede',
+    copy: 'Aprendizado e convivência em uma aula presencial.',
   },
   {
     src: '/images/evento-comunidade-original.webp',
@@ -180,14 +180,37 @@ function Header() {
   const navRef = useRef(null)
   useEffect(() => {
     if (!open) return undefined
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const desktop = window.matchMedia('(min-width: 901px)')
+    const closeOnDesktop = () => {
+      if (desktop.matches) setOpen(false)
+    }
+    desktop.addEventListener('change', closeOnDesktop)
     navRef.current?.querySelector('a')?.focus()
     const closeWithEscape = (event) => {
-      if (event.key !== 'Escape') return
-      setOpen(false)
-      toggleRef.current?.focus()
+      if (event.key === 'Escape') {
+        setOpen(false)
+        toggleRef.current?.focus()
+      }
+      if (event.key === 'Tab') {
+        const first = toggleRef.current
+        const last = navRef.current?.querySelector('a:last-child')
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last?.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first?.focus()
+        }
+      }
     }
     window.addEventListener('keydown', closeWithEscape)
-    return () => window.removeEventListener('keydown', closeWithEscape)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      desktop.removeEventListener('change', closeOnDesktop)
+      window.removeEventListener('keydown', closeWithEscape)
+    }
   }, [open])
   const current = (path) => location.pathname === path || location.pathname.startsWith(`${path}/`)
   return (

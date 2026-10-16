@@ -9,6 +9,7 @@ import '@fontsource/gfs-didot/greek-ext-400.css'
 import App from './App.jsx'
 import { PhotoGalleryProvider } from './components/PhotoGallery.jsx'
 import './styles.css'
+import './mobile.css'
 
 // Keep previously shared hash links working after moving to ordinary page URLs.
 if (window.location.hash.startsWith('#/')) {

@@ -44,6 +44,12 @@ de 640, 960 e até 1600 pixels das fotos JPEG de `grupos-danca/` e `comunidade/`
 Os JPEGs originais continuam sendo usados na ampliação. Depois de gerar fotos,
 execute `node scripts/generate-responsive-manifest.mjs` ou o build.
 
+`node scripts/prepare-greek-course-media.mjs "pasta-das-midias" [caminho-do-ffmpeg]`
+prepara a seleção das aulas presenciais: cinco fotos com cópias WebP responsivas
+e dois trechos de vídeo sem áudio. Os onze arquivos recebidos são preservados em
+`local-media/curso-grego-2026-10/`, fora do pacote publicado. As fotos ampliadas
+usam os JPEGs originais; os vídeos seguem o player leve já usado no site.
+
 `GalleryPhoto` conecta imagens à galeria acessível, com navegação por setas e
 fechamento por Escape. Fotos no mesmo `main` compartilham uma galeria; use
 `data-gallery-group` para delimitar um álbum. O visualizador só é carregado ao
@@ -85,3 +91,20 @@ publique as pastas de `dist/` mantendo sua estrutura; não é necessário um ser
 
 Busca, tema, categoria e quantidade de resultados do acervo ficam na URL. A posição
 da leitura fica no armazenamento da sessão para restaurar o retorno ao acervo.
+
+## Mobile
+
+`src/mobile.css` reúne as regras compartilhadas de toque, leitura, menu, rodapé e
+diálogos. Composições específicas continuam no CSS de cada componente.
+Os campos usam no mínimo 16 px em telas pequenas para evitar o zoom automático do
+Safari. O menu ocupa a altura dinâmica da tela, bloqueia a rolagem do fundo e mantém
+o foco dentro da navegação enquanto está aberto.
+
+O calendário começa na lista mensal até 560 px. Os botões Lista e Calendário
+permitem escolher a apresentação sem perder o mês e o filtro. A lista anual
+continua disponível separadamente.
+
+Ao revisar mudanças, conferir 320, 390 e 430 px, tablet de 768 px e orientação
+horizontal. Exercitar menu e Escape, busca e volta ao acervo, lista/grade do
+calendário, galerias, aviso inicial e preferências de cookies. O build precisa ser
+verificado também com o `BASE_PATH` usado na publicação.

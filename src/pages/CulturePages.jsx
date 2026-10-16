@@ -84,7 +84,11 @@ export function CultureIndex() {
         introduction="Explore guias sobre a cultura grega e publicações que preservam a história da nossa comunidade."
         visual={<CultureHeroPhotos />}
         motifTheme="cultura"
-      />
+      >
+        <a className="culture-archive-shortcut" href="#acervo">
+          Buscar no acervo <ArrowRight size={18} />
+        </a>
+      </ContentHero>
       <section className="cultural-topics" aria-labelledby="cultural-topics-title">
         <p className="content-kicker">Escolha por onde começar</p>
         <h2 id="cultural-topics-title">Encontre o seu tema.</h2>
