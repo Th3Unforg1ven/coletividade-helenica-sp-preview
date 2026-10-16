@@ -57,9 +57,6 @@ export default function GalleryPhoto({ src, displaySrc = src, caption, className
         onClick={(event) => openFrom(event.currentTarget)}
       >
         <ResponsiveImage src={displaySrc} alt={caption} loading="lazy" {...imageProps} />
-        <span className="gallery-photo__hint" aria-hidden="true">
-          Ampliar ↗
-        </span>
       </button>
       <figcaption>{caption}</figcaption>
     </figure>

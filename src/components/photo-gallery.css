@@ -13,16 +13,6 @@
   display: block;
   width: 100%;
 }
-.gallery-photo__hint {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  padding: 7px 10px;
-  background: #101b31df;
-  color: white;
-  font-size: 0.75rem;
-  border-radius: 2px;
-}
 .photo-viewer {
   position: fixed;
   inset: 0;
