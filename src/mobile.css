@@ -53,6 +53,14 @@
     padding-bottom: max(12px, env(safe-area-inset-bottom));
     overscroll-behavior: contain;
   }
+  .wp-content .wp-block-columns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wp-content .wp-block-column {
+    width: 100%;
+    flex: 0 0 auto;
+  }
 }
 @media (max-width: 560px) {
   .culture-archive-shortcut {

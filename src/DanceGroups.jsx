@@ -6,7 +6,7 @@ import InstagramIcon from './InstagramIcon.jsx'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import GalleryPhoto from './components/PhotoGallery.jsx'
-import ResponsiveImage from './ResponsiveImage.jsx'
+import GalleryImage from './components/GalleryImage.jsx'
 import './greek-course.css'
 import './dance-groups.css'
 
@@ -30,7 +30,7 @@ export function DanceHero({ group }) {
     <figure
       className={`dance-hero-photo${group.name === 'Pedilea' ? ' dance-hero-photo--pedilea' : ''}`}
     >
-      <ResponsiveImage
+      <GalleryImage
         src={photo(group.photo)}
         alt={`Integrantes ${group.name === 'Pedilea' ? 'da Pedilea e instrutores' : 'da Neolea Asteri com trajes tradicionais e bandeira grega'}`}
         width="1280"

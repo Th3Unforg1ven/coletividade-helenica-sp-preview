@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import ResponsiveImage from './ResponsiveImage.jsx'
+import GalleryImage from './components/GalleryImage.jsx'
 
 const slides = [
   {
@@ -166,10 +166,11 @@ export default function HeroSlideshow() {
             key={item.src}
             className={active === index && ready[index] ? 'active' : ''}
             aria-hidden={active !== index}
+            inert={active !== index ? true : undefined}
             style={{ '--hero-position': item.position }}
           >
             {requested.includes(index) && (
-              <ResponsiveImage
+              <GalleryImage
                 ref={(element) => {
                   images.current[index] = element
                 }}

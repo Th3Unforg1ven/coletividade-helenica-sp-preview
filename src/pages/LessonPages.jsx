@@ -1,3 +1,4 @@
+import GalleryImage from '../components/GalleryImage.jsx'
 import { siteContact } from '../content/site-config.js'
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
@@ -14,7 +15,6 @@ import {
 } from '../content/courses.js'
 import { lessonSlugs, pathForPage } from '../content/navigation.js'
 import NotFound from './NotFound.jsx'
-import ResponsiveImage from '../ResponsiveImage.jsx'
 
 export function LessonsIndex() {
   const groups = [
@@ -119,7 +119,7 @@ export function LessonsIndex() {
               ],
             ].map(([key, src, alt]) => (
               <span key={key} className={`activities-mosaic__${key}`}>
-                <ResponsiveImage src={src} alt={alt} decoding="async" />
+                <GalleryImage src={src} alt={alt} decoding="async" />
               </span>
             ))}
           </figure>
@@ -334,7 +334,7 @@ function BouzoukiCourse() {
         <Link to="/contato">Consultar a equipe da Coletividade</Link>
       </p>
       <figure>
-        <ResponsiveImage
+        <GalleryImage
           src="/images/aulas-bouzouki-original.webp"
           loading="lazy"
           decoding="async"

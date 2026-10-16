@@ -1,3 +1,4 @@
+import GalleryImage from './components/GalleryImage.jsx'
 import { teachers } from './content/teachers.js'
 import { Languages } from 'lucide-react'
 import { assetUrl } from './paths.js'
@@ -16,7 +17,7 @@ export default function GreekLearningMosaic() {
             style={{ gridArea: `s${index}` }}
             key={index}
           >
-            <img
+            <GalleryImage
               src={assetUrl(`/images/aulas/mosaico-participante-${index + 1}.svg`)}
               alt="Participante de uma aula on-line de grego"
               loading="lazy"
@@ -29,7 +30,7 @@ export default function GreekLearningMosaic() {
             style={{ gridArea: `p${index}` }}
             key={slug}
           >
-            <img
+            <GalleryImage
               src={assetUrl(`/images/professores-grego/${slug}-retrato.jpg`)}
               alt={name}
               loading="lazy"

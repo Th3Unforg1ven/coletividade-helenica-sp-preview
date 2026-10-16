@@ -17,7 +17,8 @@ import {
   Users,
   X,
 } from 'lucide-react'
-import ResponsiveImage from './ResponsiveImage.jsx'
+import GalleryImage from './components/GalleryImage.jsx'
+import { GalleryTrigger } from './components/PhotoGallery.jsx'
 import responsiveVariants from './content/responsive-variants.json'
 import IntroCover from './IntroCover.jsx'
 import './intro-cover.css'
@@ -505,7 +506,7 @@ function HomePage() {
           <div className="trust__gallery">
             {trustGallery.map((item, index) => (
               <figure className={`trust__item trust__item--${index + 1}`} key={item.src}>
-                <ResponsiveImage
+                <GalleryImage
                   src={item.src}
                   alt={`${item.label} na Coletividade Helênica de São Paulo`}
                   loading="lazy"
@@ -573,6 +574,11 @@ function HomePage() {
                   '--experience-position': current.visualPosition || 'center',
                 }}
               >
+                <GalleryTrigger
+                  src={current.visual}
+                  caption={current.title}
+                  className="experience-card__photo-trigger"
+                />
                 <Icon strokeWidth={1} />
                 <span>
                   <b lang="el">{current.greek}</b> • {current.eyebrow}
@@ -709,7 +715,7 @@ function HomePage() {
 
         <section className="memory section" id="memoria">
           <div className="memory__image">
-            <ResponsiveImage
+            <GalleryImage
               src="/images/primeira-diretoria-chsp.webp"
               alt="Primeira diretoria da Coletividade Helênica de São Paulo"
               loading="lazy"

@@ -1,3 +1,4 @@
+import GalleryImage from '../components/GalleryImage.jsx'
 import { institutionSlugs, institutionNavSlugs, institutionLabels } from '../content/navigation.js'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
@@ -87,15 +88,15 @@ export function InstitutionIndex() {
         introduction="Conheça a origem, a missão, as pessoas e os valores que sustentam a Coletividade Helênica de São Paulo."
         visual={
           <figure className="institution-mosaic">
-            <ResponsiveImage
+            <GalleryImage
               src="/images/primeira-diretoria-chsp.webp"
               alt="Primeira diretoria da Coletividade"
             />
-            <ResponsiveImage
+            <GalleryImage
               src="/images/grupos-danca/neolea-danca.webp"
               alt="Apresentação da Neolea Asteri"
             />
-            <ResponsiveImage
+            <GalleryImage
               src="/images/grupos-danca/pedilea-grupo.webp"
               alt="Integrantes e instrutores da Pedilea"
             />

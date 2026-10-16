@@ -1,15 +1,15 @@
+import GalleryImage from './components/GalleryImage.jsx'
 import { teachers } from './content/teachers.js'
 import { siteContact } from './content/site-config.js'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { assetUrl } from './paths.js'
 import GalleryPhoto from './components/PhotoGallery.jsx'
 import DanceVideo from './DanceVideo.jsx'
 import { classroomPhotos, classroomFeature } from './content/greek-course-media.js'
 import './greek-course.css'
 
 function teacherPortrait(slug) {
-  return assetUrl(`/images/professores-grego/${slug}-retrato.jpg`)
+  return `/images/professores-grego/${slug}-retrato.jpg`
 }
 
 export function GreekTeacherMosaic() {
@@ -17,7 +17,7 @@ export function GreekTeacherMosaic() {
     <figure className="greek-teacher-mosaic" aria-label="Equipe de professores de Grego Moderno">
       {teachers.map(([slug, name]) => (
         <div className="greek-teacher-mosaic__portrait" key={slug}>
-          <img src={teacherPortrait(slug)} alt={name} width="550" height="550" />
+          <GalleryImage src={teacherPortrait(slug)} alt={name} width="550" height="550" />
         </div>
       ))}
     </figure>
@@ -151,7 +151,13 @@ export default function GreekCourse() {
         <div className="greek-course__portraits">
           {teachers.map(([slug, name]) => (
             <figure key={slug}>
-              <img src={teacherPortrait(slug)} alt={name} width="550" height="550" loading="lazy" />
+              <GalleryImage
+                src={teacherPortrait(slug)}
+                alt={name}
+                width="550"
+                height="550"
+                loading="lazy"
+              />
               <figcaption>{name}</figcaption>
             </figure>
           ))}

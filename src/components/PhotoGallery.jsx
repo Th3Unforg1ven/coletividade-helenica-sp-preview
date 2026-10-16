@@ -43,21 +43,29 @@ export function usePhotoGallery() {
   return useContext(GalleryContext)
 }
 
-export default function GalleryPhoto({ src, displaySrc = src, caption, className, ...imageProps }) {
+export function GalleryTrigger({ src, caption, className = '', children }) {
   const openFrom = usePhotoGallery()
   return (
+    <button
+      className={`gallery-photo ${className}`.trim()}
+      type="button"
+      data-gallery-src={assetUrl(src)}
+      data-gallery-caption={caption}
+      aria-label={`Ampliar foto: ${caption}`}
+      aria-haspopup="dialog"
+      onClick={(event) => openFrom(event.currentTarget)}
+    >
+      {children}
+    </button>
+  )
+}
+
+export default function GalleryPhoto({ src, displaySrc = src, caption, className, ...imageProps }) {
+  return (
     <figure className={className}>
-      <button
-        className="gallery-photo"
-        type="button"
-        data-gallery-src={assetUrl(src)}
-        data-gallery-caption={caption}
-        aria-label={`Ampliar foto: ${caption}`}
-        aria-haspopup="dialog"
-        onClick={(event) => openFrom(event.currentTarget)}
-      >
+      <GalleryTrigger src={src} caption={caption}>
         <ResponsiveImage src={displaySrc} alt={caption} loading="lazy" {...imageProps} />
-      </button>
+      </GalleryTrigger>
       <figcaption>{caption}</figcaption>
     </figure>
   )

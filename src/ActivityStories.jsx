@@ -1,6 +1,6 @@
+import GalleryImage from './components/GalleryImage.jsx'
 import { siteContact } from './content/site-config.js'
 import { Link } from 'react-router-dom'
-import { assetUrl } from './paths.js'
 import DanceVideo from './DanceVideo.jsx'
 import GalleryPhoto from './components/PhotoGallery.jsx'
 import './activity-stories.css'
@@ -236,8 +236,8 @@ export function HistoryCourse() {
     <div className="activity-stories">
       <section className="activity-story">
         <figure>
-          <img
-            src={assetUrl('/images/professores-grego/efstathios-tsotsos-retrato.jpg')}
+          <GalleryImage
+            src="/images/professores-grego/efstathios-tsotsos-retrato.jpg"
             alt="Professor Efstathios Tsotsos"
             loading="lazy"
           />

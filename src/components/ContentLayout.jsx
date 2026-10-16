@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import InstagramIcon from '../InstagramIcon.jsx'
-import ResponsiveImage from '../ResponsiveImage.jsx'
+import GalleryImage from './GalleryImage.jsx'
 
 import { mediaUrl } from '../content/media.js'
 import archiveVariants from '../content/archive-variants.json'
@@ -84,10 +84,10 @@ export function ContentHero({
       {visual || (
         <figure className={image ? '' : 'content-hero__art'}>
           {image && (
-            <ResponsiveImage
+            <GalleryImage
               src={mediaUrl(image)}
               variantWidths={archiveVariants[mediaUrl(image)]}
-              alt={imageAlt}
+              alt={imageAlt || title}
               style={{ objectPosition: imagePosition }}
             />
           )}

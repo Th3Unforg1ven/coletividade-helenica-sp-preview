@@ -124,3 +124,33 @@ test('Historical records are identified before the article and editorial guides 
   ).document
   assert.equal(current.querySelector('.article-context--historical'), null)
 })
+
+test('Content photos enlarge in the gallery while navigation images keep their links', () => {
+  const base = process.env.BASE_PATH || '/'
+  for (const route of prerenderRoutes) {
+    const { document } = parseHTML(
+      fs.readFileSync(`dist${decodeURIComponent(route)}/index.html`, 'utf8'),
+    )
+    for (const image of document.querySelectorAll('main img')) {
+      if (image.closest('a, .cultural-topics button[aria-pressed]')) continue
+      const trigger = image.closest('button[data-gallery-src]')
+      assert.ok(trigger, `${route}: photo without gallery: ${image.getAttribute('src')}`)
+      assert.ok(trigger.getAttribute('aria-label')?.startsWith('Ampliar foto:'), route)
+      const source = trigger.getAttribute('data-gallery-src')
+      if (source?.startsWith(base))
+        assert.ok(
+          fs.existsSync(`dist/${decodeURIComponent(source.slice(base.length))}`),
+          `${route}: missing enlarged photo: ${source}`,
+        )
+      assert.equal(trigger.querySelector('a,button'), null, `${route}: nested control`)
+    }
+    assert.equal(document.querySelector('.gallery-photo__hint'), null, route)
+    for (const video of document.querySelectorAll('main video')) {
+      assert.ok(video.closest('button'), `${route}: video without direct playback control`)
+      assert.ok(video.hasAttribute('playsInline') || video.hasAttribute('playsinline'), route)
+      const poster = video.getAttribute('poster')
+      assert.ok(poster, `${route}: video without preview`)
+      assert.ok(fs.existsSync(`dist/${decodeURIComponent(poster.slice(base.length))}`), route)
+    }
+  }
+})

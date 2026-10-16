@@ -28,7 +28,7 @@ export default function DanceVideo({ number, caption, sourceBase }) {
       },
       { threshold: 0.2 },
     )
-    observer.observe(container.current)
+    observer.observe(video.current)
     return () => {
       observer.disconnect()
       preference.removeEventListener('change', updatePreference)
@@ -49,7 +49,13 @@ export default function DanceVideo({ number, caption, sourceBase }) {
   }, [visible, pageVisible, loaded, manualPlay, reduceMotion])
 
   function togglePlayback() {
-    setManualPlay(video.current?.paused ?? true)
+    const player = video.current
+    if (!player) return
+    const shouldPlay = player.paused
+    setManualPlay(shouldPlay)
+    // Keep playback inside the tap gesture, including browsers that block autoplay.
+    if (shouldPlay) player.play().catch(() => setPlaying(false))
+    else player.pause()
   }
 
   return (
