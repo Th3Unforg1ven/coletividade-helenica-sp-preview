@@ -1,0 +1,16 @@
+.dance-video-toggle {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.dance-video-toggle:focus-visible {
+  outline: 3px solid var(--blue-800);
+  outline-offset: 5px;
+}
+.dance-video-toggle video {
+  pointer-events: none;
+}

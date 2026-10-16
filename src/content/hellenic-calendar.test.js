@@ -20,8 +20,11 @@ const references = [
 test('Greek language and immigration observances recur once in every supported year', () => {
   for (const year of YEARS) {
     const events = calendarEvents(year)
-    for (const [title, day] of [['Dia Mundial da Língua Grega', '02-09'], ['Dia Nacional do Imigrante Grego', '09-21']]) {
-      const matches = events.filter(event => event.title === title)
+    for (const [title, day] of [
+      ['Dia Mundial da Língua Grega', '02-09'],
+      ['Dia Nacional do Imigrante Grego', '09-21'],
+    ]) {
+      const matches = events.filter((event) => event.title === title)
       assert.equal(matches.length, 1)
       assert.equal(matches[0].date, `${year}-${day}`)
       assert.equal(matches[0].category, 'cultural')
@@ -34,15 +37,17 @@ for (const [year, pascha, lent, ascension, pentecost] of references) {
     for (const [title, date] of [
       ['Páscoa Ortodoxa (Pascha)', pascha],
       ['Segunda-feira Limpa — início da Grande Quaresma', lent],
-      ['Ascensão de Cristo', ascension], ['Pentecostes', pentecost],
-    ]) assert.equal(events.find(e => e.title === title).date, `${year}-${date}`)
+      ['Ascensão de Cristo', ascension],
+      ['Pentecostes', pentecost],
+    ])
+      assert.equal(events.find((e) => e.title === title).date, `${year}-${date}`)
   })
 }
 test('Dates remain valid, ordered and distinct, including coinciding celebrations', () => {
   for (const year of YEARS) {
     const events = calendarEvents(year)
-    assert.equal(new Set(events.map(e => e.id)).size, events.length)
-    assert.equal(events.filter(e => e.date === `${year}-03-25`).length, 2)
+    assert.equal(new Set(events.map((e) => e.id)).size, events.length)
+    assert.equal(events.filter((e) => e.date === `${year}-03-25`).length, 2)
     for (const [i, event] of events.entries()) {
       assert.equal(new Date(`${event.date}T00:00:00Z`).toISOString().slice(0, 10), event.date)
       assert.ok(event.date.startsWith(String(year)))

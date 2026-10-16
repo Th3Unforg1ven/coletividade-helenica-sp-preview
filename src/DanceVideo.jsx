@@ -1,3 +1,4 @@
+import './dance-video.css'
 import { useEffect, useRef, useState } from 'react'
 import { assetUrl } from './paths.js'
 
@@ -20,10 +21,13 @@ export default function DanceVideo({ number, caption, sourceBase }) {
     updateVisibility()
     preference.addEventListener('change', updatePreference)
     document.addEventListener('visibilitychange', updateVisibility)
-    const observer = new IntersectionObserver(([entry]) => {
-      setVisible(entry.isIntersecting)
-      if (entry.isIntersecting) setLoaded(true)
-    }, { threshold: 0.2 })
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setVisible(entry.isIntersecting)
+        if (entry.isIntersecting) setLoaded(true)
+      },
+      { threshold: 0.2 },
+    )
     observer.observe(container.current)
     return () => {
       observer.disconnect()
@@ -48,15 +52,28 @@ export default function DanceVideo({ number, caption, sourceBase }) {
     setManualPlay(video.current?.paused ?? true)
   }
 
-  return <figure ref={container}>
-    <button type="button" className="dance-video-toggle" onClick={togglePlayback}
-      aria-label={`${playing ? 'Pausar' : 'Reproduzir'} vídeo: ${caption}`}>
-      <video ref={video} muted loop playsInline preload="none" aria-hidden="true"
-        poster={assetUrl(`${base}-poster-hq.jpg`)}
-        src={loaded ? assetUrl(`${base}-loop-hq.mp4`) : undefined}
-        onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
-      />
-    </button>
-    <figcaption>{caption}</figcaption>
-  </figure>
+  return (
+    <figure ref={container}>
+      <button
+        type="button"
+        className="dance-video-toggle"
+        onClick={togglePlayback}
+        aria-label={`${playing ? 'Pausar' : 'Reproduzir'} vídeo: ${caption}`}
+      >
+        <video
+          ref={video}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          poster={assetUrl(`${base}-poster-hq.jpg`)}
+          src={loaded ? assetUrl(`${base}-loop-hq.mp4`) : undefined}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+        />
+      </button>
+      <figcaption>{caption}</figcaption>
+    </figure>
+  )
 }

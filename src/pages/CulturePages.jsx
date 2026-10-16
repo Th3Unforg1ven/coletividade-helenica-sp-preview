@@ -1,0 +1,301 @@
+import { useState, useEffect } from 'react'
+import CommunityMemories from '../CommunityMedia.jsx'
+import { CinemaFeature } from '../ActivityStories.jsx'
+import PostCard from '../components/PostCard.jsx'
+import { culturalPageSlugs } from '../content/navigation.js'
+import { Link, useParams } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
+import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
+import { LegacyHtml } from '../components/ArchiveLayout.jsx'
+import { decode, stripHtml } from '../legacy-content.js'
+import { siteContent, pageBySlug, postBySlug, categoryById } from '../content/site-data.js'
+import { assetUrl, routeUrl } from '../paths.js'
+import NotFound from './NotFound.jsx'
+export function CultureIndex() {
+  const [query, setQuery] = useState('')
+  const [categoryId, setCategoryId] = useState('all')
+  const [visibleCount, setVisibleCount] = useState(12)
+  const categories = siteContent.categories.filter(
+    (category) => category.count > 0 && category.slug !== 'uncategorized',
+  )
+  const normalizedQuery = query.trim().toLocaleLowerCase('pt-BR')
+  const filteredPosts = siteContent.posts.filter((post) => {
+    const matchesCategory = categoryId === 'all' || post.categories.includes(Number(categoryId))
+    const searchable =
+      `${decode(post.title)} ${stripHtml(post.excerpt)} ${stripHtml(post.content)}`.toLocaleLowerCase(
+        'pt-BR',
+      )
+    return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery))
+  })
+  const updateQuery = (event) => {
+    setQuery(event.target.value)
+    setVisibleCount(12)
+  }
+  const updateCategory = (event) => {
+    setCategoryId(event.target.value)
+    setVisibleCount(12)
+  }
+  return (
+    <main className="content-page content-page--themed content-page--cultura">
+      <Breadcrumbs items={[{ label: 'Cultura e memória' }]} />
+      <ContentHero
+        eyebrow="Cultura e memória"
+        title="Grécia para ler, ouvir, provar e lembrar"
+        introduction="Explore guias sobre a cultura grega e publicações que preservam a história da nossa comunidade."
+        image="/images/exposicao-cultural-original.webp"
+        motifTheme="cultura"
+      />
+      <CinemaFeature />
+      <section className="archive-tools" aria-label="Pesquisar o acervo cultural">
+        <label>
+          <span>Buscar no acervo</span>
+          <input
+            type="search"
+            value={query}
+            onChange={updateQuery}
+            placeholder="Digite um tema, lugar ou título"
+          />
+        </label>
+        <label>
+          <span>Categoria</span>
+          <select value={categoryId} onChange={updateCategory}>
+            <option value="all">Todas as categorias</option>
+            {categories.map((category) => (
+              <option value={category.id} key={category.id}>
+                {decode(category.name)} ({category.count})
+              </option>
+            ))}
+          </select>
+        </label>
+      </section>
+      <div className="collection-heading">
+        <h2>Publicações</h2>
+        <span>{filteredPosts.length} resultados</span>
+      </div>
+      {filteredPosts.length ? (
+        <>
+          <section className="posts-grid">
+            {filteredPosts.slice(0, visibleCount).map((post) => (
+              <PostCard post={post} key={post.id} />
+            ))}
+          </section>
+          {visibleCount < filteredPosts.length && (
+            <div className="load-more">
+              <button
+                type="button"
+                className="button"
+                onClick={() => setVisibleCount((count) => count + 12)}
+              >
+                Carregar mais publicações
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        <p className="empty-results">Nenhuma publicação corresponde aos filtros selecionados.</p>
+      )}
+      <nav className="category-links" aria-label="Abrir páginas das categorias">
+        {categories.map((category) => (
+          <Link to={`/cultura/categoria/${category.slug}`} key={category.id}>
+            {decode(category.name)} <span>{category.count}</span>
+          </Link>
+        ))}
+      </nav>
+      <CommunityMemories />
+      <section className="cultural-pages">
+        <h2>Páginas culturais do acervo</h2>
+        {culturalPageSlugs
+          .map((slug) => pageBySlug[slug])
+          .filter(Boolean)
+          .map((page) => (
+            <Link to={`/cultura/paginas/${page.slug}`} key={page.id}>
+              {decode(page.title)}
+              <ArrowRight size={15} />
+            </Link>
+          ))}
+      </section>
+    </main>
+  )
+}
+
+export function CategoryPage() {
+  const { slug } = useParams()
+  const category = siteContent.categories.find((item) => item.slug === slug)
+  if (!category) return <NotFound />
+  const posts = siteContent.posts.filter((post) => post.categories.includes(category.id))
+  return (
+    <main className="content-page">
+      <Breadcrumbs
+        items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(category.name) }]}
+      />
+      <ContentHero
+        eyebrow="Cultura e memória"
+        title={decode(category.name)}
+        introduction={`${posts.length} publicações disponíveis nesta coleção.`}
+      />
+      <section className="posts-grid">
+        {posts.map((post) => (
+          <PostCard post={post} key={post.id} />
+        ))}
+      </section>
+    </main>
+  )
+}
+
+export function MemoryPage() {
+  const category = siteContent.categories.find((item) => item.slug === 'memorias')
+  const posts = category
+    ? siteContent.posts.filter((post) => post.categories.includes(category.id))
+    : []
+  return (
+    <main className="content-page memory-landing">
+      <Breadcrumbs
+        items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: 'Memórias' }]}
+      />
+      <ContentHero
+        eyebrow="Cultura e memória"
+        title="Memórias da Coletividade"
+        introduction="Desde 1937, festas, encontros, viagens e histórias de vida formam a memória da Coletividade Helênica de São Paulo."
+        image="/images/primeira-diretoria-chsp.webp"
+      />
+      <section className="collection-intro">
+        <p className="content-kicker">Histórias que permanecem</p>
+        <div>
+          <h2>
+            Quase nove décadas
+            <br />
+            em imagens e relatos.
+          </h2>
+          <p>
+            Este acervo reúne lembranças da imigração grega, exposições realizadas pela
+            Coletividade, trajetórias familiares e momentos importantes para a comunidade. Cada
+            relato ajuda a preservar essa história e a transmiti-la às próximas gerações.
+          </p>
+        </div>
+      </section>
+      <div className="collection-heading">
+        <h2>Explore as memórias</h2>
+        <span>{posts.length} histórias preservadas</span>
+      </div>
+      <section className="posts-grid">
+        {posts.map((post) => (
+          <PostCard post={post} key={post.id} />
+        ))}
+      </section>
+    </main>
+  )
+}
+
+export function PostPage() {
+  const { slug } = useParams()
+  const post = postBySlug[slug]
+  useEffect(() => {
+    if (!post?.editorial) return
+    const canonical = document.createElement('link')
+    canonical.rel = 'canonical'
+    canonical.href = new URL(assetUrl(`/cultura/${post.slug}/`), window.location.origin).href
+    document.head.appendChild(canonical)
+    return () => canonical.remove()
+  }, [post])
+  if (!post) return <NotFound />
+  const category = categoryById[post.categories[0]]
+  return (
+    <main className="content-page">
+      {post.editorial && (
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: post.excerpt,
+            datePublished: post.date,
+            dateModified: post.date,
+            inLanguage: 'pt-BR',
+          })}
+        </script>
+      )}
+      <Breadcrumbs
+        items={[{ label: 'Cultura e memória', to: '/cultura' }, { label: decode(post.title) }]}
+      />
+      <ContentHero
+        eyebrow={decode(category?.name || 'Cultura')}
+        title={decode(post.title)}
+        introduction={stripHtml(post.excerpt)}
+        image={post.featuredMedia?.sourceUrl}
+        imageAlt={post.featuredMedia?.alt}
+        imagePosition={post.featuredMedia?.position}
+        imageIllustration={post.featuredMedia?.illustration}
+      />
+      <div className="content-layout">
+        <article>
+          <LegacyHtml html={post.content} />
+          {post.sources?.length > 0 && (
+            <details className="wp-content editorial-sources">
+              <summary>Fontes e referências</summary>
+              <ul>
+                {post.sources.map(([href, label]) => (
+                  <li key={href}>
+                    <a
+                      href={href.startsWith('/') ? routeUrl(href) : href}
+                      target={href.startsWith('/') ? undefined : '_blank'}
+                      rel={href.startsWith('/') ? undefined : 'noopener noreferrer'}
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+          {post.related?.length > 0 && (
+            <nav className="wp-content" aria-label="Publicações relacionadas">
+              <h2>Continue a leitura</h2>
+              <ul>
+                {post.related
+                  .map((slug) => postBySlug[slug])
+                  .filter(Boolean)
+                  .map((item) => (
+                    <li key={item.slug}>
+                      <a
+                        href={
+                          item.editorial
+                            ? assetUrl(`/cultura/${item.slug}/`)
+                            : routeUrl(`/cultura/${item.slug}`)
+                        }
+                      >
+                        {decode(item.title)}
+                      </a>
+                    </li>
+                  ))}
+              </ul>
+            </nav>
+          )}
+          {post.cta && (
+            <Link className="button" to={post.cta.href}>
+              {post.cta.label} <ArrowRight size={16} />
+            </Link>
+          )}
+        </article>
+        <aside className="page-navigation">
+          <p>Informações</p>
+          <span>Publicado em {new Intl.DateTimeFormat('pt-BR').format(new Date(post.date))}</span>
+          {post.categories
+            .map((id) => categoryById[id])
+            .filter(Boolean)
+            .map((item) => (
+              <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>
+                {decode(item.name)}
+                <ArrowRight size={15} />
+              </Link>
+            ))}
+          {post.cta && (
+            <Link to={post.cta.href}>
+              {post.cta.label}
+              <ArrowRight size={16} />
+            </Link>
+          )}
+        </aside>
+      </div>
+    </main>
+  )
+}

@@ -14,7 +14,9 @@ const urls = new Set()
 
 for (const record of records) {
   if (record.featuredMedia?.sourceUrl) urls.add(record.featuredMedia.sourceUrl)
-  for (const match of (record.content || '').matchAll(/<(?:img|video)[^>]+src="(https?:\/\/(?:www\.)?helenica\.com\.br\/wp-content\/[^"\s]+)"/gi)) {
+  for (const match of (record.content || '').matchAll(
+    /<(?:img|video)[^>]+src="(https?:\/\/(?:www\.)?helenica\.com\.br\/wp-content\/[^"\s]+)"/gi,
+  )) {
     urls.add(match[1].replaceAll('&amp;', '&'))
   }
 }
@@ -32,13 +34,15 @@ function safeName(url) {
   const parsed = new URL(url)
   const decoded = decodeURIComponent(path.basename(parsed.pathname))
   const extension = path.extname(decoded)
-  const stem = path.basename(decoded, extension)
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/gi, '-')
-    .replace(/^-|-$/g, '')
-    .toLowerCase()
-    .slice(0, 58) || 'media'
+  const stem =
+    path
+      .basename(decoded, extension)
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/gi, '-')
+      .replace(/^-|-$/g, '')
+      .toLowerCase()
+      .slice(0, 58) || 'media'
   const hash = createHash('sha1').update(canonicalUrl(url)).digest('hex').slice(0, 10)
   return `${hash}-${stem}`
 }
@@ -47,9 +51,15 @@ function run(command, args) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: ['ignore', 'ignore', 'pipe'] })
     let errorOutput = ''
-    child.stderr.on('data', chunk => { errorOutput += chunk })
+    child.stderr.on('data', (chunk) => {
+      errorOutput += chunk
+    })
     child.on('error', reject)
-    child.on('close', code => code === 0 ? resolve() : reject(new Error(errorOutput || `${command} terminou com código ${code}`)))
+    child.on('close', (code) =>
+      code === 0
+        ? resolve()
+        : reject(new Error(errorOutput || `${command} terminou com código ${code}`)),
+    )
   })
 }
 
@@ -75,17 +85,47 @@ async function migrate(url) {
 
   if (isVideo) {
     await run('ffmpeg', [
-      '-y', '-loglevel', 'error', '-ss', '30', '-i', temporaryPath,
-      '-vf', 'scale=min(1280\\,iw):-2',
-      '-frames:v', '1', '-c:v', 'libwebp', '-q:v', '78',
-      '-compression_level', '5', '-map_metadata', '-1', outputPath,
+      '-y',
+      '-loglevel',
+      'error',
+      '-ss',
+      '30',
+      '-i',
+      temporaryPath,
+      '-vf',
+      'scale=min(1280\\,iw):-2',
+      '-frames:v',
+      '1',
+      '-c:v',
+      'libwebp',
+      '-q:v',
+      '78',
+      '-compression_level',
+      '5',
+      '-map_metadata',
+      '-1',
+      outputPath,
     ])
   } else {
     await run('ffmpeg', [
-      '-y', '-loglevel', 'error', '-i', temporaryPath,
-      '-vf', 'scale=min(1600\\,iw):-2',
-      '-frames:v', '1', '-c:v', 'libwebp', '-q:v', '78',
-      '-compression_level', '5', '-map_metadata', '-1', outputPath,
+      '-y',
+      '-loglevel',
+      'error',
+      '-i',
+      temporaryPath,
+      '-vf',
+      'scale=min(1600\\,iw):-2',
+      '-frames:v',
+      '1',
+      '-c:v',
+      'libwebp',
+      '-q:v',
+      '78',
+      '-compression_level',
+      '5',
+      '-map_metadata',
+      '-1',
+      outputPath,
     ])
   }
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const vertexShader = /* glsl */`
+const vertexShader = /* glsl */ `
   attribute vec2 aPosition;
   varying vec2 vUv;
   void main() {
@@ -9,7 +9,7 @@ const vertexShader = /* glsl */`
   }
 `
 
-const fragmentShader = /* glsl */`
+const fragmentShader = /* glsl */ `
   precision highp float;
 
   uniform float uTime;
@@ -174,7 +174,9 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
   useEffect(() => {
     const container = marbleRef.current
     const seal = sealRef.current
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData
+    const reduceMotion =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      navigator.connection?.saveData
     const canvas = document.createElement('canvas')
     canvas.setAttribute('aria-hidden', 'true')
     container.appendChild(canvas)
@@ -191,8 +193,8 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
     let pointerY = 0
     let smoothPointerX = 0
     let smoothPointerY = 0
-    let sealX = .5
-    let sealY = .58
+    let sealX = 0.5
+    let sealY = 0.58
     let renderWidth = 1
     let renderHeight = 1
     let readyReported = false
@@ -228,7 +230,8 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
       gl.attachShader(program, vertex)
       gl.attachShader(program, fragment)
       gl.linkProgram(program)
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || 'Não foi possível iniciar o mármore.')
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+        throw new Error(gl.getProgramInfoLog(program) || 'Não foi possível iniciar o mármore.')
       positionBuffer = gl.createBuffer()
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW)
@@ -250,8 +253,10 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
     }
 
     const locations = Object.fromEntries(
-      ['uTime', 'uResolution', 'uPointer', 'uSeal', 'uIntro', 'uExit']
-        .map(name => [name, gl.getUniformLocation(program, name)]),
+      ['uTime', 'uResolution', 'uPointer', 'uSeal', 'uIntro', 'uExit'].map((name) => [
+        name,
+        gl.getUniformLocation(program, name),
+      ]),
     )
 
     const alignSeal = () => {
@@ -270,7 +275,11 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
       const pixelRatioLimit = isMobile ? 1.15 : 1
       const maximumPixels = isMobile ? 520000 : 650000
       const adaptiveRatio = Math.sqrt(maximumPixels / (width * height))
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, pixelRatioLimit, Math.max(.58, adaptiveRatio))
+      const pixelRatio = Math.min(
+        window.devicePixelRatio || 1,
+        pixelRatioLimit,
+        Math.max(0.58, adaptiveRatio),
+      )
       renderWidth = Math.round(width * pixelRatio)
       renderHeight = Math.round(height * pixelRatio)
       canvas.width = renderWidth
@@ -282,14 +291,14 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
     const draw = (time = performance.now()) => {
       if (disposed) return
       const elapsed = (time - startingTime) / 1000
-      smoothPointerX += (pointerX - smoothPointerX) * .035
-      smoothPointerY += (pointerY - smoothPointerY) * .035
+      smoothPointerX += (pointerX - smoothPointerX) * 0.035
+      smoothPointerY += (pointerY - smoothPointerY) * 0.035
       gl.useProgram(program)
       gl.uniform1f(locations.uTime, reduceMotion ? 24 : elapsed)
       gl.uniform2f(locations.uResolution, renderWidth, renderHeight)
       gl.uniform2f(locations.uPointer, smoothPointerX, smoothPointerY)
       gl.uniform2f(locations.uSeal, sealX, sealY)
-      gl.uniform1f(locations.uIntro, reduceMotion ? 1 : Math.min(1, elapsed / .95))
+      gl.uniform1f(locations.uIntro, reduceMotion ? 1 : Math.min(1, elapsed / 0.95))
       gl.uniform1f(locations.uExit, exitStartedAt ? Math.min(1, (time - exitStartedAt) / 650) : 0)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
       if (!readyReported) {
@@ -302,11 +311,13 @@ export default function MarbleCanvas({ sealRef, startExitRef, disposeRef, onRead
     resize()
     animationFrame = requestAnimationFrame(draw)
 
-    const pointerMove = event => {
-      pointerX = (event.clientX / window.innerWidth - .5) * 2
-      pointerY = -(event.clientY / window.innerHeight - .5) * 2
+    const pointerMove = (event) => {
+      pointerX = (event.clientX / window.innerWidth - 0.5) * 2
+      pointerY = -(event.clientY / window.innerHeight - 0.5) * 2
     }
-    const startExit = () => { exitStartedAt ||= performance.now() }
+    const startExit = () => {
+      exitStartedAt ||= performance.now()
+    }
     const dispose = () => {
       if (disposed) return
       disposed = true

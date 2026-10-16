@@ -6,12 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     watch: {
-      ignored: [
-        '**/.qa-*/**',
-        '**/.chrome-*/**',
-        '**/qa-*.png',
-        '**/homepage-preview*.png',
-      ],
+      ignored: ['**/.qa-*/**', '**/.chrome-*/**', '**/qa-*.png', '**/homepage-preview*.png'],
     },
   },
 })

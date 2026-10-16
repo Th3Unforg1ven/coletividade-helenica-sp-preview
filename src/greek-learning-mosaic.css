@@ -1,2 +1,52 @@
-.greek-learning-frame{background:#174f85;isolation:isolate}.greek-learning-frame::before,.greek-learning-frame::after{z-index:2;pointer-events:none}.greek-learning-frame>svg,.greek-learning-frame>span{z-index:3}.greek-learning-mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1fr 2.6fr 1fr;grid-template-rows:repeat(6,1fr);gap:0;background:#273d50;z-index:0}.greek-learning-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(rgba(9,38,95,.18),rgba(9,38,95,.2));pointer-events:none}.greek-learning-mosaic__portrait,.greek-learning-mosaic__class{position:relative;min-width:0;min-height:0;overflow:hidden}.greek-learning-mosaic__portrait img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.18);border-radius:0}.greek-learning-mosaic__class{display:flex;align-items:center;background:#273d50;grid-column:2}.greek-learning-mosaic__class img{display:block;width:100%;height:100%;object-fit:contain}.greek-learning-mosaic .class-1{grid-row:1/4}.greek-learning-mosaic .class-2{grid-row:4/7}
-
+.greek-learning-frame {
+  background: transparent;
+  isolation: isolate;
+}
+.greek-learning-frame::before,
+.greek-learning-frame::after {
+  z-index: 2;
+  pointer-events: none;
+}
+.greek-learning-frame > svg,
+.greek-learning-frame > span {
+  z-index: 3;
+}
+.greek-learning-mosaic {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-areas: 'p0 s0 p1 s1' 's2 p2 s3 p3' 'p4 s4 p5 s5';
+  gap: 0;
+  background: transparent;
+  z-index: 0;
+}
+.greek-learning-mosaic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(9, 38, 95, 0.18), rgba(9, 38, 95, 0.2));
+  pointer-events: none;
+}
+.greek-learning-mosaic__portrait,
+.greek-learning-mosaic__class {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.greek-learning-mosaic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+.greek-learning-mosaic__portrait img {
+  object-position: center 30%;
+  transform: scale(1.3);
+}
+.greek-learning-mosaic__class img {
+  object-position: center top;
+}

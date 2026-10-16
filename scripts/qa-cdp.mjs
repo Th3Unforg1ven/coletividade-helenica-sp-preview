@@ -17,11 +17,15 @@ const defaultRoutes = [
 ]
 const routes = process.env.QA_ROUTES ? process.env.QA_ROUTES.split(',') : defaultRoutes
 const screenshotDirectory = process.env.QA_SCREENSHOT_DIR
-const screenshotViewports = new Set((process.env.QA_SCREENSHOT_VIEWPORTS || '').split(',').filter(Boolean))
+const screenshotViewports = new Set(
+  (process.env.QA_SCREENSHOT_VIEWPORTS || '').split(',').filter(Boolean),
+)
 const summaryOnly = process.env.QA_SUMMARY === '1'
 const auditSummary = { audits: 0, failures: [] }
 
-const target = await fetch(`${endpoint}/json/new?${encodeURIComponent('about:blank')}`, { method: 'PUT' }).then(response => response.json())
+const target = await fetch(`${endpoint}/json/new?${encodeURIComponent('about:blank')}`, {
+  method: 'PUT',
+}).then((response) => response.json())
 const socket = new WebSocket(target.webSocketDebuggerUrl)
 const pending = new Map()
 let messageId = 0
@@ -31,7 +35,7 @@ await new Promise((resolve, reject) => {
   socket.addEventListener('error', reject, { once: true })
 })
 
-socket.addEventListener('message', event => {
+socket.addEventListener('message', (event) => {
   const message = JSON.parse(event.data)
   if (!message.id || !pending.has(message.id)) return
   const { resolve, reject } = pending.get(message.id)
@@ -46,7 +50,7 @@ function send(method, params = {}) {
   return new Promise((resolve, reject) => pending.set(id, { resolve, reject }))
 }
 
-const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
+const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds))
 
 await send('Page.enable')
 await send('Runtime.enable')
@@ -100,14 +104,23 @@ const viewports = [
 ]
 
 for (const viewport of viewports) {
-  await send('Emulation.setDeviceMetricsOverride', { width: viewport.width, height: viewport.height, deviceScaleFactor: 1, mobile: viewport.mobile })
+  await send('Emulation.setDeviceMetricsOverride', {
+    width: viewport.width,
+    height: viewport.height,
+    deviceScaleFactor: 1,
+    mobile: viewport.mobile,
+  })
   for (const route of routes) {
     await send('Page.navigate', { url: `${baseUrl}${route}` })
     await wait(900)
-    const result = await send('Runtime.evaluate', { expression: auditExpression, returnByValue: true })
+    const result = await send('Runtime.evaluate', {
+      expression: auditExpression,
+      returnByValue: true,
+    })
     let interactions
     if (viewport.mobile && route === '/') {
-      const interactionResult = await send('Runtime.evaluate', { expression: `(async () => {
+      const interactionResult = await send('Runtime.evaluate', {
+        expression: `(async () => {
         const settle = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
         const menu = document.querySelector('.menu-toggle')
         menu?.click()
@@ -124,7 +137,10 @@ for (const viewport of viewports) {
         await settle()
         const faqResponded = faq?.getAttribute('aria-expanded') === 'false'
         return { menuOpened, tabChanged, faqResponded }
-      })()`, returnByValue: true, awaitPromise: true })
+      })()`,
+        returnByValue: true,
+        awaitPromise: true,
+      })
       interactions = interactionResult.result.value
     }
     if (screenshotDirectory && screenshotViewports.has(viewport.name)) {
@@ -138,7 +154,10 @@ for (const viewport of viewports) {
         clip: { x: 0, y: 0, width: viewport.width, height, scale: 1 },
       })
       const routeName = route === '/' ? 'home' : route.replace(/^\//, '').replaceAll('/', '-')
-      writeFileSync(`${screenshotDirectory}/qa-${viewport.name}-${routeName}.png`, Buffer.from(capture.data, 'base64'))
+      writeFileSync(
+        `${screenshotDirectory}/qa-${viewport.name}-${routeName}.png`,
+        Buffer.from(capture.data, 'base64'),
+      )
     }
     const row = { viewport: viewport.name, route, ...result.result.value, interactions }
     auditSummary.audits += 1
@@ -154,7 +173,7 @@ for (const viewport of viewports) {
       row.truncatedMarker ||
       row.mojibake ||
       row.obsoletePhone ||
-      (interactions && Object.values(interactions).some(value => value === false))
+      (interactions && Object.values(interactions).some((value) => value === false))
 
     if (hasFailure) auditSummary.failures.push(row)
     if (!summaryOnly) console.log(JSON.stringify(row))

@@ -8,3 +8,13 @@ dist/
 /assets/
 /*.png
 /*.zip
+
+# Local source media and generated working files
+/tmp/
+/local-media/
+/.google-slides-compat/
+/.legibility-revision/
+/.slide6-revision*/
+/.slides-build/
+/.tmp-docs-revisao/
+*.inspect.ndjson

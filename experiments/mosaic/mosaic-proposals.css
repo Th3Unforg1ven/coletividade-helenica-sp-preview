@@ -1,0 +1,98 @@
+.proposals {
+  background: #efede6;
+  min-height: 100vh;
+  padding: 32px 4vw 60px;
+}
+.proposal-controls {
+  margin-bottom: 40px;
+}
+.proposal-controls h1 {
+  font: 400 clamp(28px, 3vw, 42px) var(--serif);
+  color: var(--blue-900);
+  margin: 12px 0;
+}
+.proposal-controls > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 14px;
+}
+.proposal-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+.proposal-switch button {
+  padding: 10px 16px;
+  border: 1px solid #bdc7cd;
+  background: transparent;
+  color: var(--blue-900);
+  cursor: pointer;
+}
+.proposal-switch button[aria-pressed='true'] {
+  background: var(--blue-900);
+  color: white;
+}
+.proposal-symbol {
+  background: transparent;
+  isolation: isolate;
+}
+.proposal-symbol::before,
+.proposal-symbol::after {
+  z-index: 2;
+  pointer-events: none;
+}
+.proposal-symbol > svg,
+.proposal-symbol > span {
+  z-index: 3;
+}
+.proposal-photos {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  gap: 0;
+  z-index: 0;
+}
+.proposal-photos::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(9, 38, 95, 0.18), rgba(9, 38, 95, 0.2));
+  pointer-events: none;
+}
+.proposal-portrait,
+.proposal-participant {
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+}
+.proposal-photos img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.proposal-portrait img {
+  transform: scale(1.3);
+}
+.proposal-participant img {
+  object-position: center top;
+}
+.proposal-context .experience-card {
+  animation: none;
+}
+@media (max-width: 700px) {
+  .proposals {
+    padding: 22px 18px 40px;
+  }
+  .proposal-switch button {
+    font-size: 12px;
+  }
+  .proposal-context .experience-card__symbol {
+    min-height: 420px;
+  }
+  .proposal-controls {
+    margin-bottom: 28px;
+  }
+}

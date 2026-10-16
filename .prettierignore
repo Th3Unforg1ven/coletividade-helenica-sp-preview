@@ -1,0 +1,8 @@
+node_modules
+dist
+tmp
+local-media
+src/content/site-content.json
+src/content/media-map.json
+src/content/archive-variants.json
+src/content/responsive-variants.json

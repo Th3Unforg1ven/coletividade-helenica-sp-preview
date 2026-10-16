@@ -30,8 +30,19 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      - name: Verificar código e testes
+        run: |
+          npm run lint
+          npm run format:check
+
       - name: Compilar o site
         run: npm run build
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_ROUTER_MODE: hash
+
+      - name: Testar o pacote final
+        run: npm test
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
           VITE_ROUTER_MODE: hash

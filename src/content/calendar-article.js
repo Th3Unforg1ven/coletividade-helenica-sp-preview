@@ -4,7 +4,8 @@ export const calendarArticle = {
   id: 'editorial-calendario-grego',
   slug: 'calendario-grego-ortodoxo-pascoa-feriados',
   title: 'Calendário grego e ortodoxo: Páscoa, festas e feriados até 2030',
-  excerpt: 'Consulte as datas da Páscoa grega de 2026 a 2030 e conheça as grandes festas ortodoxas e os feriados que marcam o calendário helênico.',
+  excerpt:
+    'Consulte as datas da Páscoa grega de 2026 a 2030 e conheça as grandes festas ortodoxas e os feriados que marcam o calendário helênico.',
   date: '2026-09-24T12:00:00-03:00',
   categories: [21],
   editorial: true,
@@ -13,7 +14,7 @@ export const calendarArticle = {
     <p>O calendário grego reúne datas cívicas e celebrações religiosas. Para acompanhar esse ritmo, vale distinguir as festas de data fixa daquelas que mudam conforme a Páscoa. Este guia apresenta as principais referências para consultar a Agenda da Coletividade Helênica de São Paulo.</p>
     <h2>Quando é a Páscoa grega?</h2>
     <p>A Páscoa ortodoxa, também chamada de <em>Pascha</em>, celebra a Ressurreição de Cristo. Veja as datas de 2026 a 2030:</p>
-    <table><caption>Datas da Páscoa ortodoxa grega</caption><thead><tr><th scope="col">Ano</th><th scope="col">Domingo de Páscoa</th></tr></thead><tbody>${YEARS.map(year => `<tr><th scope="row">${year}</th><td>${new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(dateAtUTC(PASCHA[year]))}</td></tr>`).join('')}</tbody></table>
+    <table><caption>Datas da Páscoa ortodoxa grega</caption><thead><tr><th scope="col">Ano</th><th scope="col">Domingo de Páscoa</th></tr></thead><tbody>${YEARS.map((year) => `<tr><th scope="row">${year}</th><td>${new Intl.DateTimeFormat('pt-BR', { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(dateAtUTC(PASCHA[year]))}</td></tr>`).join('')}</tbody></table>
     <h2>A Páscoa ortodoxa cai sempre no mesmo dia da ocidental?</h2>
     <p>Não. Os calendários pascais podem coincidir ou indicar domingos diferentes. Em 2028, ambos indicam 16 de abril; em 2027, a Páscoa ortodoxa será em 2 de maio. Por isso, ao planejar uma visita ou encontro, consulte a data ortodoxa do ano desejado.</p>
     <h2>Da Quaresma a Pentecostes</h2>

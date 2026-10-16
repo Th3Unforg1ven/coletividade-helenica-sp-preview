@@ -6,11 +6,35 @@
 // Datas comemorativas: https://www.unesco.org/fr/articles/journee-mondiale-de-la-langue-grecque
 // https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2024/lei/l14884.htm
 export const YEARS = [2026, 2027, 2028, 2029, 2030]
-export const PASCHA = { 2026: '2026-04-12', 2027: '2027-05-02', 2028: '2028-04-16', 2029: '2029-04-08', 2030: '2030-04-28' }
-export const MONTHS = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+export const PASCHA = {
+  2026: '2026-04-12',
+  2027: '2027-05-02',
+  2028: '2028-04-16',
+  2029: '2029-04-08',
+  2030: '2030-04-28',
+}
+export const MONTHS = [
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
+]
 export function saoPauloDate(now = new Date()) {
-  const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now)
-  const values = Object.fromEntries(parts.map(part => [part.type, part.value]))
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Sao_Paulo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now)
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
   return `${values.year}-${values.month}-${values.day}`
 }
 const fixed = [
@@ -53,7 +77,9 @@ const movable = [
   [50, 'Segunda-feira do Espírito Santo'],
   [56, 'Domingo de Todos os Santos'],
 ]
-export function dateAtUTC(date) { return new Date(`${date}T12:00:00Z`) }
+export function dateAtUTC(date) {
+  return new Date(`${date}T12:00:00Z`)
+}
 export function offsetDate(date, days) {
   const value = dateAtUTC(date)
   value.setUTCDate(value.getUTCDate() + days)
@@ -62,7 +88,18 @@ export function offsetDate(date, days) {
 export function calendarEvents(year) {
   if (!YEARS.includes(year)) return []
   return [
-    ...fixed.map(([day, title, category]) => ({ id: `${year}-${day}-${category}`, date: `${year}-${day}`, title, category })),
-    ...movable.map(([offset, title]) => ({ id: `${year}-pascha-${offset}`, date: offsetDate(PASCHA[year], offset), title, category: 'orthodox', pascha: offset === 0 })),
+    ...fixed.map(([day, title, category]) => ({
+      id: `${year}-${day}-${category}`,
+      date: `${year}-${day}`,
+      title,
+      category,
+    })),
+    ...movable.map(([offset, title]) => ({
+      id: `${year}-pascha-${offset}`,
+      date: offsetDate(PASCHA[year], offset),
+      title,
+      category: 'orthodox',
+      pascha: offset === 0,
+    })),
   ].sort((a, b) => a.date.localeCompare(b.date) || a.title.localeCompare(b.title, 'pt-BR'))
 }
