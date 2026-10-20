@@ -372,6 +372,7 @@ h2 em {
   position: absolute;
   inset: 0;
   margin: 0;
+  background: var(--ivory);
   overflow: hidden;
   opacity: 0;
   transition: opacity 900ms ease-in-out;
@@ -386,13 +387,14 @@ h2 em {
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
+  object-fit: var(--hero-fit, cover);
   object-position: var(--hero-position, center);
   transform-origin: center;
   backface-visibility: hidden;
 }
 .hero__playback {
   position: absolute;
+  z-index: 3;
   bottom: 14px;
   right: 4.5vw;
   border: 0;
@@ -1049,19 +1051,6 @@ h2 {
   align-items: center;
   background: var(--ivory);
 }
-.memory::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  width: 620px;
-  height: 500px;
-  right: -110px;
-  bottom: -120px;
-  background: url('/images/motivos-helenicos.svg') center/contain no-repeat;
-  filter: brightness(0);
-  opacity: 0.27;
-  pointer-events: none;
-}
 .memory > * {
   position: relative;
   z-index: 1;
@@ -1265,12 +1254,12 @@ h2 {
   gap: 24px;
 }
 .footer {
-  padding: 70px 7vw 30px;
+  padding: 56px 7vw 24px;
   background: var(--blue-900);
   color: white;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 1fr));
+  gap: 36px 6vw;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -1294,17 +1283,19 @@ h2 {
 .brand--footer small {
   font-size: 1.18rem;
 }
-.footer > div {
+.footer__identity,
+.footer__nav {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 4px;
+  min-width: 0;
 }
-.footer > div:first-child p {
+.footer__identity p {
   color: #95a6c4;
   font-size: 0.75rem;
   line-height: 1.7;
-  margin: 10px 0 0;
+  margin: 16px 0 0;
 }
 .footer .footer__greece {
   display: flex;
@@ -1324,23 +1315,68 @@ h2 {
   line-height: 1.4;
   letter-spacing: 0.04em;
 }
-.footer > div > span {
+.footer__nav > span {
   color: #7187ad;
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   margin-bottom: 8px;
 }
-.footer > div > a:not(.brand) {
+.footer__nav > a {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
   font-size: 0.8rem;
   color: #d8e0ef;
 }
-.footer > small {
+.footer__nav > a:hover,
+.footer__privacy > a:hover,
+.footer .privacy-reopen:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.footer__bottom {
   grid-column: 1/-1;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  padding-top: 20px;
+  color: #d8e0ef;
+}
+.footer__bottom small {
   color: #7187ad;
   font-size: 0.64rem;
+}
+.footer__privacy {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+.footer__privacy > a,
+.footer .privacy-reopen {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: #d8e0ef;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: left;
+}
+.footer .privacy-reopen {
+  font-size: 0.75rem;
+}
+.footer a:focus-visible,
+.footer .privacy-reopen:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
 }
 .inner-page {
   min-height: 100vh;
@@ -2442,8 +2478,8 @@ h2 {
     width: 100%;
   }
   .hero__gallery {
-    height: 540px;
-    padding: 40px;
+    height: 550px;
+    padding: 40px 40px 60px;
   }
   .hero__frames {
     height: 450px;
@@ -2541,7 +2577,7 @@ h2 {
   .footer {
     grid-template-columns: 1fr 1fr;
   }
-  .footer > div:first-child {
+  .footer__identity {
     grid-column: 1/-1;
   }
   .content-page {
@@ -2678,10 +2714,7 @@ h2 {
     grid-column: 1;
   }
   .footer {
-    grid-template-columns: 1fr;
-  }
-  .footer > div:first-child {
-    grid-column: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .content-hero h1 {
     overflow-wrap: anywhere;
@@ -3456,7 +3489,13 @@ iframe[hidden] {
     padding-block: 38px 44px;
   }
   .hero__gallery {
-    height: 350px;
+    height: 384px;
+    padding-bottom: 56px;
+  }
+  .hero__playback {
+    bottom: 4px;
+    right: 22px;
+    min-height: 44px;
   }
   .hero__frames {
     height: 306px;

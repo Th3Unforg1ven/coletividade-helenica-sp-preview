@@ -336,7 +336,7 @@ function Hero() {
 function Footer() {
   return (
     <footer className="footer">
-      <div>
+      <div className="footer__identity">
         <Brand footer />
         <p>
           Rua Bresser, 793, Brás
@@ -348,15 +348,15 @@ function Footer() {
           <span>Brasil e Grécia unidos pela cultura</span>
         </div>
       </div>
-      <div>
+      <nav className="footer__nav" aria-label="Explore a Coletividade">
         <span>Explore</span>
         <Link to="/coletividade">A Coletividade</Link>
         <Link to="/cursos">Cursos e atividades</Link>
         <Link to="/agenda">Agenda e eventos</Link>
         <Link to="/cultura">Cultura e memória</Link>
         <Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link>
-      </div>
-      <div>
+      </nav>
+      <nav className="footer__nav" aria-label="Canais de contato">
         <span>Converse</span>
         <a href={WA} target="_blank" rel="noreferrer">
           WhatsApp
@@ -368,9 +368,13 @@ function Footer() {
           Facebook
         </a>
         <Link to="/contato">Contato</Link>
-        <Link to="/privacidade">Política de Privacidade</Link>
+      </nav>
+      <div className="footer__bottom">
+        <small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small>
+        <div className="footer__privacy" data-privacy-controls>
+          <Link to="/privacidade">Política de Privacidade</Link>
+        </div>
       </div>
-      <small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small>
     </footer>
   )
 }

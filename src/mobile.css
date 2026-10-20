@@ -131,10 +131,10 @@
     gap: 28px 18px;
     padding: 44px 24px calc(28px + env(safe-area-inset-bottom));
   }
-  .footer > div:first-child {
+  .footer__identity {
     grid-column: 1 / -1;
   }
-  .footer > div:not(:first-child) {
+  .footer__nav {
     gap: 2px;
   }
   .footer .brand img {
@@ -147,17 +147,16 @@
   .footer .brand small {
     font-size: 1rem;
   }
-  .footer > div > a:not(.brand) {
+  .footer__nav > a {
     display: flex;
     align-items: center;
     min-height: 44px;
     font-size: 0.875rem;
   }
-  .footer > div > span,
-  .footer > small {
+  .footer__nav > span {
     color: #b8d4e9;
   }
-  .footer > div:first-child p {
+  .footer__identity p {
     color: #d8e0ef;
     font-size: 0.875rem;
   }
@@ -166,14 +165,17 @@
     font-size: 0.75rem;
     line-height: 1.5;
   }
-  .footer > small {
+  .footer__bottom small {
+    color: #b8d4e9;
     font-size: 0.75rem;
     line-height: 1.6;
   }
-  .footer .privacy-reopen {
-    grid-column: 1 / -1;
-    min-height: 48px;
-    margin-block: 0;
+  .footer__bottom {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .footer__privacy {
+    column-gap: 20px;
   }
   .privacy-panel {
     right: 12px;

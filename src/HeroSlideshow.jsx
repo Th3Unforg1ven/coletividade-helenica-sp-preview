@@ -3,34 +3,32 @@ import GalleryImage from './components/GalleryImage.jsx'
 
 const slides = [
   {
-    src: '/images/grupos-danca/neolea-danca.webp',
-    label: 'Neolea Asteri • tradição em movimento',
-    position: 'center',
+    src: '/images/abertura/neolea-em-sao-paulo.webp',
+    fullSrc: '/images/comunidade/neolea-festa-imigrante.jpeg',
+    label: 'Neolea Asteri • cultura grega em São Paulo',
+    alt: 'Integrantes da Neolea Asteri com trajes tradicionais e estandarte na Festa do Imigrante',
+    position: 'center 58%',
   },
   {
-    src: '/images/grupos-danca/pedilea-grupo.webp',
+    src: '/images/abertura/grego-na-sede.webp',
+    fullSrc: '/images/aulas/presencial/biblioteca-em-aula.jpeg',
+    label: 'Grego Moderno • aprender e conviver',
+    alt: 'Alunos com material de estudo durante uma aula presencial de grego na Coletividade',
+    position: 'center 60%',
+  },
+  {
+    src: '/images/abertura/pedilea-comunidade.webp',
+    fullSrc: '/images/grupos-danca/pedilea-grupo.jpeg',
     label: 'Pedilea • novas gerações',
-    position: 'center 55%',
+    alt: 'Crianças e instrutores da Pedilea reunidos na sede da Coletividade',
+    fit: 'contain',
   },
   {
-    src: '/images/oficinas-culturais-original.webp',
-    label: 'Oficinas • cultura compartilhada',
-    position: 'center 42%',
-  },
-  {
-    src: '/images/archive/28c0d6ffd7-kostakis2-1024x473.webp',
-    label: 'Bouzouki • memória musical',
-    position: '65% center',
-  },
-  {
-    src: '/images/pascoa-comunidade-original.webp',
-    label: 'Celebrações • encontros',
-    position: 'center',
-  },
-  {
-    src: '/images/primeira-diretoria-chsp.webp',
-    label: 'Memória • desde 1937',
-    position: 'center 35%',
+    src: '/images/abertura/oficina-tradicoes.webp',
+    fullSrc: '/images/atividades/ovos-aprendizado.webp',
+    label: 'Oficinas • tradições entre gerações',
+    alt: 'Participantes aprendem a decorar ovos de Páscoa com orientação durante uma oficina na sede',
+    position: 'center 32%',
   },
 ]
 
@@ -167,7 +165,7 @@ export default function HeroSlideshow() {
             className={active === index && ready[index] ? 'active' : ''}
             aria-hidden={active !== index}
             inert={active !== index ? true : undefined}
-            style={{ '--hero-position': item.position }}
+            style={{ '--hero-position': item.position, '--hero-fit': item.fit || 'cover' }}
           >
             {requested.includes(index) && (
               <GalleryImage
@@ -175,7 +173,8 @@ export default function HeroSlideshow() {
                   images.current[index] = element
                 }}
                 src={item.src}
-                alt={item.label}
+                fullSrc={item.fullSrc}
+                alt={item.alt}
                 fetchPriority={index === 0 ? 'high' : 'low'}
                 decoding="async"
                 onLoad={() => imageReady(index)}

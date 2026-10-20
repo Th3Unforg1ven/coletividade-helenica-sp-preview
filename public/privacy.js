@@ -27,7 +27,8 @@
     window.dataLayer.push(arguments)
   }
   function sync() {
-    const footer = document.querySelector('footer')
+    const footer =
+      document.querySelector('footer [data-privacy-controls]') || document.querySelector('footer')
     if (footer && reopen.parentElement !== footer) footer.append(reopen)
     document.querySelectorAll('iframe[data-consent-src]').forEach((frame) => {
       if (choice?.external && !frame.src) frame.src = frame.dataset.consentSrc
