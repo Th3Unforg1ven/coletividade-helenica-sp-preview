@@ -1,4 +1,5 @@
 export const sharingImages = {
+  '/participe': '/images/comunidade/dia-imigrante-comunidade.webp',
   '/cursos': '/images/grupos-danca/neolea-danca.jpeg',
   '/cursos/grego-moderno': '/images/aulas/presencial/professora-em-aula.webp',
   '/cursos/pedilea': '/images/grupos-danca/pedilea-grupo.jpeg',

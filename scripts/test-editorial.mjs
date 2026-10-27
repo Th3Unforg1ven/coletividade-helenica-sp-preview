@@ -7,6 +7,26 @@ import { editorialArticles, newArticles } from '../src/content/editorial-article
 const archive = JSON.parse(fs.readFileSync('src/content/site-content.json', 'utf8'))
 const known = new Set([...archive.posts, ...editorialArticles].map((p) => p.slug))
 
+test('Association page connects to the supplied contact and downloadable documents', () => {
+  const { document } = parseHTML(fs.readFileSync('dist/participe/index.html', 'utf8'))
+  assert.ok(document.querySelector('main.membership-page'))
+  assert.doesNotMatch(document.querySelector('main').textContent, /91307[\s-]?3510/)
+  const contactLinks = [...document.querySelectorAll('main a[href^="https://wa.me/"]')]
+  assert.ok(contactLinks.length > 0)
+  for (const link of contactLinks) {
+    assert.equal(new URL(link.href).pathname, '/5511913073510')
+  }
+  const documents = [...document.querySelectorAll('main a[href$=".pdf"]')]
+  assert.equal(new Set(documents.map((link) => link.getAttribute('href'))).size, 2)
+  for (const link of documents) {
+    const relative = link.getAttribute('href').replace(process.env.BASE_PATH || '/', '')
+    const file = fs.readFileSync(`dist/${relative}`)
+    assert.equal(file.subarray(0, 5).toString(), '%PDF-')
+  }
+  assert.ok(document.querySelector('a[download]'))
+  assert.ok(document.querySelector('footer a[href$="/participe"]'))
+})
+
 test('Each editorial article has a distinct image and a meaningful description', () => {
   assert.equal(
     new Set(editorialArticles.map((p) => p.featuredMedia.sourceUrl)).size,

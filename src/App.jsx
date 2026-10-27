@@ -58,6 +58,7 @@ const GenericPage = lazy(() =>
 )
 const AgendaPage = lazy(() => import('./pages/AgendaPage.jsx'))
 const ContactPage = lazy(() => import('./pages/ContactPage.jsx'))
+const MembershipPage = lazy(() => import('./pages/MembershipPage.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
 function shouldShowIntroCover() {
@@ -351,6 +352,7 @@ function Footer() {
       <nav className="footer__nav" aria-label="Explore a Coletividade">
         <span>Explore</span>
         <Link to="/coletividade">A Coletividade</Link>
+        <Link to="/participe">Associe-se</Link>
         <Link to="/cursos">Cursos e atividades</Link>
         <Link to="/agenda">Agenda e eventos</Link>
         <Link to="/cultura">Cultura e memória</Link>
@@ -785,12 +787,12 @@ function HomePage() {
             pode ser <em>sua.</em>
           </h2>
           <p>
-            Conheça nossas atividades e acompanhe a programação. Para informações sobre associação
-            ou visitas à sede, converse com a equipe da Coletividade.
+            Ao se associar, você fortalece os laços com a comunidade e contribui para manter viva a
+            cultura grega em São Paulo. Conheça as etapas e saiba como participar.
           </p>
           <div>
-            <Link className="button button--white" to="/contato">
-              Falar com a Coletividade <ArrowRight size={17} />
+            <Link className="button button--white" to="/participe">
+              Saiba como se associar <ArrowRight size={17} />
             </Link>
             <Link className="text-link text-link--white" to="/agenda">
               Ver agenda e eventos
@@ -968,7 +970,7 @@ function App() {
             path="/participe"
             element={
               <InteriorPage>
-                <GenericPage fixedSlug="associados-e-parceiros" eyebrow="Participe" />
+                <MembershipPage />
               </InteriorPage>
             }
           />

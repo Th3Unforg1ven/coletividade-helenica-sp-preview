@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import GalleryImage from './components/GalleryImage.jsx'
+import { createCanvasPhotoZoom, needsCanvasPhotoZoom } from './components/canvas-photo-zoom.js'
+
+const SLIDE_DURATION = 6000
+const ZOOM_DURATION = 7200
 
 const slides = [
   {
@@ -32,9 +36,10 @@ const slides = [
   },
 ]
 
-export default function HeroSlideshow() {
+export default function HeroSlideshow({ redraw = false }) {
   const gallery = useRef(null)
   const images = useRef([])
+  const canvases = useRef([])
   const zooms = useRef(new Map())
   const retireTimers = useRef(new Map())
   const [active, setActive] = useState(0)
@@ -90,21 +95,28 @@ export default function HeroSlideshow() {
     }
   }, [])
 
-  // Keep the outgoing image's transform alive until its opacity fade finishes.
+  // Keep the outgoing photo moving until its opacity fade finishes.
   useEffect(() => {
     if (!activeReady || reduceMotion) return
     window.clearTimeout(retireTimers.current.get(active))
     retireTimers.current.delete(active)
     const image = images.current[active]
-    if (!zooms.current.has(active)) {
-      image.style.willChange = 'transform'
-      const zoom = image.animate(
-        [{ transform: 'scale3d(1, 1, 1)' }, { transform: 'scale3d(1.045, 1.045, 1)' }],
-        { duration: 7200, easing: 'linear', fill: 'both' },
-      )
-      zoom.pause()
-      zooms.current.set(active, zoom)
+    // Selecting a recently outgoing photo starts a new slide, not its old deadline.
+    zooms.current.get(active)?.cancel()
+    image.style.willChange = ''
+    let zoom
+    if (redraw || needsCanvasPhotoZoom()) {
+      zoom = createCanvasPhotoZoom(image, canvases.current[active], ZOOM_DURATION)
     }
+    if (!zoom) {
+      image.style.willChange = 'transform'
+      zoom = image.animate(
+        [{ transform: 'scale3d(1, 1, 1)' }, { transform: 'scale3d(1.045, 1.045, 1)' }],
+        { duration: ZOOM_DURATION, easing: 'linear', fill: 'both' },
+      )
+    }
+    zoom.pause()
+    zooms.current.set(active, zoom)
     return () => {
       retireTimers.current.set(
         active,
@@ -116,10 +128,13 @@ export default function HeroSlideshow() {
         }, 1000),
       )
     }
-  }, [active, activeReady, reduceMotion])
+  }, [active, activeReady, reduceMotion, redraw])
 
   useEffect(() => {
-    zooms.current.forEach((zoom) => (motionPaused ? zoom.pause() : zoom.play()))
+    zooms.current.forEach((zoom) => {
+      if (motionPaused) zoom.pause()
+      else if (zoom.playState === 'paused' && zoom.currentTime < ZOOM_DURATION) zoom.play()
+    })
   }, [motionPaused, active, activeReady])
 
   useEffect(
@@ -134,12 +149,17 @@ export default function HeroSlideshow() {
 
   useEffect(() => {
     if (motionPaused || !activeReady) return
-    const timer = window.setInterval(() => {
+    const zoom = zooms.current.get(active)
+    if (!zoom) return
+    // Loading another photo or resuming must not give the slide six extra seconds.
+    // Both renderers' animation clocks exclude time spent paused.
+    const remaining = Math.max(0, SLIDE_DURATION - (zoom.currentTime ?? 0))
+    const timer = window.setTimeout(() => {
       if (document.body.classList.contains('intro-active') || !ready[(active + 1) % slides.length])
         return
       setActive((current) => (current + 1) % slides.length)
-    }, 6000)
-    return () => window.clearInterval(timer)
+    }, remaining)
+    return () => window.clearTimeout(timer)
   }, [active, motionPaused, activeReady, ready])
 
   async function imageReady(index) {
@@ -178,7 +198,17 @@ export default function HeroSlideshow() {
                 fetchPriority={index === 0 ? 'high' : 'low'}
                 decoding="async"
                 onLoad={() => imageReady(index)}
-              />
+              >
+                <canvas
+                  className="hero__canvas"
+                  aria-hidden="true"
+                  ref={(element) => {
+                    canvases.current[index] = element
+                  }}
+                  width="0"
+                  height="0"
+                />
+              </GalleryImage>
             )}
             <figcaption>{item.label}</figcaption>
           </figure>

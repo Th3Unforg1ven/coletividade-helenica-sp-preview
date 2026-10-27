@@ -103,7 +103,11 @@ export function InstitutionIndex() {
           </figure>
         }
         motifTheme="coletividade"
-      />
+      >
+        <Link className="button content-hero__action" to="/participe">
+          Saiba como se associar <ArrowRight size={17} />
+        </Link>
+      </ContentHero>
       <section className="institution-summary institution-summary--intro">
         <p className="content-kicker">Quem somos</p>
         <div>

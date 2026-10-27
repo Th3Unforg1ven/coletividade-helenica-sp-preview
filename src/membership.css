@@ -1,0 +1,309 @@
+.membership-page h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.3vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--blue-900);
+  margin: 0 0 24px;
+}
+.membership-page h3 {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--blue-900);
+  margin: 0 0 12px;
+}
+.membership-page section > div > p:not(.content-kicker),
+.membership-steps p {
+  line-height: 1.8;
+  color: var(--muted);
+}
+.membership-page .content-hero > div > .membership-starting-at {
+  color: var(--blue-900);
+  margin-top: 24px;
+}
+.membership-starting-at strong {
+  white-space: nowrap;
+}
+.membership-page .content-hero--themed::before {
+  background-image: none;
+}
+.membership-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 28px;
+  margin-top: 28px;
+}
+.membership-actions .text-link {
+  min-height: 44px;
+}
+.membership-purpose,
+.membership-process,
+.membership-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 7vw, 112px);
+  margin-bottom: 90px;
+}
+.membership-purpose > div > p:first-child:not(.content-kicker) {
+  margin-top: 0;
+}
+.membership-process {
+  scroll-margin-top: 110px;
+}
+.membership-process__heading > .button {
+  margin-top: 16px;
+}
+.membership-process__heading > small {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.membership-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.membership-steps li {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 20px;
+  padding: 26px 0;
+  border-top: 1px solid var(--sand);
+}
+.membership-steps li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.membership-steps li > span {
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  color: var(--blue-800);
+}
+.membership-steps p {
+  margin: 0;
+}
+.membership-contribution {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+  gap: 48px;
+  align-items: center;
+  padding: clamp(28px, 4vw, 60px);
+  background: var(--blue-100);
+  margin-bottom: 90px;
+}
+.membership-contribution > div > p:last-child {
+  margin-bottom: 0;
+}
+.membership-contribution__amount {
+  color: var(--blue-900);
+  text-align: center;
+}
+.membership-contribution__amount > span {
+  display: block;
+  font-size: 0.8rem;
+}
+.membership-page .membership-contribution__amount > p {
+  color: var(--blue-900);
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 5vw, 5rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  margin: 12px 0;
+}
+.membership-contribution__amount small {
+  font-family: var(--sans);
+  font-size: 1rem;
+  margin-left: 8px;
+}
+.membership-documents {
+  margin-bottom: 90px;
+}
+.membership-documents > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.membership-documents a {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px;
+  color: var(--blue-900);
+  border: 1px solid var(--sand);
+  background: white;
+}
+.membership-documents a:hover {
+  border-color: var(--blue-800);
+}
+.membership-documents a > svg {
+  flex-shrink: 0;
+}
+.membership-documents a > span {
+  flex: 1;
+  min-width: 0;
+}
+.membership-documents strong,
+.membership-documents small {
+  display: block;
+  line-height: 1.6;
+}
+.membership-documents small {
+  color: var(--muted);
+  margin-top: 6px;
+}
+.membership-faq details {
+  border-top: 1px solid var(--sand);
+}
+.membership-faq details:last-child {
+  border-bottom: 1px solid var(--sand);
+}
+.membership-faq summary {
+  min-height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 0;
+  color: var(--blue-900);
+  font-weight: 500;
+  line-height: 1.6;
+  cursor: pointer;
+  list-style: none;
+}
+.membership-faq summary::-webkit-details-marker {
+  display: none;
+}
+.membership-faq summary svg {
+  flex-shrink: 0;
+}
+.membership-faq details[open] summary svg {
+  transform: rotate(45deg);
+}
+.membership-faq details > p {
+  margin: 0;
+  padding: 0 28px 24px 0;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.membership-contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: clamp(28px, 5vw, 70px);
+  background: var(--blue-900);
+  margin-bottom: 90px;
+}
+.membership-contact > div {
+  max-width: 660px;
+}
+.membership-contact h2,
+.membership-contact .content-kicker,
+.membership-page .membership-contact > div > p:not(.content-kicker) {
+  color: white;
+}
+.membership-contact > .button {
+  flex-shrink: 0;
+}
+.membership-partners > div {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.membership-partners a {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 0;
+  border-top: 1px solid var(--sand);
+}
+.membership-partners img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: white;
+}
+.membership-partners span {
+  color: var(--blue-900);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+.membership-partners span svg {
+  display: block;
+  margin-top: 8px;
+}
+@media (max-width: 1000px) {
+  .membership-contact {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .membership-partners > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .membership-purpose,
+  .membership-process,
+  .membership-faq,
+  .membership-contribution,
+  .membership-documents > div {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .membership-purpose,
+  .membership-process,
+  .membership-faq,
+  .membership-contribution,
+  .membership-documents,
+  .membership-contact {
+    margin-bottom: 56px;
+  }
+  .membership-contribution__amount {
+    text-align: left;
+  }
+}
+@media (max-width: 560px) {
+  .membership-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .membership-actions .text-link {
+    align-self: flex-start;
+  }
+  .membership-partners > div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .membership-steps li {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .membership-documents a {
+    gap: 14px;
+    padding: 20px 16px;
+  }
+  .membership-contact,
+  .membership-contribution {
+    padding: 28px 20px;
+  }
+  .membership-contact > .button {
+    width: 100%;
+  }
+}
+@media (max-width: 380px) {
+  .membership-page .content-hero {
+    margin-inline: -18px;
+    padding-left: 18px;
+  }
+  .membership-page .content-hero > div {
+    padding-right: 18px;
+  }
+  .membership-page .content-hero figure {
+    margin-left: -18px;
+  }
+}
