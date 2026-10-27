@@ -17,13 +17,6 @@
   line-height: 1.8;
   color: var(--muted);
 }
-.membership-page .content-hero > div > .membership-starting-at {
-  color: var(--blue-900);
-  margin-top: 24px;
-}
-.membership-starting-at strong {
-  white-space: nowrap;
-}
 .membership-page .content-hero--themed::before {
   background-image: none;
 }

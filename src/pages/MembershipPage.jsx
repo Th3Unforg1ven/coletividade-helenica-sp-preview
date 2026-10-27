@@ -35,9 +35,6 @@ export default function MembershipPage() {
         imagePosition="center 60%"
         motifTheme="coletividade"
       >
-        <p className="membership-starting-at">
-          Contribuição mensal a partir de <strong>{membership.contribution}</strong>
-        </p>
         <div className="membership-actions">
           <MembershipContact />
           <a className="text-link" href="#como-se-associar">
