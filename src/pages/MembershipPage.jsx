@@ -72,7 +72,7 @@ export default function MembershipPage() {
         <div className="membership-process__heading">
           <p className="content-kicker">O próximo passo</p>
           <h2 id="membership-process-title">Como se associar</h2>
-          <p>Comece pela ficha. Ioannis pode orientar você sobre a solicitação.</p>
+          <p>Comece pela ficha. O Conselho pode orientar você sobre a solicitação.</p>
           <a className="button" href={assetUrl(membership.form)} download>
             <Download size={18} aria-hidden="true" /> Baixar ficha de associado
           </a>
@@ -89,7 +89,7 @@ export default function MembershipPage() {
           <li>
             <span aria-hidden="true">02</span>
             <div>
-              <h3>Converse com Ioannis</h3>
+              <h3>Converse com o Conselho</h3>
               <p>Combine a entrega da ficha e esclareça as etapas de admissão à Coletividade.</p>
             </div>
           </li>
@@ -169,9 +169,9 @@ export default function MembershipPage() {
         <div>
           <p className="content-kicker">Uma conversa para começar</p>
           <h2 id="membership-contact-title">Vamos fazer parte dessa história?</h2>
-          <p>Fale com {membership.contact.name} sobre sua associação.</p>
+          <p>Fale com o {membership.contact.name} sobre sua associação.</p>
         </div>
-        <MembershipContact className="button button--white">Falar com Ioannis</MembershipContact>
+        <MembershipContact className="button button--white">Falar com o Conselho</MembershipContact>
       </section>
 
       <section className="membership-partners" aria-labelledby="membership-partners-title">
