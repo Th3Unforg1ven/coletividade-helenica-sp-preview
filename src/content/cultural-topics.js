@@ -1,3 +1,11 @@
+const articleTopicLabels = {
+  calendar: 'Calendário e tradições',
+  language: 'Língua grega',
+  dance: 'Dança grega',
+  music: 'Música grega',
+  history: 'História e memória',
+}
+
 export const culturalTopics = [
   {
     id: 'language',
@@ -66,6 +74,15 @@ export function matchesTopic(post, topicId) {
     (topic.topics?.includes(post.topic) ||
       topic.categories?.some((id) => post.categories.includes(id)) ||
       topic.slugs?.includes(post.slug)),
+  )
+}
+
+export function publicationTopicLabel(post) {
+  return (
+    articleTopicLabels[post.topic] ||
+    (post.categories.includes(21)
+      ? culturalTopics.find((topic) => matchesTopic(post, topic.id))?.title
+      : undefined)
   )
 }
 

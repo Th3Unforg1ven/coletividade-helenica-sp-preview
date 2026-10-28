@@ -2,9 +2,13 @@ import { useMemo, useRef } from 'react'
 import { readArchiveFilters, updateArchiveFilters } from '../content/archive-navigation.js'
 import useArchiveScroll from '../components/useArchiveScroll.js'
 import ResponsiveImage from '../ResponsiveImage.jsx'
-import { culturalTopics, matchesTopic, normalizeSearch } from '../content/cultural-topics.js'
+import {
+  publicationTopicLabel,
+  culturalTopics,
+  matchesTopic,
+  normalizeSearch,
+} from '../content/cultural-topics.js'
 import CommunityMemories from '../CommunityMedia.jsx'
-import { CinemaFeature } from '../ActivityStories.jsx'
 import PostCard from '../components/PostCard.jsx'
 import { culturalPageSlugs } from '../content/navigation.js'
 import { Link, useParams, useSearchParams, useLocation } from 'react-router-dom'
@@ -110,7 +114,6 @@ export function CultureIndex() {
           ))}
         </div>
       </section>
-      <CinemaFeature />
       <section className="archive-tools" id="acervo" aria-label="Pesquisar o acervo cultural">
         <label>
           <span>Buscar no acervo</span>
@@ -318,7 +321,7 @@ export function PostPage() {
         )}
       </div>
       <ContentHero
-        eyebrow={decode(category?.name || 'Cultura')}
+        eyebrow={publicationTopicLabel(post) || decode(category?.name || 'Cultura')}
         seoType="article"
         title={decode(post.title)}
         introduction={stripHtml(post.excerpt)}

@@ -256,6 +256,13 @@ function Header() {
           Agenda e eventos
         </Link>
         <Link
+          className="nav__membership"
+          to="/participe"
+          aria-current={current('/participe') ? 'page' : undefined}
+        >
+          Associe-se
+        </Link>
+        <Link
           className="button button--small"
           to="/contato"
           aria-current={current('/contato') ? 'page' : undefined}

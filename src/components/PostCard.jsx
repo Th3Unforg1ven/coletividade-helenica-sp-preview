@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { categoryById } from '../content/site-data.js'
+import { publicationTopicLabel } from '../content/cultural-topics.js'
 import { decode, stripHtml } from '../legacy-content.js'
 import { mediaUrl } from '../content/media.js'
 import ResponsiveImage from '../ResponsiveImage.jsx'
@@ -28,7 +29,7 @@ export default function PostCard({ post }) {
         />
       )}
       <div>
-        <span>{decode(category?.name || 'Cultura')}</span>
+        <span>{publicationTopicLabel(post) || decode(category?.name || 'Cultura')}</span>
         <h2>{decode(post.title)}</h2>
         <p>{stripHtml(post.excerpt).slice(0, 180)}</p>
         <b>

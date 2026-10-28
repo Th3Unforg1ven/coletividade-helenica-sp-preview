@@ -19,6 +19,7 @@ import NotFound from './NotFound.jsx'
 export function LessonsIndex() {
   const groups = [
     {
+      id: 'cursos',
       title: 'Cursos',
       cards: [
         {
@@ -38,6 +39,7 @@ export function LessonsIndex() {
       ],
     },
     {
+      id: 'grupos-de-danca',
       title: 'Grupos de dança',
       cards: [
         {
@@ -61,7 +63,8 @@ export function LessonsIndex() {
       ],
     },
     {
-      title: 'Oficinas culturais',
+      id: 'atividades-culturais',
+      title: 'Atividades culturais',
       cards: [
         {
           title: 'Clube de Cinema Grego',
@@ -126,10 +129,20 @@ export function LessonsIndex() {
         }
         motifTheme="aulas"
         seoTitle="Cursos e atividades | Coletividade Helênica de São Paulo"
-      />
+      >
+        <nav className="activity-shortcuts" aria-label="Ir para cursos e atividades">
+          {groups.map((group) => (
+            <a key={group.id} href={`#${group.id}`}>
+              {group.title} <ArrowRight size={15} aria-hidden="true" />
+            </a>
+          ))}
+        </nav>
+      </ContentHero>
       {groups.map((group) => (
-        <section className="activity-directory" key={group.title}>
-          <h2>{group.title}</h2>
+        <section className="activity-directory" key={group.id} aria-labelledby={group.id}>
+          <h2 id={group.id} tabIndex={-1}>
+            {group.title}
+          </h2>
           <div className="directory-grid">
             {group.cards.map((card) => (
               <Link

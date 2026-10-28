@@ -1,4 +1,7 @@
 /* Shared phone ergonomics; section-specific compositions stay with their components. */
+.header .nav > .nav__membership {
+  display: none;
+}
 .culture-archive-shortcut {
   display: none;
 }
@@ -21,6 +24,9 @@
     min-height: 48px;
     padding-block: 12px;
     font-size: 1rem;
+  }
+  .header .nav > .nav__membership {
+    display: flex;
   }
   .header .nav > a::after {
     bottom: 4px;

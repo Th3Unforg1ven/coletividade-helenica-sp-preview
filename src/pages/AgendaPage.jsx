@@ -67,7 +67,7 @@ export default function AgendaPage() {
       </nav>
       <section className="agenda-status" id="programacao">
         <p className="content-kicker">Próxima programação</p>
-        <h2>Novas datas serão divulgadas em breve.</h2>
+        <h2>Consulte a programação com a Coletividade.</h2>
         <p>
           Para confirmar festas, encontros e atividades, fale com a equipe da Coletividade. Enquanto
           isso, você pode conhecer os eventos que marcaram nossa história.
