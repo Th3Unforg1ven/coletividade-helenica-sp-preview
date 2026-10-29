@@ -42,7 +42,7 @@
   color: white;
   border: 0;
   padding: 8px 0;
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
 }
 .hellenic-calendar__notice {
@@ -74,7 +74,7 @@
   font: inherit;
   font-size: 0.9rem;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 4px;
 }
 .hellenic-calendar select,
@@ -266,7 +266,7 @@
   padding: 12px 0;
   background: none;
   color: var(--blue-800);
-  text-decoration: underline;
+  text-decoration: none;
   cursor: pointer;
 }
 .hellenic-calendar__sources {

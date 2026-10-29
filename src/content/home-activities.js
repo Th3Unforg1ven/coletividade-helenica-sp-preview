@@ -1,4 +1,5 @@
-import { Languages, Users, Music2, Sparkles } from 'lucide-react'
+import { EncontroIcon } from '../components/ChspIcons.jsx'
+import { Languages, Music2, Sparkles } from 'lucide-react'
 import { siteContact } from './site-config.js'
 import { danceGroups } from './dance-groups.js'
 
@@ -33,7 +34,7 @@ export const activities = [
       `Sábados, das ${danceGroups.pedilea.time}`,
       'Crianças de 5 a 11 anos',
     ],
-    icon: Users,
+    icon: EncontroIcon,
     visual: '/images/grupos-danca/pedilea-grupo.webp',
     href: '/cursos/pedilea',
   },
@@ -48,7 +49,7 @@ export const activities = [
     statement: 'A cultura grega em movimento.',
     copy: 'Conheça as apresentações e a trajetória da Neolea Asteri. As novidades do grupo são compartilhadas no perfil @neolea.asteri.',
     meta: ['Danças folclóricas gregas', 'Apresentações e encontros culturais'],
-    icon: Users,
+    icon: EncontroIcon,
     visual: '/images/grupos-danca/neolea-danca.webp',
     href: danceGroups['neolea-asteri'].socialUrl,
   },

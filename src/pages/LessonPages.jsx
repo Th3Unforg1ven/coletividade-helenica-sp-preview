@@ -1,7 +1,7 @@
 import GalleryImage from '../components/GalleryImage.jsx'
 import { siteContact } from '../content/site-config.js'
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { WorkshopStories, CinemaFeature, HistoryCourse } from '../ActivityStories.jsx'
 import DanceGroupBody, { DanceHero, DanceOverview } from '../DanceGroups.jsx'
@@ -133,7 +133,7 @@ export function LessonsIndex() {
         <nav className="activity-shortcuts" aria-label="Ir para cursos e atividades">
           {groups.map((group) => (
             <a key={group.id} href={`#${group.id}`}>
-              {group.title} <ArrowRight size={15} aria-hidden="true" />
+              {group.title}
             </a>
           ))}
         </nav>
@@ -160,9 +160,7 @@ export function LessonsIndex() {
                 </div>
                 <h3>{card.title}</h3>
                 <p>{card.description || courseIntroductions[card.slug]}</p>
-                <b>
-                  {card.action} <ArrowRight size={16} />
-                </b>
+                <b>{card.action}</b>
               </Link>
             ))}
           </div>
@@ -267,7 +265,6 @@ export function LessonPage() {
             {lessonSlugs.map((item) => (
               <Link key={item} to={pathForPage({ slug: item })}>
                 {courseTitles[item]}
-                <ArrowRight size={15} />
               </Link>
             ))}
           </aside>

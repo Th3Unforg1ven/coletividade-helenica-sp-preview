@@ -9,7 +9,7 @@ export const sharingImages = {
   '/cursos/historia-mitologia-filosofia': '/images/archive/e3282cda77-grecia.webp',
   '/cursos/clube-de-cinema-grego': '/images/atividades/cinema-sala.webp',
   '/agenda': '/images/comunidade/neolea-festa-imigrante.jpeg',
-  '/cultura': '/images/archive/d816786101-fotos-exposicao-noivas.webp',
+  '/cultura': '/images/primeira-diretoria-chsp.webp',
 }
 
 export function sharingImageFor(route, image) {

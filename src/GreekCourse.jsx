@@ -1,7 +1,8 @@
+import { EncontroIcon } from './components/ChspIcons.jsx'
 import GalleryImage from './components/GalleryImage.jsx'
 import { teachers } from './content/teachers.js'
 import { siteContact } from './content/site-config.js'
-import { ArrowRight, MessageCircle } from 'lucide-react'
+
 import { Link } from 'react-router-dom'
 import GalleryPhoto from './components/PhotoGallery.jsx'
 import DanceVideo from './DanceVideo.jsx'
@@ -92,7 +93,7 @@ export default function GreekCourse() {
             certificação de proficiência no idioma.
           </p>
           <a className="greek-course__text-link" href={siteContact.whatsapp}>
-            Converse sobre o seu nível <ArrowRight size={18} />
+            Converse sobre o seu nível
           </a>
         </div>
       </section>
@@ -207,11 +208,11 @@ export default function GreekCourse() {
           </p>
         </div>
         <a className="button" href={siteContact.whatsapp}>
-          <MessageCircle size={18} /> Falar sobre as aulas <ArrowRight size={18} />
+          <EncontroIcon size={20} /> Falar sobre as aulas
         </a>
       </section>
       <Link className="greek-course__text-link" to="/cursos">
-        Conheça também nossos cursos e atividades <ArrowRight size={18} />
+        Conheça também nossos cursos e atividades
       </Link>
     </div>
   )

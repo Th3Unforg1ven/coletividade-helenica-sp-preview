@@ -93,7 +93,7 @@ export function WorkshopStories() {
             Asteri têm suas próprias atividades.
           </p>
           <Link className="text-link" to="/cursos/aulas-de-danca">
-            Conhecer os grupos de dança →
+            Conhecer os grupos de dança
           </Link>
         </div>
       </section>
@@ -119,7 +119,7 @@ export function WorkshopStories() {
           participação no Instagram oficial.
         </p>
         <a className="button" href={siteContact.instagram}>
-          Acompanhar as próximas oficinas →
+          Acompanhar as próximas oficinas
         </a>
       </section>
     </div>
@@ -188,11 +188,11 @@ export function CinemaFeature({ full = false }) {
           </p>
           {full ? (
             <a className="button" href={siteContact.whatsapp}>
-              Consultar a próxima sessão →
+              Consultar a próxima sessão
             </a>
           ) : (
             <Link className="button" to="/cursos/clube-de-cinema-grego">
-              Conhecer o clube →
+              Conhecer o clube
             </Link>
           )}
         </div>
@@ -301,7 +301,7 @@ export function HistoryCourse() {
           disponibilidade da próxima turma.
         </p>
         <a className="button" href={siteContact.whatsapp}>
-          Consultar turma e inscrição →
+          Consultar turma e inscrição
         </a>
       </section>
     </div>

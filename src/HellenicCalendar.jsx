@@ -107,7 +107,7 @@ export default function HellenicCalendar() {
               setSelected(PASCHA[year])
             }}
           >
-            Ver no calendário →
+            Ver no calendário
           </button>
         </div>
       </header>

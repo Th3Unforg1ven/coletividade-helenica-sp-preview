@@ -153,7 +153,7 @@ body.intro-active {
 }
 
 .intro-cover__action::after {
-  content: '→';
+  content: none;
   position: absolute;
   right: 23px;
   top: 50%;

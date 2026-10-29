@@ -1,6 +1,7 @@
+import { EncontroIcon } from './ChspIcons.jsx'
 import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowRight, MessageCircle } from 'lucide-react'
+
 import InstagramIcon from '../InstagramIcon.jsx'
 import GalleryImage from './GalleryImage.jsx'
 
@@ -75,9 +76,8 @@ export function ContentHero({
             className={`button content-hero__action${action.social ? ' button--instagram' : ''}`}
             href={action.href}
           >
-            {action.social ? <InstagramIcon size={20} /> : <MessageCircle size={18} />}
+            {action.social ? <InstagramIcon size={20} /> : <EncontroIcon size={20} />}
             <span>{action.label}</span>
-            <ArrowRight size={18} />
           </a>
         )}
       </div>

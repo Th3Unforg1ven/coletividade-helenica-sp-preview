@@ -1,7 +1,7 @@
 import GalleryImage from '../components/GalleryImage.jsx'
 import { institutionSlugs, institutionNavSlugs, institutionLabels } from '../content/navigation.js'
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { LegacyHtml, PageNavigation } from '../components/ArchiveLayout.jsx'
 import { stripHtml, extractLegacySection } from '../legacy-content.js'
@@ -68,10 +68,10 @@ function InstitutionExplore() {
           Encontre cursos, grupos de dança, encontros culturais e as histórias que compartilhamos.
         </p>
         <Link className="button" to="/cursos">
-          Cursos e atividades <ArrowRight size={18} />
+          Cursos e atividades
         </Link>
         <Link className="text-link" to="/agenda">
-          Agenda e eventos <ArrowRight size={16} />
+          Agenda e eventos
         </Link>
       </div>
     </section>
@@ -105,7 +105,7 @@ export function InstitutionIndex() {
         motifTheme="coletividade"
       >
         <Link className="button content-hero__action" to="/participe">
-          Saiba como se associar <ArrowRight size={17} />
+          Saiba como se associar
         </Link>
       </ContentHero>
       <section className="institution-summary institution-summary--intro">
@@ -124,7 +124,7 @@ export function InstitutionIndex() {
               aproximam gerações e mantêm essa cultura viva.
             </p>
             <Link className="text-link" to="/cursos">
-              Conheça nossos cursos e atividades <ArrowRight size={16} />
+              Conheça nossos cursos e atividades
             </Link>
           </div>
         </div>
@@ -150,9 +150,7 @@ export function InstitutionIndex() {
                 <span className="content-kicker">A Coletividade</span>
                 <h2>{institutionLabels[slug]}</h2>
                 <p>{institutionDescriptions[slug]}</p>
-                <b>
-                  Conhecer <ArrowRight size={16} />
-                </b>
+                <b>Conhecer</b>
               </div>
             </Link>
           ))}
@@ -206,7 +204,6 @@ function GovernanceLinks() {
       {links.map(([label, hash]) => (
         <Link key={hash} to={`/coletividade/lista-de-conselheiros${hash}`}>
           {label}
-          <ArrowRight size={16} />
         </Link>
       ))}
     </nav>

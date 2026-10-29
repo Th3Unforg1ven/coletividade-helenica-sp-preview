@@ -12,10 +12,10 @@
   overflow: hidden;
 }
 .culture-hero-photos__memory img {
-  object-position: 50% 62%;
+  object-position: 50% 0%;
 }
 .culture-hero-photos__tradition img {
-  object-position: 50% 58%;
+  object-position: 50% 42%;
 }
 .content-page--agenda > .content-hero > figure img {
   object-position: 50% 76%;
@@ -31,12 +31,27 @@
 }
 @media (max-width: 560px) {
   .content-hero .culture-hero-photos {
-    grid-template-columns: 3fr 2fr;
-    grid-template-rows: minmax(0, 1fr);
-    height: clamp(190px, 58vw, 260px);
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    height: auto;
     min-height: 0;
   }
-  .culture-hero-photos__tradition img {
-    object-position: 50% 54%;
+  .culture-hero-photos__memory {
+    aspect-ratio: 1244 / 653;
+  }
+  .culture-hero-photos__tradition {
+    aspect-ratio: 2.6;
+  }
+}
+@media (max-width: 380px) {
+  .content-page--cultura > .content-hero {
+    margin-inline: -18px;
+    padding-left: 18px;
+  }
+  .content-page--cultura > .content-hero > div {
+    padding-right: 18px;
+  }
+  .content-page--cultura > .content-hero > figure {
+    margin-left: -18px;
   }
 }

@@ -1,7 +1,7 @@
 import HellenicCalendar from '../HellenicCalendar.jsx'
 import PostCard from '../components/PostCard.jsx'
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 
 import { siteContent } from '../content/site-data.js'
@@ -34,7 +34,6 @@ export default function AgendaPage() {
         >
           <span>01 · Comunidade</span>
           <strong>Próximos eventos</strong>
-          <ArrowRight size={18} />
         </button>
         <button
           type="button"
@@ -48,7 +47,6 @@ export default function AgendaPage() {
         >
           <span>02 · Tradições</span>
           <strong>Calendário grego</strong>
-          <ArrowRight size={18} />
         </button>
         <button
           type="button"
@@ -62,7 +60,6 @@ export default function AgendaPage() {
         >
           <span>03 · Memória</span>
           <strong>Eventos anteriores</strong>
-          <ArrowRight size={18} />
         </button>
       </nav>
       <section className="agenda-status" id="programacao">
@@ -73,7 +70,7 @@ export default function AgendaPage() {
           isso, você pode conhecer os eventos que marcaram nossa história.
         </p>
         <Link className="button" to="/contato">
-          Consultar a Coletividade <ArrowRight size={16} />
+          Consultar a Coletividade
         </Link>
       </section>
       <div id="calendario">

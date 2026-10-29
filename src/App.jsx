@@ -1,22 +1,11 @@
+import { EncontroIcon, LivroIcon, CalendarioIcon } from './components/ChspIcons.jsx'
 import { activities } from './content/home-activities.js'
 import { siteContact } from './content/site-config.js'
 import GreekLearningMosaic from './GreekLearningMosaic.jsx'
 import HeroSlideshow from './HeroSlideshow.jsx'
 import { Component, lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import {
-  ArrowDown,
-  ArrowRight,
-  BookOpen,
-  CalendarDays,
-  ChevronDown,
-  Languages,
-  MapPin,
-  Menu,
-  Sparkles,
-  Users,
-  X,
-} from 'lucide-react'
+import { ChevronDown, Languages, MapPin, Menu, Sparkles, X } from 'lucide-react'
 import GalleryImage from './components/GalleryImage.jsx'
 import { GalleryTrigger } from './components/PhotoGallery.jsx'
 import responsiveVariants from './content/responsive-variants.json'
@@ -267,7 +256,7 @@ function Header() {
           to="/contato"
           aria-current={current('/contato') ? 'page' : undefined}
         >
-          Fale conosco <ArrowRight size={16} />
+          Fale conosco
         </Link>
       </nav>
     </header>
@@ -275,11 +264,7 @@ function Header() {
 }
 
 function ActivityAction({ activity }) {
-  const content = (
-    <>
-      {activity.cta} <ArrowRight size={17} />
-    </>
-  )
+  const content = <>{activity.cta}</>
   return activity.external ? (
     <a
       className="button button--white"
@@ -329,10 +314,10 @@ function Hero() {
         </div>
         <div className="hero__actions">
           <Link className="button" to={sectionTarget('aulas')}>
-            Cursos e atividades <ArrowDown size={17} />
+            Cursos e atividades
           </Link>
           <Link className="text-link" to="/coletividade/nossa-historia">
-            Conheça nossa história <ArrowRight size={16} />
+            Conheça nossa história
           </Link>
         </div>
       </div>
@@ -461,7 +446,7 @@ function HomePage() {
                 filantrópica, beneficente, cultural e recreativa.
               </p>
               <Link className="text-link" to={sectionTarget('memoria')}>
-                Descubra nossa trajetória <ArrowRight size={16} />
+                Descubra nossa trajetória
               </Link>
             </div>
           </div>
@@ -623,21 +608,17 @@ function HomePage() {
               <span>Curso online</span>
               <h3>História, Mitologia e Filosofia Grega</h3>
               <p>Conheça o programa e o professor do curso.</p>
-              <b>
-                Explorar o curso <ArrowRight size={17} />
-              </b>
+              <b>Explorar o curso</b>
             </Link>
             <Link to="/cursos/clube-de-cinema-grego">
               <span>Cinema e comunidade</span>
               <h3>Clube de Cinema Grego</h3>
               <p>Filmes gregos e encontros na nossa sede.</p>
-              <b>
-                Conhecer o clube <ArrowRight size={17} />
-              </b>
+              <b>Conhecer o clube</b>
             </Link>
           </div>
           <Link className="text-link activities-all" to="/cursos">
-            Ver todas as atividades <ArrowRight size={18} />
+            Ver todas as atividades
           </Link>
         </section>
 
@@ -660,17 +641,17 @@ function HomePage() {
             </p>
             <div className="language__features">
               <span>
-                <BookOpen /> Metodologia oficial grega
+                <LivroIcon /> Metodologia oficial grega
               </span>
               <span>
-                <Users /> Professores nativos
+                <EncontroIcon /> Professores nativos
               </span>
               <span>
                 <Languages /> Presencial e online
               </span>
             </div>
             <Link className="button" to="/cursos/grego-moderno">
-              Conheça o curso de grego <ArrowRight size={17} />
+              Conheça o curso de grego
             </Link>
           </div>
           <aside className="quote-card">
@@ -694,14 +675,14 @@ function HomePage() {
               </h2>
             </div>
             <Link className="text-link" to="/agenda">
-              Consultar programação <ArrowRight size={16} />
+              Consultar programação
             </Link>
           </div>
           <div className="agenda__list">
             {agenda.map((event) => (
               <article key={event.title}>
                 <div className="date date--label">
-                  <CalendarDays size={20} />
+                  <CalendarioIcon size={20} />
                   <span>{event.label}</span>
                 </div>
                 <div>
@@ -714,13 +695,6 @@ function HomePage() {
                   <MapPin size={16} />
                   {event.place}
                 </span>
-                <Link
-                  className="event-link"
-                  to={event.href}
-                  aria-label={`Ver informações sobre ${event.title}`}
-                >
-                  <ArrowRight />
-                </Link>
               </article>
             ))}
           </div>
@@ -751,7 +725,7 @@ function HomePage() {
               caminho até a Grécia.
             </p>
             <Link className="text-link" to="/cultura/paginas/acontece-memorias">
-              Explore nosso acervo <ArrowRight size={16} />
+              Explore nosso acervo
             </Link>
           </div>
         </section>
@@ -799,7 +773,7 @@ function HomePage() {
           </p>
           <div>
             <Link className="button button--white" to="/participe">
-              Saiba como se associar <ArrowRight size={17} />
+              Saiba como se associar
             </Link>
             <Link className="text-link text-link--white" to="/agenda">
               Ver agenda e eventos
@@ -862,7 +836,7 @@ class PageErrorBoundary extends Component {
             Tentar novamente
           </button>
           <Link className="text-link" to="/">
-            Ir para o início <ArrowRight size={16} />
+            Ir para o início
           </Link>
         </div>
       </main>

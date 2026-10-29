@@ -178,8 +178,23 @@ body.intro-active .skip-link {
   text-transform: uppercase;
   letter-spacing: 0.07em;
   font-weight: 600;
-  border-bottom: 1px solid currentColor;
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
   padding-bottom: 5px;
+}
+.text-link:hover,
+.activity-shortcuts a:hover,
+.culture-archive-shortcut:hover,
+.article-toc a:hover,
+.article-context > a:hover {
+  background-color: rgba(75, 146, 208, 0.1);
+  text-decoration: none;
+}
+.text-link--white:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+.wp-content a.text-link {
+  text-decoration: none;
 }
 .hero {
   min-height: 850px;
@@ -2332,7 +2347,7 @@ h2 {
   display: inline-block;
   min-height: 44px;
   padding-block: 10px;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 4px;
 }
 .article-context p {
@@ -2352,7 +2367,7 @@ h2 {
 .article-toc a {
   display: inline-block;
   padding-block: 6px;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 3px;
 }
 .article-toc ol {
@@ -2971,7 +2986,7 @@ h2 {
   padding-block: 6px;
   color: var(--blue-900);
   font-size: 0.86rem;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 5px;
 }
 .activity-shortcuts a:hover {
@@ -3482,7 +3497,7 @@ iframe[hidden] {
 }
 .contact-quick-actions > div a {
   padding-block: 8px;
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 4px;
 }
 .workshop-more {

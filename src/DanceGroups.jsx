@@ -1,9 +1,10 @@
+import { EncontroIcon } from './components/ChspIcons.jsx'
 import { siteContact } from './content/site-config.js'
 import { NeoleaNewMedia } from './ActivityStories.jsx'
 import DanceVideo from './DanceVideo.jsx'
 import { CommunityPhoto } from './CommunityMedia.jsx'
 import InstagramIcon from './InstagramIcon.jsx'
-import { ArrowRight, MessageCircle } from 'lucide-react'
+
 import { Link } from 'react-router-dom'
 import GalleryPhoto from './components/PhotoGallery.jsx'
 import GalleryImage from './components/GalleryImage.jsx'
@@ -85,7 +86,7 @@ export function DanceOverview() {
               {slug === 'pedilea' && <span>Gratuito</span>}
             </div>
             <Link className="button" to={`/cursos/${slug}`}>
-              Conhecer o grupo <ArrowRight size={18} />
+              Conhecer o grupo
             </Link>
           </div>
         </section>
@@ -159,7 +160,6 @@ export default function DanceGroupBody({ slug, history }) {
             href={child ? siteContact.whatsapp : group.socialUrl}
           >
             {child ? 'Conversar sobre a participação' : 'Acompanhar no Instagram'}{' '}
-            <ArrowRight size={18} />
           </a>
         </div>
       </section>
@@ -293,17 +293,16 @@ export default function DanceGroupBody({ slug, history }) {
           className={`button${child ? '' : ' button--instagram'}`}
           href={child ? siteContact.whatsapp : group.socialUrl}
         >
-          {child ? <MessageCircle size={18} /> : <InstagramIcon size={20} />}{' '}
+          {child ? <EncontroIcon size={20} /> : <InstagramIcon size={20} />}{' '}
           <span>{child ? 'Como participar' : 'Acompanhar no Instagram'}</span>{' '}
-          <ArrowRight size={18} />
         </a>
       </section>
       <div className="dance-related">
         <Link className="greek-course__text-link" to={`/cursos/${group.other}`}>
-          Conheça também {danceGroups[group.other].name} <ArrowRight size={18} />
+          Conheça também {danceGroups[group.other].name}
         </Link>
         <Link className="greek-course__text-link" to="/cursos">
-          Todos os cursos e atividades <ArrowRight size={18} />
+          Todos os cursos e atividades
         </Link>
       </div>
     </div>

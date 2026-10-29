@@ -1,4 +1,5 @@
-import { ArrowDown, ArrowRight, Download, FileText, MessageCircle, Plus } from 'lucide-react'
+import { EncontroIcon, DocumentoIcon } from '../components/ChspIcons.jsx'
+import { Download, Plus } from 'lucide-react'
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { membership, membershipPartners, membershipQuestions } from '../content/membership.js'
 import { assetUrl } from '../paths.js'
@@ -12,9 +13,8 @@ function MembershipContact({ className = 'button', children = 'Quero me associar
       target="_blank"
       rel="noopener noreferrer"
     >
-      <MessageCircle size={18} aria-hidden="true" />
+      <EncontroIcon size={20} aria-hidden="true" />
       {children}
-      <ArrowRight size={17} aria-hidden="true" />
     </a>
   )
 }
@@ -38,7 +38,7 @@ export default function MembershipPage() {
         <div className="membership-actions">
           <MembershipContact />
           <a className="text-link" href="#como-se-associar">
-            Como funciona <ArrowDown size={17} aria-hidden="true" />
+            Como funciona
           </a>
         </div>
       </ContentHero>
@@ -126,7 +126,7 @@ export default function MembershipPage() {
         <h2 id="membership-documents-title">Documentos da associação</h2>
         <div>
           <a href={assetUrl(membership.form)} download>
-            <FileText size={26} aria-hidden="true" />
+            <DocumentoIcon size={26} aria-hidden="true" />
             <span>
               <strong>Ficha de associado</strong>
               <small>PDF · 1 página · baixar para preencher</small>
@@ -134,12 +134,11 @@ export default function MembershipPage() {
             <Download size={20} aria-hidden="true" />
           </a>
           <a href={assetUrl(membership.statute)} target="_blank" rel="noopener noreferrer">
-            <FileText size={26} aria-hidden="true" />
+            <DocumentoIcon size={26} aria-hidden="true" />
             <span>
               <strong>Estatuto: trecho sobre associados</strong>
               <small>PDF · 8 páginas · abre em outra aba</small>
             </span>
-            <ArrowRight size={20} aria-hidden="true" />
           </a>
         </div>
       </section>
@@ -178,10 +177,7 @@ export default function MembershipPage() {
           {membershipPartners.map(({ name, image, href }) => (
             <a key={name} href={href} target="_blank" rel="noopener noreferrer">
               <img src={assetUrl(image)} alt="" loading="lazy" width="96" height="96" />
-              <span>
-                {name}
-                <ArrowRight size={16} aria-hidden="true" />
-              </span>
+              <span>{name}</span>
             </a>
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { pageBySlug } from '../content/site-data.js'
 import { lessonSlugs, pathForPage } from '../content/navigation.js'
 import { decode, rewriteLegacyLinks } from '../legacy-content.js'
@@ -36,7 +36,6 @@ export function PageNavigation({ slugs, basePath, labels = {} }) {
             {page.slug === 'aulas-de-grego-moderno'
               ? 'Curso de Grego Moderno'
               : labels[page.slug] || decode(page.title)}
-            <ArrowRight size={15} />
           </Link>
         ))}
     </aside>

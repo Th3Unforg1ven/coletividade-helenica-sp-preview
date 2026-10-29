@@ -12,7 +12,7 @@ import CommunityMemories from '../CommunityMedia.jsx'
 import PostCard from '../components/PostCard.jsx'
 import { culturalPageSlugs } from '../content/navigation.js'
 import { Link, useParams, useSearchParams, useLocation } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { LegacyHtml } from '../components/ArchiveLayout.jsx'
 import { decode, stripHtml } from '../legacy-content.js'
@@ -90,7 +90,7 @@ export function CultureIndex() {
         motifTheme="cultura"
       >
         <a className="culture-archive-shortcut" href="#acervo">
-          Buscar no acervo <ArrowRight size={18} />
+          Buscar no acervo
         </a>
       </ContentHero>
       <section className="cultural-topics" aria-labelledby="cultural-topics-title">
@@ -109,7 +109,6 @@ export function CultureIndex() {
                 <strong>{topic.title}</strong>
                 <small>{topic.description}</small>
               </span>
-              <ArrowRight size={18} aria-hidden="true" />
             </button>
           ))}
         </div>
@@ -187,7 +186,6 @@ export function CultureIndex() {
           .map((page) => (
             <Link to={`/cultura/paginas/${page.slug}`} key={page.id}>
               {decode(page.title)}
-              <ArrowRight size={15} />
             </Link>
           ))}
       </section>
@@ -388,7 +386,7 @@ export function PostPage() {
           )}
           {post.cta && (
             <Link className="button" to={post.cta.href}>
-              {post.cta.label} <ArrowRight size={16} />
+              {post.cta.label}
             </Link>
           )}
         </article>
@@ -401,15 +399,9 @@ export function PostPage() {
             .map((item) => (
               <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>
                 {decode(item.name)}
-                <ArrowRight size={15} />
               </Link>
             ))}
-          {post.cta && (
-            <Link to={post.cta.href}>
-              {post.cta.label}
-              <ArrowRight size={16} />
-            </Link>
-          )}
+          {post.cta && <Link to={post.cta.href}>{post.cta.label}</Link>}
         </aside>
       </div>
     </main>

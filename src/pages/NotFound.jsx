@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { ContentHero } from '../components/ContentLayout.jsx'
 
 export default function NotFound() {
@@ -12,7 +12,7 @@ export default function NotFound() {
         introduction="O endereço pode ter mudado durante a reorganização do site."
       />
       <Link className="button" to="/arquivo">
-        Consultar arquivo integral <ArrowRight size={16} />
+        Consultar arquivo integral
       </Link>
     </main>
   )

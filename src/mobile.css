@@ -76,7 +76,7 @@
     min-height: 48px;
     margin-top: 16px;
     color: var(--blue-900);
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 5px;
   }
   .breadcrumbs {

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+
 import { categoryById } from '../content/site-data.js'
 import { publicationTopicLabel } from '../content/cultural-topics.js'
 import { decode, stripHtml } from '../legacy-content.js'
@@ -32,9 +32,7 @@ export default function PostCard({ post }) {
         <span>{publicationTopicLabel(post) || decode(category?.name || 'Cultura')}</span>
         <h2>{decode(post.title)}</h2>
         <p>{stripHtml(post.excerpt).slice(0, 180)}</p>
-        <b>
-          Ler conteúdo completo <ArrowRight size={15} />
-        </b>
+        <b>Ler conteúdo completo</b>
       </div>
     </Link>
   )

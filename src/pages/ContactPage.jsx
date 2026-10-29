@@ -1,6 +1,7 @@
+import { EncontroIcon } from '../components/ChspIcons.jsx'
 import { siteContact } from '../content/site-config.js'
 import { useState } from 'react'
-import { Phone, Mail, MapPin, MessageCircle, ArrowRight } from 'lucide-react'
+import { Phone, Mail, MapPin } from 'lucide-react'
 import FacebookIcon from '../FacebookIcon.jsx'
 import InstagramIcon from '../InstagramIcon.jsx'
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
@@ -30,7 +31,7 @@ export default function ContactPage() {
       >
         <div className="contact-quick-actions">
           <a className="button" href={siteContact.whatsapp}>
-            <MessageCircle size={18} />
+            <EncontroIcon size={20} />
             Conversar pelo WhatsApp
           </a>
           <div>
@@ -87,7 +88,7 @@ export default function ContactPage() {
               <em>Brás, São Paulo, SP</em>
               <span className="address-actions">
                 <a href={siteContact.directions} target="_blank" rel="noopener noreferrer">
-                  Abrir rota ↗
+                  Abrir rota
                 </a>
                 <button type="button" onClick={copyAddress}>
                   Copiar endereço
@@ -108,7 +109,7 @@ export default function ContactPage() {
           </div>
         </div>
         <aside className="contact-return">
-          <MessageCircle />
+          <EncontroIcon />
           <p className="content-kicker">Prefere conversar pelo WhatsApp?</p>
           <h2>Fale com nossa equipe.</h2>
           <p>Envie uma mensagem e conte brevemente como podemos ajudar.</p>
@@ -118,7 +119,7 @@ export default function ContactPage() {
             target="_blank"
             rel="noreferrer"
           >
-            Conversar pelo WhatsApp <ArrowRight size={16} />
+            Conversar pelo WhatsApp
           </a>
         </aside>
       </section>
