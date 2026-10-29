@@ -1,4 +1,16 @@
 /* Shared phone ergonomics; section-specific compositions stay with their components. */
+@media (max-width: 380px) {
+  .content-hero {
+    margin-inline: -18px;
+    padding-left: 18px;
+  }
+  .content-hero > div {
+    padding-right: 18px;
+  }
+  .content-hero > figure {
+    margin-left: -18px;
+  }
+}
 .header .nav > .nav__membership {
   display: none;
 }
@@ -6,6 +18,12 @@
   display: none;
 }
 @media (max-width: 900px) {
+  .footer {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .footer__identity {
+    grid-column: 1 / -1;
+  }
   .header .nav {
     position: fixed;
     inset: 0;
@@ -69,6 +87,24 @@
   }
 }
 @media (max-width: 560px) {
+  .footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 20px;
+  }
+  .footer__nav--contact {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 4px 20px;
+    width: 100%;
+  }
+  .footer__nav--contact > span {
+    grid-column: 1 / -1;
+  }
+  .footer__socials {
+    display: contents;
+  }
   .culture-archive-shortcut {
     display: inline-flex;
     align-items: center;

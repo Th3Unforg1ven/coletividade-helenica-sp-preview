@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import GalleryImage from './components/GalleryImage.jsx'
+import { PhotoViewerOpenContext } from './components/gallery-context.js'
 import { createCanvasPhotoZoom, needsCanvasPhotoZoom } from './components/canvas-photo-zoom.js'
 
 const SLIDE_DURATION = 6000
@@ -37,6 +38,7 @@ const slides = [
 ]
 
 export default function HeroSlideshow({ redraw = false }) {
+  const viewerOpen = useContext(PhotoViewerOpenContext)
   const gallery = useRef(null)
   const images = useRef([])
   const canvases = useRef([])
@@ -47,12 +49,14 @@ export default function HeroSlideshow({ redraw = false }) {
   const [requested, setRequested] = useState([0])
   const [pending, setPending] = useState(null)
   const [paused, setPaused] = useState(false)
+  const [focusPaused, setFocusPaused] = useState(false)
   const [visible, setVisible] = useState(false)
   const [pageVisible, setPageVisible] = useState(true)
   const [reduceMotion, setReduceMotion] = useState(true)
   const [introVisible, setIntroVisible] = useState(true)
   const activeReady = Boolean(ready[active])
-  const motionPaused = paused || reduceMotion || !visible || !pageVisible || introVisible
+  const motionPaused =
+    paused || focusPaused || reduceMotion || !visible || !pageVisible || introVisible || viewerOpen
 
   useEffect(() => {
     if (pending !== null && ready[pending]) {
@@ -177,6 +181,10 @@ export default function HeroSlideshow({ redraw = false }) {
       ref={gallery}
       aria-label="Imagens da vida na Coletividade"
       aria-roledescription="carrossel"
+      onFocusCapture={() => setFocusPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocusPaused(false)
+      }}
     >
       <div className="hero__frames">
         {slides.map((item, index) => (
@@ -234,7 +242,10 @@ export default function HeroSlideshow({ redraw = false }) {
         <button
           type="button"
           className="hero__playback"
-          onClick={() => setPaused((value) => !value)}
+          onClick={() => {
+            setPaused((value) => !value)
+            setFocusPaused(false)
+          }}
         >
           {paused ? 'Retomar apresentação' : 'Pausar apresentação'}
         </button>

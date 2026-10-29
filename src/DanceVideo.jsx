@@ -1,8 +1,10 @@
 import './dance-video.css'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { assetUrl } from './paths.js'
+import { PhotoViewerOpenContext } from './components/gallery-context.js'
 
 export default function DanceVideo({ number, caption, sourceBase }) {
+  const viewerOpen = useContext(PhotoViewerOpenContext)
   const container = useRef(null)
   const video = useRef(null)
   const [visible, setVisible] = useState(false)
@@ -39,14 +41,14 @@ export default function DanceVideo({ number, caption, sourceBase }) {
   useEffect(() => {
     const player = video.current
     if (!player) return
-    if (!visible || !pageVisible) {
+    if (!visible || !pageVisible || viewerOpen) {
       player.pause()
       return
     }
     if (manualPlay ?? !reduceMotion) player.play().catch(() => setPlaying(false))
     else player.pause()
     return () => player.pause()
-  }, [visible, pageVisible, loaded, manualPlay, reduceMotion])
+  }, [visible, pageVisible, loaded, manualPlay, reduceMotion, viewerOpen])
 
   function togglePlayback() {
     const player = video.current

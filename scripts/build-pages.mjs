@@ -117,21 +117,13 @@ for (const [route, destination] of Object.entries(redirects)) {
   )
 }
 await fs.writeFile(
-  'dist/index.html',
-  documentFor(
-    '/',
-    document.getElementById('root')?.innerHTML ||
-      '<div class="intro-boot" aria-hidden="true"></div>',
-  ),
-)
-await fs.writeFile(
   'dist/404.html',
   shell.replace(
     '<meta name="description"',
     '<meta name="robots" content="noindex"><meta name="description"',
   ),
 )
-const urls = ['/', ...prerenderRoutes].filter((route) => route !== '/arquivo')
+const urls = [...new Set(['/', ...prerenderRoutes])].filter((route) => route !== '/arquivo')
 await fs.writeFile(
   'dist/sitemap.xml',
   `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((route) => `<url><loc>${siteUrl(route)}</loc></url>`).join('')}</urlset>`,

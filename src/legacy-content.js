@@ -352,7 +352,7 @@ export function rewriteLegacyLinks(html = '') {
     '#conselho-deliberativo': '#ex-presidentes-conselho',
   }
   const legacyPathMap = {
-    '/festividades': '/paginas/festividades-civicas-e-religiosas',
+    '/festividades': '/cultura/paginas/festividades-civicas-e-religiosas',
   }
   element.querySelectorAll('a[href]').forEach((anchor) => {
     const href = anchor.getAttribute('href')

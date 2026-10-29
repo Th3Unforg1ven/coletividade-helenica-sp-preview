@@ -51,6 +51,7 @@ const MembershipPage = lazy(() => import('./pages/MembershipPage.jsx'))
 const NotFound = lazy(() => import('./pages/NotFound.jsx'))
 
 function shouldShowIntroCover() {
+  if (import.meta.env.SSR) return false
   const hash = window.location.hash
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
   const relativePath = window.location.pathname.slice(basePath.length) || '/'
@@ -344,24 +345,29 @@ function Footer() {
       <nav className="footer__nav" aria-label="Explore a Coletividade">
         <span>Explore</span>
         <Link to="/coletividade">A Coletividade</Link>
-        <Link to="/participe">Associe-se</Link>
-        <Link to="/cursos">Cursos e atividades</Link>
-        <Link to="/agenda">Agenda e eventos</Link>
         <Link to="/cultura">Cultura e memória</Link>
+        <Link to="/agenda">Agenda e eventos</Link>
+      </nav>
+      <nav className="footer__nav" aria-label="Participe da Coletividade">
+        <span>Participe</span>
+        <Link to="/cursos">Cursos e atividades</Link>
+        <Link to="/participe">Associe-se</Link>
         <Link to={sectionTarget('duvidas')}>Perguntas frequentes</Link>
       </nav>
-      <nav className="footer__nav" aria-label="Canais de contato">
+      <nav className="footer__nav footer__nav--contact" aria-label="Canais de contato">
         <span>Converse</span>
         <a href={WA} target="_blank" rel="noreferrer">
           WhatsApp
         </a>
-        <a href={siteContact.instagram} target="_blank" rel="noreferrer">
-          Instagram
-        </a>
-        <a href={siteContact.facebook} target="_blank" rel="noreferrer">
-          Facebook
-        </a>
         <Link to="/contato">Contato</Link>
+        <div className="footer__socials">
+          <a href={siteContact.instagram} target="_blank" rel="noreferrer">
+            Instagram
+          </a>
+          <a href={siteContact.facebook} target="_blank" rel="noreferrer">
+            Facebook
+          </a>
+        </div>
       </nav>
       <div className="footer__bottom">
         <small>© {new Date().getFullYear()} Coletividade Helênica de São Paulo</small>
@@ -745,11 +751,16 @@ function HomePage() {
                     type="button"
                     onClick={() => setFaq(faq === i ? -1 : i)}
                     aria-expanded={faq === i}
+                    aria-controls={`faq-answer-${i}`}
                   >
                     <span>{item[0]}</span>
                     <ChevronDown aria-hidden="true" />
                   </button>
-                  <div>
+                  <div
+                    id={`faq-answer-${i}`}
+                    aria-hidden={faq !== i}
+                    inert={faq !== i ? true : undefined}
+                  >
                     <p>{item[1]}</p>
                   </div>
                 </div>
@@ -805,7 +816,9 @@ function InteriorPage({ children }) {
         Pular para o conteúdo
       </a>
       <Header />
-      <div id="main-content">{children}</div>
+      <div id="main-content" tabIndex={-1}>
+        {children}
+      </div>
       <Footer />
     </div>
   )

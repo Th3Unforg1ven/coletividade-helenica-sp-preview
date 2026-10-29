@@ -151,15 +151,13 @@ export function NeoleaNewMedia() {
 export function CinemaFeature({ full = false }) {
   return (
     <section className="activity-stories">
-      <div className="activity-story">
-        <Photo
-          name={full ? 'cinema-cartaz' : 'cinema-sala'}
-          caption={
-            full
-              ? 'Divulgação do Clube de Cinema Grego em São Paulo.'
-              : 'A sala da Coletividade preparada para uma sessão de cinema.'
-          }
-        />
+      <div className={`activity-story${full ? ' activity-story--text' : ''}`}>
+        {!full && (
+          <Photo
+            name="cinema-sala"
+            caption="A sala da Coletividade preparada para uma sessão de cinema."
+          />
+        )}
         <div>
           <p className="content-kicker">Uma nova programação cultural</p>
           <h2>Mais do que filmes, um encontro com a Grécia.</h2>

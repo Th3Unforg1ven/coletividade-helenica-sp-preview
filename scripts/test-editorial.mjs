@@ -2,10 +2,63 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { parseHTML } from 'linkedom'
-import { prerenderRoutes } from './prerender-routes.mjs'
+import { prerenderRoutes, redirects } from './prerender-routes.mjs'
 import { editorialArticles, newArticles } from '../src/content/editorial-articles.js'
 const archive = JSON.parse(fs.readFileSync('src/content/site-content.json', 'utf8'))
 const known = new Set([...archive.posts, ...editorialArticles].map((p) => p.slug))
+
+test('Every internal link has a published page, redirect or downloadable file', () => {
+  const base = (process.env.BASE_PATH || '/').replace(/\/?$/, '/')
+  const published = new Set(['/', ...prerenderRoutes, ...Object.keys(redirects)].map(decodeURI))
+  for (const route of prerenderRoutes) {
+    const file = route === '/' ? 'dist/index.html' : `dist${decodeURI(route)}/index.html`
+    const { document } = parseHTML(fs.readFileSync(file, 'utf8'))
+    for (const link of document.querySelectorAll('a[href]')) {
+      const href = link.getAttribute('href')
+      if (!href.startsWith(base)) continue
+      const url = new URL(href, 'https://site.test')
+      const destination = `/${decodeURI(url.pathname.slice(base.length))}`.replace(/\/$/, '') || '/'
+      assert.ok(
+        published.has(destination) || fs.existsSync(`dist${destination}`),
+        `${route}: ${href}`,
+      )
+    }
+  }
+})
+
+test('Home ships readable content and working section anchors before JavaScript', () => {
+  const { document } = parseHTML(fs.readFileSync('dist/index.html', 'utf8'))
+  assert.equal(document.querySelectorAll('h1').length, 1)
+  assert.ok(document.querySelector('main#main-content'))
+  for (const id of ['inicio', 'sobre', 'aulas', 'agenda', 'memoria', 'duvidas']) {
+    assert.ok(document.getElementById(id), id)
+  }
+  assert.ok(document.querySelector('footer.footer'))
+  assert.ok(!document.querySelector('.intro-cover'))
+})
+
+test('Skip links target focusable content on every published page', () => {
+  for (const route of prerenderRoutes) {
+    const { document } = parseHTML(
+      fs.readFileSync(`dist${decodeURIComponent(route)}/index.html`, 'utf8'),
+    )
+    assert.equal(document.querySelector('.skip-link')?.getAttribute('href'), '#main-content', route)
+    assert.equal(document.getElementById('main-content')?.getAttribute('tabindex'), '-1', route)
+  }
+})
+
+test('FAQ answers are connected to their controls and collapsed answers are hidden from accessibility', () => {
+  const { document } = parseHTML(fs.readFileSync('dist/index.html', 'utf8'))
+  const controls = [...document.querySelectorAll('.faq__item button')]
+  assert.equal(controls.length, 5)
+  for (const control of controls) {
+    const answer = document.getElementById(control.getAttribute('aria-controls'))
+    assert.ok(answer)
+    const expanded = control.getAttribute('aria-expanded') === 'true'
+    assert.equal(answer.getAttribute('aria-hidden'), String(!expanded))
+    assert.equal(answer.hasAttribute('inert'), !expanded)
+  }
+})
 
 test('Association page connects to the supplied contact and downloadable documents', () => {
   const { document } = parseHTML(fs.readFileSync('dist/participe/index.html', 'utf8'))
@@ -86,7 +139,7 @@ test('All articles have complete standalone HTML, matching schema and working lo
   const sitemap = fs.readFileSync('dist/sitemap.xml', 'utf8')
   assert.equal(
     (sitemap.match(/<loc>/g) || []).length,
-    prerenderRoutes.filter((route) => route !== '/arquivo').length + 1,
+    new Set(['/', ...prerenderRoutes.filter((route) => route !== '/arquivo')]).size,
   )
   assert.ok(!sitemap.includes('#'))
   assert.ok(!sitemap.includes('/publicacoes/'))
@@ -106,9 +159,13 @@ test('Every public page has complete HTML, a canonical URL and specific sharing 
     assert.ok(heading?.length > 0, route)
     assert.ok(document.querySelector('main')?.textContent.length > 100, route)
     const canonical = document.querySelector('link[rel="canonical"]').getAttribute('href')
-    assert.equal(canonical, `${origin}${base}${route.slice(1)}/`, route)
+    assert.equal(
+      canonical,
+      route === '/' ? `${origin}${base}` : `${origin}${base}${route.slice(1)}/`,
+      route,
+    )
     assert.ok(!canonical.includes('#'), route)
-    assert.ok(document.title.includes(heading), route)
+    assert.ok(document.title.includes(route === '/' ? 'Coletividade Helênica' : heading), route)
     assert.equal(
       document.querySelector('meta[property="og:url"]').getAttribute('content'),
       canonical,
@@ -152,7 +209,7 @@ test('Content photos enlarge in the gallery while navigation images keep their l
       fs.readFileSync(`dist${decodeURIComponent(route)}/index.html`, 'utf8'),
     )
     for (const image of document.querySelectorAll('main img')) {
-      if (image.closest('a, .cultural-topics button[aria-pressed]')) continue
+      if (image.closest('a, [aria-hidden="true"], .cultural-topics button[aria-pressed]')) continue
       const trigger = image.closest('button[data-gallery-src]')
       assert.ok(trigger, `${route}: photo without gallery: ${image.getAttribute('src')}`)
       assert.ok(trigger.getAttribute('aria-label')?.startsWith('Ampliar foto:'), route)

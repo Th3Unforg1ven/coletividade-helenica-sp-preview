@@ -18,7 +18,16 @@ export default function PhotoViewer({ photos, index, trigger, onClose }) {
     return () => {
       modal.close()
       document.body.style.overflow = previousOverflow
-      if (trigger?.isConnected) trigger.focus({ preventScroll: true })
+      // Escape can finish its native focus handling after the React cleanup.
+      requestAnimationFrame(() => {
+        if (
+          trigger?.isConnected &&
+          !trigger.closest('[inert]') &&
+          !document.querySelector('dialog[open]')
+        ) {
+          trigger.focus({ preventScroll: true })
+        }
+      })
     }
   }, [trigger])
   return (

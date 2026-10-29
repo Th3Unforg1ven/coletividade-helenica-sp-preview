@@ -3,13 +3,14 @@ import { useLocation } from 'react-router-dom'
 import ResponsiveImage from '../ResponsiveImage.jsx'
 import { assetUrl } from '../paths.js'
 import './photo-gallery.css'
-import { GalleryContext } from './gallery-context.js'
+import { GalleryContext, PhotoViewerOpenContext } from './gallery-context.js'
 
 const PhotoViewer = lazy(() => import('./PhotoViewer.jsx'))
 
 export function PhotoGalleryProvider({ children }) {
   const [gallery, setGallery] = useState(null)
   const location = useLocation()
+  const viewerOpen = Boolean(gallery && gallery.location === location)
   function openFrom(trigger) {
     const scope = trigger.closest('[data-gallery-group], main, article') || trigger.parentElement
     const triggers = [...scope.querySelectorAll('[data-gallery-src]')]
@@ -24,17 +25,18 @@ export function PhotoGalleryProvider({ children }) {
     })
   }
   function close() {
-    gallery?.trigger?.focus({ preventScroll: true })
     setGallery(null)
   }
   return (
     <GalleryContext.Provider value={openFrom}>
-      {children}
-      {gallery && gallery.location === location && (
-        <Suspense fallback={null}>
-          <PhotoViewer key={location.key} {...gallery} onClose={close} />
-        </Suspense>
-      )}
+      <PhotoViewerOpenContext.Provider value={viewerOpen}>
+        {children}
+        {viewerOpen && (
+          <Suspense fallback={null}>
+            <PhotoViewer key={location.key} {...gallery} onClose={close} />
+          </Suspense>
+        )}
+      </PhotoViewerOpenContext.Provider>
     </GalleryContext.Provider>
   )
 }

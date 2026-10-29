@@ -19,6 +19,7 @@ for (const slug of lessonSlugs) redirects[`/aulas/${slug}`] = pathForPage({ slug
 
 export const prerenderRoutes = [
   ...new Set([
+    '/',
     '/coletividade',
     '/cursos',
     '/cultura',

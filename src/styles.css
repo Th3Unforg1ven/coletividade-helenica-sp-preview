@@ -1282,8 +1282,8 @@ h2 {
   background: var(--blue-900);
   color: white;
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 1fr));
-  gap: 36px 6vw;
+  grid-template-columns: minmax(0, 1.7fr) repeat(3, minmax(0, 1fr));
+  gap: 36px 3vw;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -1346,14 +1346,22 @@ h2 {
   letter-spacing: 0.15em;
   margin-bottom: 8px;
 }
-.footer__nav > a {
+.footer__nav > a,
+.footer__socials > a {
   display: flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 44px;
   font-size: 0.8rem;
   color: #d8e0ef;
 }
+.footer__socials {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
 .footer__nav > a:hover,
+.footer__socials > a:hover,
 .footer__privacy > a:hover,
 .footer .privacy-reopen:hover {
   text-decoration: underline;

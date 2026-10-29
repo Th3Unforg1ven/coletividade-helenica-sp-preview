@@ -207,6 +207,9 @@
 .greek-course__portraits figure {
   margin: 0;
 }
+.greek-course__portraits .gallery-photo--inline {
+  height: auto;
+}
 .greek-course__portraits img {
   width: 100%;
   height: auto;
@@ -216,6 +219,7 @@
   border-radius: 3px;
 }
 .greek-course__portraits figcaption {
+  overflow-wrap: anywhere;
   font-family: var(--serif);
   font-size: 1.45rem;
   line-height: 1.2;
@@ -289,5 +293,10 @@
   }
   .greek-course__contact .button {
     white-space: normal;
+  }
+}
+@media (max-width: 380px) {
+  .greek-course__portraits figcaption {
+    font-size: 1rem;
   }
 }

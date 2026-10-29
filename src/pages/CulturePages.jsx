@@ -395,7 +395,7 @@ export function PostPage() {
           <span>Publicado em {publicationDate(post.date)}</span>
           {post.categories
             .map((id) => categoryById[id])
-            .filter(Boolean)
+            .filter((item) => item && item.slug !== 'uncategorized')
             .map((item) => (
               <Link to={`/cultura/categoria/${item.slug}`} key={item.id}>
                 {decode(item.name)}

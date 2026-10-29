@@ -11,6 +11,11 @@
 .activity-story--reverse > :first-child {
   order: 2;
 }
+.activity-story--text {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 760px;
+  margin-inline: auto;
+}
 .activity-story figure {
   margin: 0;
   min-width: 0;
