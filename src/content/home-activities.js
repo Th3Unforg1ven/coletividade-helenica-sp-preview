@@ -2,6 +2,7 @@ import { EncontroIcon } from '../components/ChspIcons.jsx'
 import { Languages, Music2, Sparkles } from 'lucide-react'
 import { siteContact } from './site-config.js'
 import { danceGroups } from './dance-groups.js'
+import { bouzoukiPhoto } from './courses.js'
 
 export const activities = [
   {
@@ -79,7 +80,7 @@ export const activities = [
     copy: 'Conheça um dos instrumentos mais marcantes da música grega. As aulas de bouzouki não estão acontecendo no momento.',
     meta: ['Instrumento da música grega', 'Sem previsão de retomada confirmada'],
     icon: Music2,
-    visual: '/images/aulas-bouzouki-original.webp',
+    visual: bouzoukiPhoto.src,
     href: '/cursos/aulas-de-bouzouki',
   },
 ]

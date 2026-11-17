@@ -1,5 +1,7 @@
 # Desenvolvimento
 
+O [journal e handoff](JOURNAL-HANDOFF.md) reúne o histórico de trabalho, o estado mais recente e o ponto de retomada. Atualize-o depois de alterações, revisões ou publicações relevantes.
+
 ## Código do site
 
 - `src/pages/`: páginas carregadas por seção. Cursos e Contato não importam o acervo.

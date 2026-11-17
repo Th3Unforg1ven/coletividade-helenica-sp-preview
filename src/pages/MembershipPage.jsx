@@ -1,4 +1,4 @@
-import { EncontroIcon, DocumentoIcon } from '../components/ChspIcons.jsx'
+import { EncontroIcon } from '../components/ChspIcons.jsx'
 import { Download, Plus } from 'lucide-react'
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
 import { membership, membershipPartners, membershipQuestions } from '../content/membership.js'
@@ -69,7 +69,7 @@ export default function MembershipPage() {
         <div className="membership-process__heading">
           <p className="content-kicker">O próximo passo</p>
           <h2 id="membership-process-title">Como se associar</h2>
-          <p>Comece pela ficha. O Conselho pode orientar você sobre a solicitação.</p>
+          <p>Comece pela ficha. A Coletividade pode orientar você sobre a solicitação.</p>
           <a className="button" href={assetUrl(membership.form)} download>
             <Download size={18} aria-hidden="true" /> Baixar ficha de associado
           </a>
@@ -86,7 +86,7 @@ export default function MembershipPage() {
           <li>
             <span aria-hidden="true">02</span>
             <div>
-              <h3>Converse com o Conselho</h3>
+              <h3>Converse com a Coletividade</h3>
               <p>Combine a entrega da ficha e esclareça as etapas de admissão à Coletividade.</p>
             </div>
           </li>
@@ -121,28 +121,6 @@ export default function MembershipPage() {
         </div>
       </section>
 
-      <section className="membership-documents" aria-labelledby="membership-documents-title">
-        <p className="content-kicker">Para consultar com calma</p>
-        <h2 id="membership-documents-title">Documentos da associação</h2>
-        <div>
-          <a href={assetUrl(membership.form)} download>
-            <DocumentoIcon size={26} aria-hidden="true" />
-            <span>
-              <strong>Ficha de associado</strong>
-              <small>PDF · 1 página · baixar para preencher</small>
-            </span>
-            <Download size={20} aria-hidden="true" />
-          </a>
-          <a href={assetUrl(membership.statute)} target="_blank" rel="noopener noreferrer">
-            <DocumentoIcon size={26} aria-hidden="true" />
-            <span>
-              <strong>Estatuto: trecho sobre associados</strong>
-              <small>PDF · 8 páginas · abre em outra aba</small>
-            </span>
-          </a>
-        </div>
-      </section>
-
       <section className="membership-faq" aria-labelledby="membership-faq-title">
         <div>
           <p className="content-kicker">Antes de começar</p>
@@ -165,9 +143,11 @@ export default function MembershipPage() {
         <div>
           <p className="content-kicker">Uma conversa para começar</p>
           <h2 id="membership-contact-title">Vamos fazer parte dessa história?</h2>
-          <p>Fale com o {membership.contact.name} sobre sua associação.</p>
+          <p>Fale com a Coletividade sobre sua associação.</p>
         </div>
-        <MembershipContact className="button button--white">Falar com o Conselho</MembershipContact>
+        <MembershipContact className="button button--white">
+          Falar com a Coletividade
+        </MembershipContact>
       </section>
 
       <section className="membership-partners" aria-labelledby="membership-partners-title">

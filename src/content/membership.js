@@ -1,13 +1,11 @@
 export const membership = {
   contribution: 'R$ 25',
   form: '/documentos/ficha-de-associacao-chsp.pdf',
-  statute: '/documentos/estatuto-trecho-associados-chsp.pdf',
   contact: {
-    name: 'Conselho',
     whatsapp:
       'https://wa.me/5511913073510?text=' +
       encodeURIComponent(
-        'Olá! Tenho interesse em me associar à Coletividade Helênica de São Paulo e gostaria de conversar com o Conselho. Podem me orientar sobre a ficha e os próximos passos?',
+        'Olá! Tenho interesse em me associar à Coletividade Helênica de São Paulo. Podem me orientar sobre a ficha e os próximos passos?',
       ),
   },
 }
@@ -16,27 +14,17 @@ export const membershipQuestions = [
   {
     question: 'Quais são as condições para solicitar a associação?',
     answer:
-      'O estatuto prevê a admissão de pessoas maiores de 18 anos e civilmente capazes, mediante proposta e apreciação pela Diretoria Executiva. Baixe a ficha e converse com o Conselho para receber orientação sobre as etapas da sua solicitação.',
+      'Para solicitar a associação, é preciso pedir a ficha de inscrição de associado, ter mais de 18 anos e escolher o valor da contribuição.',
   },
   {
     question: 'Preciso de indicação de outros associados?',
     answer:
-      'O estatuto prevê a indicação por associados. Converse com o Conselho sobre como essa etapa é conduzida no procedimento atual e sobre o preenchimento da ficha.',
+      'Não é necessário ter indicação de outros associados, ser grego ou ter ascendência grega.',
   },
   {
     question: 'Como faço o pagamento da contribuição?',
     answer:
-      'A contribuição mensal começa em R$ 25. A ficha também permite escolher uma contribuição maior. O Conselho orienta sobre a forma de pagamento e os próximos passos da associação.',
-  },
-  {
-    question: 'Há taxa de ingresso? E se eu quiser participar do Conselho?',
-    answer:
-      'Consulte o Conselho sobre eventuais taxas e as condições aplicáveis à sua solicitação. Para quem pretende integrar o Conselho Deliberativo, é necessário estar associado há pelo menos seis meses e com as mensalidades em dia, além de atender às demais regras do estatuto.',
-  },
-  {
-    question: 'Onde posso consultar os direitos e deveres dos associados?',
-    answer:
-      'O trecho do estatuto disponível nesta página apresenta categorias, condições de admissão, direitos, deveres e contribuições dos associados. O documento permanece vigente, conforme confirmado pela Coletividade.',
+      'A contribuição mensal começa em R$ 25. A ficha também permite escolher uma contribuição maior. A Coletividade orienta sobre a forma de pagamento e os próximos passos da associação.',
   },
 ]
 

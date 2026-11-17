@@ -12,6 +12,8 @@ import {
   courseTitles,
   lessonImages,
   lessonStatus,
+  bouzoukiPhoto,
+  koineCourse,
 } from '../content/courses.js'
 import { lessonSlugs, pathForPage } from '../content/navigation.js'
 import NotFound from './NotFound.jsx'
@@ -25,6 +27,13 @@ export function LessonsIndex() {
         {
           title: 'Curso de Grego Moderno',
           slug: 'aulas-de-grego-moderno',
+          action: 'Conhecer o curso',
+        },
+        {
+          title: koineCourse.title,
+          href: koineCourse.path,
+          status: ['Curso'],
+          description: koineCourse.description,
           action: 'Conhecer o curso',
         },
         {
@@ -115,11 +124,7 @@ export function LessonsIndex() {
                 '/images/grupos-danca/pedilea-grupo.webp',
                 'Integrantes da Pedilea e seus instrutores',
               ],
-              [
-                'bouzouki',
-                '/images/archive/28c0d6ffd7-kostakis2-1024x473.webp',
-                'Registro histórico de apresentação musical com bouzouki na Coletividade',
-              ],
+              ['bouzouki', bouzoukiPhoto.src, bouzoukiPhoto.alt],
             ].map(([key, src, alt]) => (
               <span key={key} className={`activities-mosaic__${key}`}>
                 <GalleryImage src={src} alt={alt} decoding="async" />
@@ -174,6 +179,24 @@ export function LessonPage() {
   const { slug: routeSlug } = useParams()
   const location = useLocation()
   const slug = routeSlug === 'grego-moderno' ? 'aulas-de-grego-moderno' : routeSlug
+  if (slug === koineCourse.slug) {
+    if (location.pathname.startsWith('/aulas/'))
+      return <Navigate replace to={`${koineCourse.path}${location.search}${location.hash}`} />
+    return (
+      <main className="content-page">
+        <Breadcrumbs
+          items={[{ label: 'Cursos e atividades', to: '/cursos' }, { label: koineCourse.title }]}
+        />
+        <ContentHero
+          eyebrow="Curso"
+          title={koineCourse.title}
+          introduction={koineCourse.description}
+        >
+          <p>Horários, modalidade e inscrições em confirmação.</p>
+        </ContentHero>
+      </main>
+    )
+  }
   if (['historia-mitologia-filosofia', 'clube-de-cinema-grego'].includes(slug)) {
     const cinema = slug === 'clube-de-cinema-grego'
     const title = cinema ? 'Clube de Cinema Grego' : 'História, Mitologia e Filosofia Grega'
@@ -229,6 +252,7 @@ export function LessonPage() {
         }
         introduction={courseIntroductions[slug]}
         image={lessonImages[slug]}
+        imageAlt={slug === 'aulas-de-bouzouki' ? bouzoukiPhoto.alt : undefined}
         visual={
           slug === 'aulas-de-grego-moderno' ? (
             <GreekTeacherMosaic />
@@ -343,14 +367,11 @@ function BouzoukiCourse() {
       <p>
         <Link to="/contato">Consultar a equipe da Coletividade</Link>
       </p>
-      <figure>
-        <GalleryImage
-          src="/images/aulas-bouzouki-original.webp"
-          loading="lazy"
-          decoding="async"
-          alt="Instrumentos musicais na Coletividade Helênica de São Paulo"
-        />
-      </figure>
+      <p className="editorial-image-caption">
+        Imagem ambientada com IA a partir da{' '}
+        <a href={bouzoukiPhoto.source}>foto de Arent, com edição de Pandouris</a> ·{' '}
+        <a href={bouzoukiPhoto.license}>CC BY-SA 3.0</a>.
+      </p>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import { editorialArticles } from '../src/content/editorial-articles.js'
 import { pathForPage, lessonSlugs } from '../src/content/navigation.js'
+import { koineCourse } from '../src/content/courses.js'
 
 const archive = JSON.parse(fs.readFileSync('src/content/site-content.json', 'utf8'))
 const siteContent = { ...archive, posts: [...editorialArticles, ...archive.posts] }
@@ -22,6 +23,7 @@ export const prerenderRoutes = [
     '/',
     '/coletividade',
     '/cursos',
+    koineCourse.path,
     '/cultura',
     '/agenda',
     '/contato',

@@ -60,17 +60,20 @@ test('FAQ answers are connected to their controls and collapsed answers are hidd
   }
 })
 
-test('Association page connects to the supplied contact and downloadable documents', () => {
+test('Association page offers the form and points applicants to the Coletividade', () => {
   const { document } = parseHTML(fs.readFileSync('dist/participe/index.html', 'utf8'))
   assert.ok(document.querySelector('main.membership-page'))
   assert.doesNotMatch(document.querySelector('main').textContent, /91307[\s-]?3510/)
+  assert.doesNotMatch(document.querySelector('main').textContent, /\bConselho\b|estatuto/i)
+  assert.equal(document.querySelectorAll('.membership-faq details').length, 3)
   const contactLinks = [...document.querySelectorAll('main a[href^="https://wa.me/"]')]
   assert.ok(contactLinks.length > 0)
   for (const link of contactLinks) {
     assert.equal(new URL(link.href).pathname, '/5511913073510')
+    assert.doesNotMatch(new URL(link.href).searchParams.get('text') || '', /\bConselho\b/i)
   }
   const documents = [...document.querySelectorAll('main a[href$=".pdf"]')]
-  assert.equal(new Set(documents.map((link) => link.getAttribute('href'))).size, 2)
+  assert.equal(new Set(documents.map((link) => link.getAttribute('href'))).size, 1)
   for (const link of documents) {
     const relative = link.getAttribute('href').replace(process.env.BASE_PATH || '/', '')
     const file = fs.readFileSync(`dist/${relative}`)
@@ -78,6 +81,24 @@ test('Association page connects to the supplied contact and downloadable documen
   }
   assert.ok(document.querySelector('a[download]'))
   assert.ok(document.querySelector('footer a[href$="/participe"]'))
+  assert.ok(!fs.existsSync('dist/documentos/estatuto-trecho-associados-chsp.pdf'))
+})
+
+test('The historical lists include the confirmed presidency updates in their respective sections', () => {
+  const { document } = parseHTML(
+    fs.readFileSync('dist/coletividade/lista-de-conselheiros/index.html', 'utf8'),
+  )
+  const executive = document
+    .getElementById('ex-presidentes-diretoria')
+    .closest('section').textContent
+  const council = document.getElementById('ex-presidentes-conselho').closest('section').textContent
+  assert.match(executive, /Thomas Sarantakos \(1979 a 1980\)/)
+  assert.doesNotMatch(executive, /Thomas Sarantopoulos/)
+  for (const period of ['2023 a 2024', '2025 a 2026']) {
+    assert.ok(executive.includes(`Caterina Teodoro Daris (${period})`))
+    assert.ok(council.includes(`Christos Georgios Papaioannou (${period})`))
+  }
+  assert.ok(council.includes('Christos Andreas Kritselis (2021 a 2022)'))
 })
 
 test('Each editorial article has a distinct image and a meaningful description', () => {

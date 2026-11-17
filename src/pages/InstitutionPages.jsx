@@ -256,12 +256,24 @@ export function InstitutionPage() {
     )
   if (slug === 'conselheiros' || slug === 'lista-de-conselheiros') {
     const page = pageBySlug['lista-de-conselheiros']
+    // Apply the confirmed corrections to the public list while retaining the imported record.
+    const html = page.content
+      .replace('Thomas Sarantopoulos (1979', 'Thomas Sarantakos (1979')
+      .replace(
+        /(Stayros Kyriopoulos \(2021 – 2022\)\s*<\/li>)/,
+        '$1\n<li>Caterina Teodoro Daris (2023 – 2024)</li>\n<li>Caterina Teodoro Daris (2025 – 2026)</li>',
+      )
+      .replace(
+        /(Christos Kritselis \(2019 – 2020\)\s*<\/li>)/,
+        '$1\n<li>Christos Andreas Kritselis (2021 – 2022)</li>\n<li>Christos Georgios Papaioannou (2023 – 2024)</li>\n<li>Christos Georgios Papaioannou (2025 – 2026)</li>',
+      )
+      .replace(/\((\d{4}) – (\d{4})\)/g, '($1 a $2)')
     return (
       <InstitutionSectionPage
         title="Conselheiros e ex-presidentes"
         introduction="Registros das pessoas que integraram os conselhos e presidiram os órgãos da Coletividade Helênica de São Paulo."
         image="/images/primeira-diretoria-chsp.webp"
-        html={page.content}
+        html={html}
       >
         <GovernanceLinks />
       </InstitutionSectionPage>
