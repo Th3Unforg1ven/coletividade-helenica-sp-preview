@@ -4,18 +4,18 @@
 
 Atualizado em 17 de novembro de 2026.
 
-- **Última publicação registrada.** O commit `8639fac` foi publicado em 29 de outubro de 2026. A compilação e os 25 testes passaram. O rodapé, a retirada do cartaz do Clube de Cinema, o foco por teclado e o encaixe dos retratos no celular foram conferidos na versão pública. [Prévia no GitHub Pages](https://th3unforg1ven.github.io/coletividade-helenica-sp-preview/) · [Execução da publicação](https://github.com/Th3Unforg1ven/coletividade-helenica-sp-preview/actions/runs/40964070817)
+- **Última publicação registrada.** O commit `4ef27fe` foi publicado em 17 de novembro de 2026, com as correções de associação e presidências, a página de Grego Koiné e a capa de Bouzouki. Lint, formatação, compilação e os 26 testes passaram. As páginas foram conferidas na versão pública. [Prévia no GitHub Pages](https://th3unforg1ven.github.io/coletividade-helenica-sp-preview/) · [Execução da publicação](https://github.com/Th3Unforg1ven/coletividade-helenica-sp-preview/actions/runs/44186293317)
 - **Ambiente local.** O site usa React e Vite. Para retomar, confira `git status` e use `npm run dev -- --host 127.0.0.1 --port 5175`. Os comandos de verificação e a organização do código estão no [guia de desenvolvimento](DEVELOPMENT.md).
 - **Publicação.** O destino usado nas últimas entregas foi a prévia do GitHub Pages. O fluxo de publicação usa o `BASE_PATH` do repositório e testa o pacote compilado. Confira quais alterações entram na próxima entrega, porque a pasta de trabalho também contém experimentos e materiais do projeto. [Fluxo do GitHub Actions](.github/workflows/deploy-pages.yml)
 - **Validação a retomar.** A revisão em Firefox foi interrompida por uma limitação da ferramenta de controle. A última publicação foi conferida no navegador integrado, com larguras de desktop e celular. Ainda falta registrar uma validação dedicada em Firefox e Safari/iOS.
-- **Retorno da Coletividade.** Ajustes aplicados e conferidos na [prévia local](http://127.0.0.1:5175/cursos). Horários, modalidade e inscrições de Grego Koiné aguardam as informações que o usuário vai solicitar. A publicação desse conjunto permanece pendente. [Registro do retorno](#retorno-da-coletividade-sobre-o-site)
+- **Retorno da Coletividade.** Ajustes publicados e conferidos na [prévia pública](https://th3unforg1ven.github.io/coletividade-helenica-sp-preview/cursos/). Horários, modalidade e inscrições de Grego Koiné aguardam as informações que o usuário vai solicitar. [Registro do retorno](#retorno-da-coletividade-sobre-o-site)
 - **Imagem de Bouzouki.** A home, o catálogo e a página da atividade usam um close do bouzouki inspirado na composição da capa antiga, com o braço, as cordas e o cavalete alinhados. A página credita a foto de referência e informa que a imagem foi ambientada com IA. [Prévia da página](http://127.0.0.1:5175/cursos/aulas-de-bouzouki)
 
 ## Journal
 
 ### 17 de novembro de 2026
 
-- Publicação autorizada pelo usuário. Preparei o pacote no checkout de publicação com os ajustes de associação, presidências, Grego Koiné e capa de Bouzouki. Lint, formatação, compilação com o caminho do GitHub Pages e os 26 testes passaram. A publicação e a conferência pública estão em andamento.
+- Publicado o commit `4ef27fe` no GitHub Pages. Lint, formatação, compilação com o caminho de publicação e os 26 testes passaram localmente e no GitHub Actions. Conferi no navegador as páginas de associação, presidências, Grego Koiné e Bouzouki. A imagem pública corresponde ao arquivo local e o endereço antigo do PDF do estatuto retorna 404. Preparada no chat a mensagem para o usuário solicitar as informações de Grego Koiné à Coletividade. [Execução concluída](https://github.com/Th3Unforg1ven/coletividade-helenica-sp-preview/actions/runs/44186293317)
 
 - Conferi no código o estado das correções solicitadas pela Coletividade. Associação, FAQ, retirada do estatuto público, nomes e mandatos, inclusão de Grego Koiné e capa de Bouzouki estão aplicados localmente. Aguardamos os horários, a modalidade e as orientações de inscrição de Grego Koiné. O conjunto aguarda publicação. Esta conferência foi feita no código e no journal.
 
