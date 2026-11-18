@@ -7,7 +7,7 @@ import { WorkshopStories, CinemaFeature } from '../ActivityStories.jsx'
 import { KoineCover, KoineCourse, HistoryCourse, BouzoukiCourse } from '../CourseStories.jsx'
 import DanceGroupBody, { DanceHero, DanceOverview } from '../DanceGroups.jsx'
 import { danceGroups, danceHistories } from '../content/dance-groups.js'
-import GreekCourse, { GreekTeacherMosaic } from '../GreekCourse.jsx'
+import GreekCourse, { GreekCourseCover } from '../GreekCourse.jsx'
 import {
   courseIntroductions,
   lessonImages,
@@ -272,7 +272,7 @@ export function LessonPage() {
         imageAlt={slug === 'aulas-de-bouzouki' ? bouzoukiPhoto.alt : undefined}
         visual={
           slug === 'aulas-de-grego-moderno' ? (
-            <GreekTeacherMosaic />
+            <GreekCourseCover />
           ) : slug === 'aulas-de-danca' ? (
             <DanceHero group={danceGroups['neolea-asteri']} />
           ) : undefined

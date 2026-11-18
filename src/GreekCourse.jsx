@@ -1,4 +1,5 @@
 import { EncontroIcon } from './components/ChspIcons.jsx'
+import { Fragment } from 'react'
 import GalleryImage from './components/GalleryImage.jsx'
 import { teachers } from './content/teachers.js'
 import { siteContact } from './content/site-config.js'
@@ -6,20 +7,33 @@ import { siteContact } from './content/site-config.js'
 import { Link } from 'react-router-dom'
 import GalleryPhoto from './components/PhotoGallery.jsx'
 import DanceVideo from './DanceVideo.jsx'
-import { classroomPhotos, classroomFeature } from './content/greek-course-media.js'
+import { classroomPhotos, classroomFeature, classroomCover } from './content/greek-course-media.js'
 import './greek-course.css'
 
 function teacherPortrait(slug) {
   return `/images/professores-grego/${slug}-retrato.jpg`
 }
 
-export function GreekTeacherMosaic() {
+export function GreekCourseCover() {
   return (
-    <figure className="greek-teacher-mosaic" aria-label="Equipe de professores de Grego Moderno">
-      {teachers.map(([slug, name]) => (
-        <div className="greek-teacher-mosaic__portrait" key={slug}>
-          <GalleryImage src={teacherPortrait(slug)} alt={name} width="550" height="550" />
-        </div>
+    <figure className="greek-course-cover" aria-label="Professores e uma aula de Grego Moderno">
+      {teachers.map(([slug, name], index) => (
+        <Fragment key={slug}>
+          {index === teachers.length - 1 && (
+            <div className="greek-course-cover__photo">
+              <GalleryImage
+                src={classroomCover.displaySrc}
+                fullSrc={classroomCover.src}
+                alt={classroomCover.caption}
+                width={classroomCover.width}
+                height={classroomCover.height}
+              />
+            </div>
+          )}
+          <div className="greek-course-cover__portrait">
+            <GalleryImage src={teacherPortrait(slug)} alt={name} width="550" height="550" />
+          </div>
+        </Fragment>
       ))}
     </figure>
   )

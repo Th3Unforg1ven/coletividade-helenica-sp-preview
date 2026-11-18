@@ -7,12 +7,6 @@ export const classroomPhotos = [
     height: 1600,
   },
   {
-    name: 'escrita-no-quadro',
-    caption: 'A escrita grega ganha espaço no quadro e na conversa.',
-    width: 900,
-    height: 1600,
-  },
-  {
     name: 'biblioteca-em-aula',
     caption: 'Materiais de estudo e a biblioteca acompanham o aprendizado.',
     width: 1200,
@@ -34,6 +28,14 @@ export const classroomFeature = {
   src: `${folder}/professora-em-aula.jpeg`,
   displaySrc: `${folder}/professora-em-aula.webp`,
   caption: 'Explicação e escrita no quadro durante uma aula de grego na sede da CHSP.',
+  width: 900,
+  height: 1600,
+}
+
+export const classroomCover = {
+  src: `${folder}/escrita-no-quadro.jpeg`,
+  displaySrc: `${folder}/escrita-no-quadro.webp`,
+  caption: 'Professora escrevendo em grego no quadro durante uma aula na sede da CHSP.',
   width: 900,
   height: 1600,
 }

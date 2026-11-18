@@ -3,34 +3,42 @@
   margin: auto;
   color: var(--blue-900);
 }
-.content-hero .greek-teacher-mosaic {
+.content-hero .greek-course-cover {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 4px;
+  min-height: 430px;
   background: var(--ivory);
 }
-.greek-teacher-mosaic__portrait {
+.greek-course-cover__portrait,
+.greek-course-cover__photo {
   position: relative;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
-  border-radius: 0;
 }
-.content-hero .greek-teacher-mosaic img {
+.content-hero .greek-course-cover img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   min-height: 0;
   object-fit: cover;
-  transform: scale(1.18);
   border-radius: 0;
 }
+.content-hero .greek-course-cover__portrait img {
+  transform: scale(1.18);
+}
+.content-hero .greek-course-cover__photo img {
+  object-position: 75% 60%;
+  transform: scale(1.1);
+  transform-origin: 75% 60%;
+}
 @media (max-width: 800px) {
-  .content-hero .greek-teacher-mosaic {
+  .content-hero .greek-course-cover {
     min-height: 0;
-    aspect-ratio: 3/2;
+    aspect-ratio: 3 / 2;
   }
 }
 .greek-course h2 {
