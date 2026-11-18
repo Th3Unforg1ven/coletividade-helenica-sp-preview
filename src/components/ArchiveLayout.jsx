@@ -6,9 +6,9 @@ import { decode, rewriteLegacyLinks } from '../legacy-content.js'
 import { useMemo } from 'react'
 import { usePhotoGallery } from './PhotoGallery.jsx'
 
-export function LegacyHtml({ html }) {
+export function LegacyHtml({ html, omitImage }) {
   const openFrom = usePhotoGallery()
-  const content = useMemo(() => rewriteLegacyLinks(html), [html])
+  const content = useMemo(() => rewriteLegacyLinks(html, { omitImage }), [html, omitImage])
   return (
     <div
       className="wp-content"

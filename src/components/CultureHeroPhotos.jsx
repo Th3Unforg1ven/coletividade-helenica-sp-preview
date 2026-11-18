@@ -1,15 +1,17 @@
 import GalleryImage from './GalleryImage.jsx'
 import './section-hero-photos.css'
+import { memoryPhotos } from '../content/memory-photos.js'
 
 export default function CultureHeroPhotos() {
   return (
     <figure className="culture-hero-photos" aria-label="Memória e tradições da Coletividade">
       <span className="culture-hero-photos__memory">
         <GalleryImage
-          src="/images/primeira-diretoria-chsp.webp"
-          alt="Fotografia histórica da diretoria da Coletividade Helênica de São Paulo."
-          width={1244}
-          height={653}
+          src={memoryPhotos.culture.src}
+          alt={memoryPhotos.culture.alt}
+          width={1024}
+          height={681}
+          style={{ objectPosition: memoryPhotos.culture.position }}
         />
       </span>
       <span className="culture-hero-photos__tradition">

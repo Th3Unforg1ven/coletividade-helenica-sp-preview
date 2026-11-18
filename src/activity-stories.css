@@ -50,8 +50,7 @@
   line-height: 1.15;
   margin-block: 12px 24px;
 }
-.activity-stories p,
-.activity-syllabus li {
+.activity-stories p {
   line-height: 1.8;
 }
 .activity-facts {
@@ -70,38 +69,13 @@
   margin: 0;
   line-height: 1.6;
 }
-.activity-facts--grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px;
-  padding-block: 24px;
-}
-.activity-syllabus {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-}
-.activity-syllabus ul {
-  padding-left: 20px;
-}
-.activity-syllabus li {
-  margin-bottom: 10px;
-}
-.activity-enrollment {
-  max-width: 760px;
-  margin-top: 56px;
-}
 @media (max-width: 700px) {
-  .activity-story,
-  .activity-syllabus {
+  .activity-story {
     grid-template-columns: 1fr;
     gap: 24px;
   }
   .activity-story--reverse > :first-child {
     order: initial;
-  }
-  .activity-facts--grid {
-    grid-template-columns: 1fr 1fr;
   }
   .activity-story {
     margin-block: 40px;

@@ -31,7 +31,9 @@
   outline: 3px solid var(--blue-800);
   outline-offset: -3px;
 }
-.content-hero > figure:not(.institution-mosaic, .dance-hero-photo) > .gallery-photo--inline {
+.content-hero
+  > figure:not(.institution-mosaic, .dance-hero-photo, .course-cover)
+  > .gallery-photo--inline {
   position: absolute;
   inset: 0;
 }

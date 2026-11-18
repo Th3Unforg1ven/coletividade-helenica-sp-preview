@@ -3,13 +3,13 @@ import { siteContact } from '../content/site-config.js'
 import { Link, Navigate, useLocation, useParams } from 'react-router-dom'
 
 import { Breadcrumbs, ContentHero } from '../components/ContentLayout.jsx'
-import { WorkshopStories, CinemaFeature, HistoryCourse } from '../ActivityStories.jsx'
+import { WorkshopStories, CinemaFeature } from '../ActivityStories.jsx'
+import { KoineCover, KoineCourse, HistoryCourse, BouzoukiCourse } from '../CourseStories.jsx'
 import DanceGroupBody, { DanceHero, DanceOverview } from '../DanceGroups.jsx'
 import { danceGroups, danceHistories } from '../content/dance-groups.js'
 import GreekCourse, { GreekTeacherMosaic } from '../GreekCourse.jsx'
 import {
   courseIntroductions,
-  courseTitles,
   lessonImages,
   lessonStatus,
   bouzoukiPhoto,
@@ -32,8 +32,9 @@ export function LessonsIndex() {
         {
           title: koineCourse.title,
           href: koineCourse.path,
-          status: ['Curso'],
-          description: koineCourse.description,
+          status: koineCourse.status,
+          description:
+            'Grego bíblico com o professor Efstathios Tsotsos. Aulas online, com formação de novas turmas conforme o interesse.',
           action: 'Conhecer o curso',
         },
         {
@@ -183,17 +184,23 @@ export function LessonPage() {
     if (location.pathname.startsWith('/aulas/'))
       return <Navigate replace to={`${koineCourse.path}${location.search}${location.hash}`} />
     return (
-      <main className="content-page">
+      <main className="content-page content-page--greek">
         <Breadcrumbs
           items={[{ label: 'Cursos e atividades', to: '/cursos' }, { label: koineCourse.title }]}
         />
         <ContentHero
-          eyebrow="Curso"
+          eyebrow="Curso online"
           title={koineCourse.title}
-          introduction={koineCourse.description}
-        >
-          <p>Horários, modalidade e inscrições em confirmação.</p>
-        </ContentHero>
+          introduction="Aproxime-se dos textos bíblicos em sua língua original. Um curso online para quem deseja conhecer o grego Koiné e sua tradição de leitura."
+          image="/images/cursos/codex-sinaiticus.jpg"
+          imageAlt="Páginas em grego do Codex Sinaiticus na British Library"
+          visual={<KoineCover />}
+          action={{ href: siteContact.whatsapp, label: 'Tenho interesse no curso' }}
+        />
+        <div className="activity-tags activity-tags--detail">
+          <span>Sem turma no momento</span>
+        </div>
+        <KoineCourse />
       </main>
     )
   }
@@ -201,7 +208,7 @@ export function LessonPage() {
     const cinema = slug === 'clube-de-cinema-grego'
     const title = cinema ? 'Clube de Cinema Grego' : 'História, Mitologia e Filosofia Grega'
     return (
-      <main className="content-page">
+      <main className={`content-page${cinema ? '' : ' content-page--greek'}`}>
         <Breadcrumbs items={[{ label: 'Cursos e atividades', to: '/cursos' }, { label: title }]} />
         <ContentHero
           image={
@@ -209,14 +216,24 @@ export function LessonPage() {
               ? '/images/atividades/cinema-sala.webp'
               : '/images/archive/e3282cda77-grecia.webp'
           }
+          action={
+            cinema
+              ? undefined
+              : { href: siteContact.whatsapp, label: 'Consultar turma e inscrição' }
+          }
           eyebrow={cinema ? 'Cinema e comunidade' : 'Curso online'}
           title={title}
           introduction={
             cinema
               ? 'Histórias que aproximam a Grécia e a nossa comunidade.'
-              : 'Conheça o programa, o professor e as informações do curso.'
+              : 'Dos mitos de origem à filosofia clássica, do mundo greco-romano à cultura bizantina. Um percurso em dois módulos com o professor Efstathios Tsotsos.'
           }
         />
+        {!cinema && (
+          <div className="activity-tags activity-tags--detail">
+            <span>Dois módulos</span>
+          </div>
+        )}
         {cinema ? <CinemaFeature full /> : <HistoryCourse />}
       </main>
     )
@@ -239,7 +256,7 @@ export function LessonPage() {
         : page.title
   return (
     <main
-      className={`content-page${slug === 'aulas-de-grego-moderno' ? ' content-page--greek' : ''}`}
+      className={`content-page${['aulas-de-grego-moderno', 'aulas-de-bouzouki'].includes(slug) ? ' content-page--greek' : ''}`}
     >
       <Breadcrumbs items={[{ label: 'Cursos e atividades', to: '/cursos' }, { label: title }]} />
       <ContentHero
@@ -263,9 +280,11 @@ export function LessonPage() {
         action={
           slug === 'aulas-de-grego-moderno'
             ? { href: siteContact.whatsapp, label: 'Consultar vagas e valores' }
-            : slug === 'oficinas-culturais'
-              ? { href: siteContact.instagram, label: 'Acompanhar no Instagram', social: true }
-              : undefined
+            : slug === 'aulas-de-bouzouki'
+              ? { href: siteContact.whatsapp, label: 'Consultar novidades' }
+              : slug === 'oficinas-culturais'
+                ? { href: siteContact.instagram, label: 'Acompanhar no Instagram', social: true }
+                : undefined
         }
       />
       <div className="activity-tags activity-tags--detail">
@@ -280,19 +299,7 @@ export function LessonPage() {
       ) : slug === 'aulas-de-danca' ? (
         <DanceOverview />
       ) : (
-        <div className="content-layout">
-          <article>
-            <BouzoukiCourse />
-          </article>
-          <aside className="page-navigation">
-            <p>Nesta seção</p>
-            {lessonSlugs.map((item) => (
-              <Link key={item} to={pathForPage({ slug: item })}>
-                {courseTitles[item]}
-              </Link>
-            ))}
-          </aside>
-        </div>
+        <BouzoukiCourse />
       )}
     </main>
   )
@@ -336,42 +343,5 @@ function DanceGroupPage({ slug }) {
         }
       />
     </main>
-  )
-}
-
-function BouzoukiCourse() {
-  return (
-    <div className="wp-content">
-      <h2>Sobre o bouzouki</h2>
-      <p>
-        O bouzouki é um instrumento de cordas da família do alaúde e um dos símbolos mais
-        reconhecidos da música grega. Seu nome deriva da palavra turca <em>buzuk</em>, e sua
-        sonoridade atravessa repertórios tradicionais e populares.
-      </p>
-      <p>
-        Tanto no continente quanto nas ilhas, a música acompanha celebrações religiosas, casamentos,
-        encontros comunitários e diferentes danças. O bouzouki pode ser ouvido em formações
-        tradicionais e em ritmos como o sirtaki e o hasapiko.
-      </p>
-      <p>
-        Mikis Theodorakis, Vasilis Tsitsanis e Manolis Karantinis estão entre os artistas que
-        ajudaram a projetar a força e a identidade desse instrumento.
-      </p>
-      <h2>Sem aulas no momento</h2>
-      <p>
-        As aulas de bouzouki não estão acontecendo atualmente. Não há uma data de retomada
-        confirmada para divulgação.
-      </p>
-      <h2>Informações sobre as aulas</h2>
-      <p>Para consultar eventuais novidades, entre em contato com a Coletividade.</p>
-      <p>
-        <Link to="/contato">Consultar a equipe da Coletividade</Link>
-      </p>
-      <p className="editorial-image-caption">
-        Imagem ambientada com IA a partir da{' '}
-        <a href={bouzoukiPhoto.source}>foto de Arent, com edição de Pandouris</a> ·{' '}
-        <a href={bouzoukiPhoto.license}>CC BY-SA 3.0</a>.
-      </p>
-    </div>
   )
 }

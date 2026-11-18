@@ -66,7 +66,7 @@ body.intro-active {
   position: relative;
   z-index: 3;
   height: 100%;
-  padding: clamp(34px, 5vw, 72px) 24px clamp(78px, 9vh, 104px);
+  padding: clamp(34px, 5vw, 72px) 24px clamp(124px, 18vh, 164px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,46 +129,36 @@ body.intro-active {
 
 .intro-cover__action {
   position: relative;
-  min-width: 228px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 208px;
+  min-height: 50px;
+  max-width: 100%;
   margin-top: 30px;
-  padding: 16px 54px 16px 24px;
-  border: 1px solid #1f6fb2;
-  background: #1f6fb2;
-  color: #fff;
-  font-size: 0.73rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  padding: 15px 24px;
+  border: 1px solid #174f85;
+  background: rgba(247, 245, 239, 0.65);
+  color: #174f85;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-align: center;
   text-transform: uppercase;
   cursor: pointer;
   opacity: 0;
   transform: translate3d(0, 6px, 0);
-  animation:
-    intro-soft-arrive 0.8s 1.07s cubic-bezier(0.22, 1, 0.36, 1) forwards,
-    intro-action-invite 2.8s 2.05s ease-in-out infinite;
+  animation: intro-soft-arrive 0.8s 1.07s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transition:
     background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    color 0.25s ease;
   will-change: opacity, transform;
-}
-
-.intro-cover__action::after {
-  content: none;
-  position: absolute;
-  right: 23px;
-  top: 50%;
-  transform: translateY(-53%);
-  font-size: 1.05rem;
-  transition: transform 0.25s ease;
 }
 
 .intro-cover__action:hover {
   background: #174f85;
-  transform: translateY(-2px);
-  box-shadow: 0 16px 38px rgba(31, 111, 178, 0.25);
-}
-.intro-cover__action:hover::after {
-  transform: translate(4px, -53%);
+  color: #fff;
 }
 .intro-cover__action:focus-visible {
   outline: 2px solid #1f6fb2;
@@ -196,7 +186,7 @@ body.intro-active {
 .intro-cover__scroll {
   position: absolute;
   left: 50%;
-  bottom: clamp(105px, 12vh, 125px);
+  bottom: clamp(80px, 10vh, 100px);
   z-index: 4;
   display: flex;
   flex-direction: column;
@@ -264,15 +254,6 @@ body.intro-active {
 @keyframes intro-reveal-detail {
   to {
     opacity: 1;
-  }
-}
-@keyframes intro-action-invite {
-  0%,
-  100% {
-    box-shadow: 0 0 0 rgba(31, 111, 178, 0);
-  }
-  50% {
-    box-shadow: 0 12px 32px rgba(31, 111, 178, 0.18);
   }
 }
 @keyframes intro-scroll-line {

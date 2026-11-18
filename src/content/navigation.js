@@ -30,7 +30,7 @@ export const institutionLabels = {
   'conselho-deliberativo-e-diretoria-executiva': 'Diretoria e conselhos',
   conselheiros: 'Conselheiros e ex-presidentes',
   'lista-de-conselheiros': 'Conselheiros e ex-presidentes',
-  'um-pouco-mais-sobre-a-grecia': 'Um pouco mais sobre a Grécia',
+  'um-pouco-mais-sobre-a-grecia': 'Nossa relação com a Grécia',
 }
 
 export const culturalPageSlugs = [

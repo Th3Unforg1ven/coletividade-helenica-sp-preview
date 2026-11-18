@@ -1,3 +1,5 @@
+import { memoryPhotos } from './memory-photos.js'
+
 const articleTopicLabels = {
   calendar: 'Calendário e tradições',
   language: 'Língua grega',
@@ -36,7 +38,8 @@ export const culturalTopics = [
     id: 'history',
     title: 'História e memória',
     description: 'Origens, relatos e lembranças.',
-    image: '/images/primeira-diretoria-chsp.webp',
+    image: memoryPhotos.historyTopic.src,
+    imagePosition: memoryPhotos.historyTopic.position,
     topics: ['history'],
     categories: [22],
     slugs: [

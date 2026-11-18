@@ -23,6 +23,7 @@ import '../cultural-topics.css'
 import CultureHeroPhotos from '../components/CultureHeroPhotos.jsx'
 import { prepareArticle, publicationDate } from '../content/article-presentation.js'
 import { mediaUrl } from '../content/media.js'
+import { memoryPhotos } from '../content/memory-photos.js'
 export function CultureIndex() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { query, categoryId, visibleCount, topicId } = readArchiveFilters(
@@ -104,7 +105,14 @@ export function CultureIndex() {
               aria-pressed={topicId === topic.id}
               onClick={() => selectTopic(topic.id)}
             >
-              <ResponsiveImage src={topic.image} alt="" loading="lazy" width={640} height={360} />
+              <ResponsiveImage
+                src={topic.image}
+                alt=""
+                loading="lazy"
+                width={640}
+                height={360}
+                style={{ objectPosition: topic.imagePosition }}
+              />
               <span>
                 <strong>{topic.title}</strong>
                 <small>{topic.description}</small>
@@ -233,7 +241,9 @@ export function MemoryPage() {
         eyebrow="Cultura e memória"
         title="Memórias da Coletividade"
         introduction="Desde 1937, festas, encontros, viagens e histórias de vida formam a memória da Coletividade Helênica de São Paulo."
-        image="/images/primeira-diretoria-chsp.webp"
+        image={memoryPhotos.memories.src}
+        imageAlt={memoryPhotos.memories.alt}
+        imagePosition={memoryPhotos.memories.position}
       />
       <section className="collection-intro">
         <p className="content-kicker">Histórias que permanecem</p>
@@ -342,7 +352,14 @@ export function PostPage() {
               </ol>
             </nav>
           )}
-          <LegacyHtml html={article.html} />
+          <LegacyHtml
+            html={article.html}
+            omitImage={
+              post.slug === 'livro-os-guardioes-das-lembrancas'
+                ? memoryPhotos.guardiansBook.src
+                : undefined
+            }
+          />
           {post.sources?.length > 0 && (
             <details className="wp-content editorial-sources">
               <summary>Fontes e referências</summary>

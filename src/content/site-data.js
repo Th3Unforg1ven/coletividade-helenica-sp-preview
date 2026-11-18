@@ -1,9 +1,25 @@
 import archivedContent from './site-content.json'
 import { editorialArticles } from './editorial-articles.js'
+import { memoryPhotos } from './memory-photos.js'
 
 export const siteContent = {
   ...archivedContent,
-  posts: [...editorialArticles, ...archivedContent.posts],
+  posts: [
+    ...editorialArticles,
+    ...archivedContent.posts.map((post) =>
+      post.slug === 'livro-os-guardioes-das-lembrancas'
+        ? {
+            ...post,
+            // Use the book itself here so the port photograph can introduce immigration.
+            featuredMedia: {
+              sourceUrl: memoryPhotos.guardiansBook.src,
+              alt: memoryPhotos.guardiansBook.alt,
+              position: memoryPhotos.guardiansBook.position,
+            },
+          }
+        : post,
+    ),
+  ],
   categories: archivedContent.categories.map((category) => ({
     ...category,
     count:

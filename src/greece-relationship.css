@@ -1,0 +1,39 @@
+.greece-relationship__connection {
+  border-top: 1px solid #ccd6dc;
+  margin-top: 30px;
+  padding-top: 28px;
+}
+.greece-relationship .greece-relationship__connection h3 {
+  margin-top: 0;
+}
+.greece-relationship__connection .text-link {
+  line-height: 1.6;
+  padding-block: 8px;
+}
+.greece-relationship__references {
+  margin-top: 30px;
+  border-top: 1px solid #ccd6dc;
+  padding-top: 22px;
+  font-size: 0.82rem;
+}
+.greece-relationship .greece-relationship__references h3 {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  margin: 0 0 14px;
+}
+.greece-relationship .greece-relationship__references ul {
+  margin-bottom: 0;
+}
+@media (max-width: 700px) {
+  .greece-relationship .wp-content h2 {
+    font-size: 1.9rem;
+  }
+  .greece-relationship .wp-content h3 {
+    font-size: 1.45rem;
+  }
+  .greece-relationship .greece-relationship__references h3 {
+    font-size: 0.9rem;
+  }
+}

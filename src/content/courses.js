@@ -2,6 +2,7 @@ export const koineCourse = {
   slug: 'grego-koine',
   path: '/cursos/grego-koine',
   title: 'Curso de Grego Koiné',
+  status: ['Online', 'Sem turma no momento'],
   description:
     'Koiné vem do grego κοινή, que significa “comum”. É o grego bíblico e a língua de obras da literatura grega produzidas nos séculos posteriores a Cristo.',
 }

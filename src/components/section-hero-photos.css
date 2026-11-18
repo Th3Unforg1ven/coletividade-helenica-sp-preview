@@ -12,7 +12,7 @@
   overflow: hidden;
 }
 .culture-hero-photos__memory img {
-  object-position: 50% 0%;
+  object-position: 50% 65%;
 }
 .culture-hero-photos__tradition img {
   object-position: 50% 42%;
@@ -37,7 +37,7 @@
     min-height: 0;
   }
   .culture-hero-photos__memory {
-    aspect-ratio: 1244 / 653;
+    aspect-ratio: 1024 / 681;
   }
   .culture-hero-photos__tradition {
     aspect-ratio: 2.6;

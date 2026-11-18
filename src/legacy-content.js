@@ -164,7 +164,7 @@ export function stripHtml(value = '') {
     : withoutMarker
 }
 
-export function rewriteLegacyLinks(html = '') {
+export function rewriteLegacyLinks(html = '', { omitImage } = {}) {
   const source = normalizePunctuation(html)
     .replace(/http:\/\/(?:www\.)?helenica\.com\.br/gi, 'https://www.helenica.com.br')
     .replace(/<h[1-6][^>]*>\s*0?\d+\.\s*<\/h[1-6]>/gi, '')
@@ -204,6 +204,12 @@ export function rewriteLegacyLinks(html = '') {
   })
   element.querySelectorAll('img').forEach((image) => {
     const preservedSource = mediaUrl(image.getAttribute('src'))
+    if (omitImage && preservedSource === omitImage) {
+      const figure = image.closest('figure')
+      if (figure && figure.querySelectorAll('img').length === 1) figure.remove()
+      else image.remove()
+      return
+    }
     image.setAttribute('src', assetUrl(preservedSource))
     image.removeAttribute('srcset')
     image.removeAttribute('sizes')
@@ -285,7 +291,7 @@ export function rewriteLegacyLinks(html = '') {
     /^a Grécia$/i.test(greeceName.textContent.trim())
   ) {
     const mergedHeading = document.createElement('h2')
-    mergedHeading.textContent = 'Um pouco mais sobre a Grécia'
+    mergedHeading.textContent = 'Nossa relação com a Grécia'
     greeceHeading.replaceWith(mergedHeading)
     greeceName.remove()
   }

@@ -1,0 +1,113 @@
+.content-hero .course-cover {
+  display: flex;
+  flex-direction: column;
+  background: #2c2924;
+}
+.content-hero .course-cover > button {
+  flex: 1;
+  height: auto;
+  min-height: 430px;
+  position: relative;
+}
+.content-hero .course-cover img {
+  object-position: 50% 55%;
+}
+.content-hero .course-cover figcaption {
+  padding: 12px 20px;
+  color: #f5f0e7;
+  font-size: 0.7rem;
+  line-height: 1.7;
+}
+.course-cover figcaption a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.greek-course__facts--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.course-teacher-photo {
+  max-width: 380px;
+}
+.course-teacher-photo img {
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center 28%;
+}
+.course-manuscript-photo {
+  max-width: 400px;
+}
+.course-manuscript-photo .gallery-photo--inline {
+  height: auto;
+}
+.course-module {
+  min-width: 0;
+}
+.course-modules {
+  align-items: start;
+}
+.course-chapters details {
+  border-top: 1px solid #cad5de;
+}
+.course-chapters details:last-child {
+  border-bottom: 1px solid #cad5de;
+}
+.course-chapters summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0;
+  color: var(--blue-900);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  list-style: none;
+}
+.course-chapters summary::-webkit-details-marker {
+  display: none;
+}
+.course-chapters summary::after {
+  content: '+';
+  font-size: 1.5rem;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+.course-chapters details[open] summary::after {
+  content: '−';
+}
+.course-chapters summary:hover {
+  color: var(--blue-800);
+}
+.course-chapters details > div {
+  padding-bottom: 18px;
+}
+.course-chapters details p {
+  margin-top: 0;
+  font-size: 0.9rem;
+}
+.course-chapters ul {
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+.course-chapters li {
+  padding-left: 4px;
+  margin-block: 8px;
+}
+
+@media (max-width: 800px) {
+  .course-modules {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .course-teacher-photo {
+    max-width: 280px;
+  }
+  .course-manuscript-photo {
+    max-width: min(100%, 320px);
+  }
+  .content-hero .course-cover > button {
+    min-height: 300px;
+  }
+}

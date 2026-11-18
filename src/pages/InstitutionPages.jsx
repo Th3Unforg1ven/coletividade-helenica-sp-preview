@@ -8,14 +8,20 @@ import { stripHtml, extractLegacySection } from '../legacy-content.js'
 import { pageBySlug } from '../content/site-data.js'
 import NotFound from './NotFound.jsx'
 import ResponsiveImage from '../ResponsiveImage.jsx'
+import { memoryPhotos } from '../content/memory-photos.js'
+import InstitutionHistory from '../components/InstitutionHistory.jsx'
+import { institutionPrinciples } from '../content/institution-principles.js'
+import GreeceRelationship from '../components/GreeceRelationship.jsx'
+import { greeceRelationship } from '../content/greece-relationship.js'
 const institutionVisuals = {
   'sobre-a-chsp': [
     '/images/contato-sede-original.webp',
     'Sede da Coletividade Helênica de São Paulo',
   ],
   'nossa-historia': [
-    '/images/primeira-diretoria-chsp.webp',
-    'Primeira diretoria da Coletividade, em 1937',
+    memoryPhotos.ourHistory.src,
+    memoryPhotos.ourHistory.alt,
+    memoryPhotos.ourHistory.position,
   ],
   'missao-visao-valores': [
     '/images/grupos-danca/pedilea-grupo.webp',
@@ -26,8 +32,9 @@ const institutionVisuals = {
     'Sede da Coletividade',
   ],
   'lista-de-conselheiros': [
-    '/images/primeira-diretoria-chsp.webp',
-    'Registro histórico da primeira diretoria',
+    memoryPhotos.councillors.src,
+    memoryPhotos.councillors.alt,
+    memoryPhotos.councillors.position,
   ],
   'um-pouco-mais-sobre-a-grecia': ['/images/archive/e3282cda77-grecia.webp', 'Paisagem da Grécia'],
 }
@@ -40,9 +47,9 @@ const institutionDescriptions = {
   'lista-de-conselheiros':
     'Pessoas que participaram da construção e da continuidade da Coletividade.',
   'um-pouco-mais-sobre-a-grecia':
-    'Território, história e símbolos que nos conectam às nossas raízes.',
+    'A cultura grega e os vínculos que cultivamos em São Paulo, entre língua, tradições e memória.',
 }
-function InstitutionChapters({ html }) {
+function InstitutionChapters({ html, omitImage }) {
   const chapters = html
     .split(/(?=<h2(?:\s|>))/i)
     .filter((part) => stripHtml(part).trim() || /<img/i.test(part))
@@ -50,7 +57,24 @@ function InstitutionChapters({ html }) {
     <div className="institution-chapters">
       {chapters.map((chapter, index) => (
         <section className="institution-chapter" key={index}>
-          <LegacyHtml html={chapter} />
+          <LegacyHtml html={chapter} omitImage={omitImage} />
+        </section>
+      ))}
+    </div>
+  )
+}
+
+function InstitutionPrinciples() {
+  return (
+    <div className="institution-chapters">
+      {institutionPrinciples.map(({ id, title, paragraphs }) => (
+        <section className="institution-chapter" key={id} aria-labelledby={id}>
+          <div className="wp-content">
+            <h2 id={id}>{title}</h2>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
         </section>
       ))}
     </div>
@@ -89,8 +113,9 @@ export function InstitutionIndex() {
         visual={
           <figure className="institution-mosaic">
             <GalleryImage
-              src="/images/primeira-diretoria-chsp.webp"
-              alt="Primeira diretoria da Coletividade"
+              src={memoryPhotos.institution.src}
+              alt={memoryPhotos.institution.alt}
+              style={{ objectPosition: memoryPhotos.institution.position }}
             />
             <GalleryImage
               src="/images/grupos-danca/neolea-danca.webp"
@@ -145,6 +170,7 @@ export function InstitutionIndex() {
                 src={institutionVisuals[slug][0]}
                 alt={institutionVisuals[slug][1]}
                 loading="lazy"
+                style={{ objectPosition: institutionVisuals[slug][2] }}
               />
               <div>
                 <span className="content-kicker">A Coletividade</span>
@@ -162,7 +188,8 @@ export function InstitutionIndex() {
 
 function InstitutionSectionPage({ title, introduction, image, html, children }) {
   const { slug } = useParams()
-  const [sectionImage, sectionAlt] = institutionVisuals[slug] || institutionVisuals['sobre-a-chsp']
+  const [sectionImage, sectionAlt, sectionPosition] =
+    institutionVisuals[slug] || institutionVisuals['sobre-a-chsp']
   return (
     <main className="content-page content-page--themed content-page--coletividade institution-detail">
       <Breadcrumbs items={[{ label: 'A Coletividade', to: '/coletividade' }, { label: title }]} />
@@ -172,12 +199,13 @@ function InstitutionSectionPage({ title, introduction, image, html, children }) 
         introduction={introduction}
         image={image || sectionImage}
         imageAlt={sectionAlt}
+        imagePosition={sectionPosition}
         motifTheme="coletividade"
       />
       <div className="content-layout">
         <article>
           {children}
-          {html && <InstitutionChapters html={html} />}
+          {html && <InstitutionChapters html={html} omitImage={image || sectionImage} />}
         </article>
         <PageNavigation
           slugs={institutionNavSlugs}
@@ -221,23 +249,18 @@ export function InstitutionPage() {
       <InstitutionSectionPage
         title="Nossa história"
         introduction="Da fundação em 1937 ao trabalho educacional e cultural que atravessa gerações em São Paulo."
-        image="/images/primeira-diretoria-chsp.webp"
-        html={extractLegacySection(source.content, /^Nossa História$/i, /^No que acreditamos$/i)}
-      />
+      >
+        <InstitutionHistory />
+      </InstitutionSectionPage>
     )
   if (slug === 'missao-visao-valores')
     return (
       <InstitutionSectionPage
         title="Missão, visão e valores"
         introduction="Os princípios que orientam a atuação cívica, religiosa, filantrópica, beneficente, cultural e recreativa da Coletividade."
-        html={extractLegacySection(
-          source.content,
-          /^No que acreditamos$/i,
-          /^diretoria executiva$/i,
-        )
-          .replace(/<h3>/g, '<h2>')
-          .replace(/<\/h3>/g, '</h2>')}
-      />
+      >
+        <InstitutionPrinciples />
+      </InstitutionSectionPage>
     )
   if (slug === 'conselho-deliberativo-e-diretoria-executiva')
     return (
@@ -272,7 +295,6 @@ export function InstitutionPage() {
       <InstitutionSectionPage
         title="Conselheiros e ex-presidentes"
         introduction="Registros das pessoas que integraram os conselhos e presidiram os órgãos da Coletividade Helênica de São Paulo."
-        image="/images/primeira-diretoria-chsp.webp"
         html={html}
       >
         <GovernanceLinks />
@@ -282,10 +304,11 @@ export function InstitutionPage() {
   if (slug === 'um-pouco-mais-sobre-a-grecia')
     return (
       <InstitutionSectionPage
-        title="Um pouco mais sobre a Grécia"
-        introduction="Informações essenciais para conhecer o território, a história e alguns dos símbolos da cultura grega."
-        html={extractLegacySection(source.content, /^Um pouco mais sobre$/i, null, true)}
-      />
+        title={greeceRelationship.title}
+        introduction={greeceRelationship.introduction}
+      >
+        <GreeceRelationship />
+      </InstitutionSectionPage>
     )
   return (
     <InstitutionSectionPage

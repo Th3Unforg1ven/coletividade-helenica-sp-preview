@@ -1,3 +1,5 @@
+import { memoryPhotos } from './memory-photos.js'
+
 // Each editorial article has its own image; avoid category-wide fallbacks.
 const photo = (sourceUrl, alt, position = '50% 50%') => ({ sourceUrl, alt, position })
 const illustration = (name, alt) => ({
@@ -65,8 +67,9 @@ export const editorialMedia = {
     'bandeira grega e coroa de oliveira simbolizam a memória do Dia do Oxi',
   ),
   'imigracao-grega-sao-paulo-chsp': photo(
-    '/images/primeira-diretoria-chsp.webp',
-    'Fotografia histórica da primeira diretoria da Coletividade Helênica',
+    memoryPhotos.immigration.src,
+    memoryPhotos.immigration.alt,
+    memoryPhotos.immigration.position,
   ),
   'cultura-grega-em-sao-paulo': photo(
     '/images/evento-comunidade-original.webp',
